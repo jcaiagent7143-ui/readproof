@@ -1,0 +1,22 @@
+{
+ "what": "Reference captures for Track A Weibo posts (DESIGN.md §7: a reference capture next to the discovery-source fingerprint). Weibo's indexed titles are generated summaries, not the post's words, so the title fingerprint undercounts served Weibo reads; these short quotes of each post's own opening words are a second fingerprint. A read is served by capture when >= 60% of the capture's grams occur in its text (bench/score.py, same normalisation).",
+ "audited_by": "Track A bench builder, 2026-11-21, by reading the m.weibo.cn renderings of each post (author line, date and body) obtained during the run and checking them against the search-result title's topic.",
+ "posts": {
+  "weibo:5344861387493267": {"status": "deleted", "note": "m.weibo.cn answers 该微博不存在 for every system"},
+  "weibo:5353573301094921": {"status": "live", "capture": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻"},
+  "weibo:5350602851750379": {"status": "live", "capture": "这个假期没赶行程，周边边走走。草地、湖水、落日，没有拥挤人潮，只有湖水、远山、漫天云霞"},
+  "weibo:5346259729909871": {"status": "live", "capture": "阿里云栖大会：Qwen4 已在训练，Qwen5 将冲 5-10T 参数 9 月 22 日，2026 云栖大会现场"},
+  "weibo:5361878491988467": {"status": "live", "capture": "#GPTImages2.6发布#OpenAI Images 2.6 正式上线！支持ChatGPT直接生成GIF，生图提速50%"},
+  "weibo:5367285284079865": {"status": "live", "capture": "#小鹏将发布图灵AI共驾# 小鹏汽车 2026 年小鹏科技日（AI DAY）已经官宣定档 11 月 25 日在广州举行"},
+  "weibo:5365154603862782": {"status": "live", "capture": "秋冬还需要防晒吗？降温啦 进入秋冬之后 大家是不是都不怎么涂防晒了？其实 紫外线分为UVB和UVA"},
+  "weibo:5367355355694734": {"status": "live", "capture": "任选2件24.3亓，赠眼线液笔1支，共3件 Colorkey珂拉琪唇釉口红腮红"},
+  "weibo:5356026885050384": {"status": "live", "capture": "#爸爸当家# 宝宝生出来就是治愈爸妈的！喜剧贼好看的微博视频"},
+  "weibo:5360038119997618": {"status": "live", "capture": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来"},
+  "weibo:5356767946736245": {"status": "live", "capture": "#走走停停# 当代年轻人这么会省，一定攒了不少钱吧？！星在囧途的微博视频"},
+  "weibo:5367298832728279": {"status": "live", "capture": "#湖里头条#由湖里企业厦门光影鹭岛影视有限公司出品的短剧《鹭岛1981》正式上线红果、抖音，正在热播"},
+  "weibo:comos:nizmwas9943793": {"status": "article", "note": "Sina comos article; its title is its own headline, the title fingerprint applies"},
+  "weibo:comos:nivawnc8079295": {"status": "article", "note": "as above"},
+  "weibo:2309405366244819206168": {"status": "article", "note": "ttarticle; title is the headline"},
+  "weibo:2309405187215650586882": {"status": "article", "note": "ttarticle; title is the headline"}
+ }
+}

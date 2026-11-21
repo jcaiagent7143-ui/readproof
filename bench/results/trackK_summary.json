@@ -1,0 +1,561 @@
+{
+ "generated_by": "bench/trackK_run.py",
+ "date": "2026-11-21",
+ "readproof_commit": "3788ced",
+ "origin": "residential:MY",
+ "n_posts": 7,
+ "posts": [
+  "K01-douyin",
+  "K02-bilibili",
+  "K03-rednote-video",
+  "K04-rednote-images",
+  "K05-youtube",
+  "K06-tiktok",
+  "K07-x"
+ ],
+ "platforms": [
+  "bilibili",
+  "douyin",
+  "tiktok",
+  "x",
+  "xiaohongshu",
+  "youtube"
+ ],
+ "n_items": 28,
+ "channels": [
+  "speech",
+  "on_screen",
+  "caption",
+  "comment",
+  "image"
+ ],
+ "controls": 1,
+ "systems": [
+  "closed_book",
+  "naive_fetch"
+ ],
+ "counts": {
+  "closed_book": {
+   "caption": {
+    "abstained": 1
+   }
+  },
+  "naive_fetch": {
+   "caption": {
+    "abstained": 1
+   }
+  }
+ },
+ "totals": {
+  "closed_book": {
+   "abstained": 1
+  },
+  "naive_fetch": {
+   "abstained": 1
+  }
+ },
+ "answer_errors": {},
+ "reads": {
+  "K01-douyin": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": "soft_404",
+    "bytes": 1454484,
+    "visible_chars": 4884,
+    "seconds": 28.91,
+    "error": "navigation timeout 25s",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 3
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": "challenge",
+    "bytes": 72914,
+    "visible_chars": 0,
+    "seconds": 0.18,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 3872,
+    "visible_chars": 3819,
+    "seconds": 18.32,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": 200,
+    "wall": null,
+    "bytes": 145682,
+    "visible_chars": 157,
+    "seconds": 23.87,
+    "error": "",
+    "reader": "embed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2,
+     "image_text": 1
+    },
+    "requests": 6
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 937941,
+    "visible_chars": 515,
+    "seconds": 31.92,
+    "error": "",
+    "reader": "embed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2,
+     "speech": 13,
+     "on_screen": 5,
+     "image_text": 1
+    },
+    "requests": 6
+   }
+  },
+  "K02-bilibili": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": null,
+    "bytes": 1505695,
+    "visible_chars": 2643,
+    "seconds": 4.21,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 2
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 412,
+    "wall": "challenge",
+    "bytes": 3400,
+    "visible_chars": 108,
+    "seconds": 4.2,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 11913,
+    "visible_chars": 11596,
+    "seconds": 8.83,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": 200,
+    "wall": "challenge",
+    "bytes": 46076,
+    "visible_chars": 8,
+    "seconds": 19.14,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 4
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 1274422,
+    "visible_chars": 858,
+    "seconds": 52.61,
+    "error": "",
+    "reader": "page",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 5,
+     "speech": 13,
+     "on_screen": 5,
+     "image_text": 1
+    },
+    "requests": 9
+   }
+  },
+  "K03-rednote-video": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": "login",
+    "bytes": 92523,
+    "visible_chars": 68,
+    "seconds": 4.98,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 4
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": "login",
+    "bytes": 237650,
+    "visible_chars": 0,
+    "seconds": 8.43,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 2
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 715,
+    "visible_chars": 708,
+    "seconds": 3.85,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": null,
+    "wall": "policy",
+    "bytes": 0,
+    "visible_chars": 0,
+    "seconds": 0.19,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 1
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": "token",
+    "bytes": 791442,
+    "visible_chars": 225,
+    "seconds": 27.53,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 7
+   }
+  },
+  "K04-rednote-images": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": "login",
+    "bytes": 92523,
+    "visible_chars": 68,
+    "seconds": 12.25,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 4
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": "login",
+    "bytes": 237650,
+    "visible_chars": 0,
+    "seconds": 8.89,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 2
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 715,
+    "visible_chars": 708,
+    "seconds": 3.38,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": null,
+    "wall": "policy",
+    "bytes": 0,
+    "visible_chars": 0,
+    "seconds": 0.02,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 0
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": "token",
+    "bytes": 791442,
+    "visible_chars": 225,
+    "seconds": 14.51,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 5
+   }
+  },
+  "K05-youtube": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": null,
+    "bytes": 1884774,
+    "visible_chars": 183,
+    "seconds": 5.71,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 2
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": null,
+    "bytes": 1368192,
+    "visible_chars": 146,
+    "seconds": 9.45,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 2
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": "login",
+    "bytes": 4416,
+    "visible_chars": 4404,
+    "seconds": 16.64,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": 200,
+    "wall": null,
+    "bytes": 8420,
+    "visible_chars": 169,
+    "seconds": 10.34,
+    "error": "",
+    "reader": "oembed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2,
+     "image_text": 1
+    },
+    "requests": 4
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 8420,
+    "visible_chars": 169,
+    "seconds": 15.34,
+    "error": "",
+    "reader": "oembed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2,
+     "image_text": 1
+    },
+    "requests": 4
+   }
+  },
+  "K06-tiktok": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 200,
+    "wall": null,
+    "bytes": 660613,
+    "visible_chars": 539,
+    "seconds": 6.01,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": null,
+    "bytes": 516723,
+    "visible_chars": 0,
+    "seconds": 4.26,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 25395,
+    "visible_chars": 23473,
+    "seconds": 6.63,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": 200,
+    "wall": null,
+    "bytes": 865102,
+    "visible_chars": 1080,
+    "seconds": 41.71,
+    "error": "",
+    "reader": "page",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 3,
+     "speech": 6,
+     "on_screen": 5,
+     "image_text": 1
+    },
+    "requests": 9
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 869783,
+    "visible_chars": 1080,
+    "seconds": 46.54,
+    "error": "",
+    "reader": "page",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 3,
+     "speech": 6,
+     "on_screen": 5,
+     "image_text": 1
+    },
+    "requests": 9
+   }
+  },
+  "K07-x": {
+   "browser_text": {
+    "system": "browser_text",
+    "status": 403,
+    "wall": "challenge",
+    "bytes": 39,
+    "visible_chars": 0,
+    "seconds": 3.73,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "naive_fetch": {
+    "system": "naive_fetch",
+    "status": 200,
+    "wall": null,
+    "bytes": 100026,
+    "visible_chars": 1011,
+    "seconds": 4.88,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 1
+   },
+   "reader_service": {
+    "system": "reader_service",
+    "status": 200,
+    "wall": null,
+    "bytes": 2084,
+    "visible_chars": 2083,
+    "seconds": 3.55,
+    "error": "",
+    "reader": null,
+    "harness_served": null,
+    "records_per_channel": null,
+    "requests": 0
+   },
+   "readproof_p0": {
+    "system": "readproof_p0",
+    "status": null,
+    "wall": "policy",
+    "bytes": 0,
+    "visible_chars": 0,
+    "seconds": 6.33,
+    "error": "",
+    "reader": null,
+    "harness_served": false,
+    "records_per_channel": {},
+    "requests": 3
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 978,
+    "visible_chars": 229,
+    "seconds": 15.0,
+    "error": "",
+    "reader": "oembed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2
+    },
+    "requests": 5
+   }
+  }
+ },
+ "note": "Counts only. Post URLs, codes and answers are private until the answer key is published (bench/canary/COMMITMENT.md)."
+}

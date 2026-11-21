@@ -1,0 +1,3530 @@
+{
+ "generated_by": "bench/score.py",
+ "threshold": 0.6,
+ "min_chars": 6,
+ "bootstrap": 10000,
+ "seed": 20261121,
+ "origin": "residential:MY",
+ "dates": [
+  "2026-11-21"
+ ],
+ "n_seed_posts": 145,
+ "n_items": 2295,
+ "n_forms": 522,
+ "n_scored": 2243,
+ "unusable_fingerprints": [
+  {
+   "post_key": "xiaohongshu:69ccec66000000002202a360",
+   "title": "SkinCare｜30+ My Long-Term Nighttime Skincare Ritual🧴 - rednote",
+   "reason": "translated title (rednote.com/en/ shows a machine translation, not the note's own words)"
+  },
+  {
+   "post_key": "xiaohongshu:69e6dd2200000000230233b8",
+   "title": "✈My Singapore travel checklist📝 - rednote",
+   "reason": "translated title (rednote.com/en/ shows a machine translation, not the note's own words)"
+  },
+  {
+   "post_key": "xiaohongshu:69a03d5a000000001a020817",
+   "title": "So handy! rednote AI can now help you plan your travel itinerary! - rednote",
+   "reason": "translated title (rednote.com/en/ shows a machine translation, not the note's own words)"
+  }
+ ],
+ "access": {
+  "platforms": {
+   "douyin": {
+    "naive_fetch": {
+     "n": 12,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 12,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 48,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 60,
+     "served": 23,
+     "served_pct": 38.333333333333336,
+     "ci": {
+      "n": 60,
+      "mean": 38.33,
+      "lo": 26.67,
+      "hi": 50.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 38.333333333333336
+    },
+    "reader_service": {
+     "n": 60,
+     "served": 25,
+     "served_pct": 41.666666666666664,
+     "ci": {
+      "n": 60,
+      "mean": 41.67,
+      "lo": 28.33,
+      "hi": 53.33
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 41.666666666666664
+    },
+    "readproof_p0": {
+     "n": 60,
+     "served": 56,
+     "served_pct": 93.33333333333333,
+     "ci": {
+      "n": 60,
+      "mean": 93.33,
+      "lo": 86.67,
+      "hi": 98.33
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.33333333333333
+    },
+    "readproof_p1": {
+     "n": 60,
+     "served": 56,
+     "served_pct": 93.33333333333333,
+     "ci": {
+      "n": 60,
+      "mean": 93.33,
+      "lo": 86.67,
+      "hi": 98.33
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.33333333333333
+    }
+   },
+   "xiaohongshu": {
+    "naive_fetch": {
+     "n": 8,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 8,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 34,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 42,
+     "served": 39,
+     "served_pct": 92.85714285714286,
+     "ci": {
+      "n": 42,
+      "mean": 92.86,
+      "lo": 83.33,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 92.85714285714286
+    },
+    "reader_service": {
+     "n": 42,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 42,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p0": {
+     "n": 42,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 42,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p1": {
+     "n": 42,
+     "served": 39,
+     "served_pct": 92.85714285714286,
+     "ci": {
+      "n": 42,
+      "mean": 92.86,
+      "lo": 83.33,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 92.85714285714286
+    }
+   },
+   "bilibili": {
+    "naive_fetch": {
+     "n": 8,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 8,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 56,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 64,
+     "served": 11,
+     "served_pct": 17.1875,
+     "ci": {
+      "n": 64,
+      "mean": 17.19,
+      "lo": 7.81,
+      "hi": 26.56
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 17.1875
+    },
+    "reader_service": {
+     "n": 64,
+     "served": 5,
+     "served_pct": 7.8125,
+     "ci": {
+      "n": 64,
+      "mean": 7.81,
+      "lo": 1.56,
+      "hi": 14.06
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 7.8125
+    },
+    "readproof_p0": {
+     "n": 64,
+     "served": 44,
+     "served_pct": 68.75,
+     "ci": {
+      "n": 64,
+      "mean": 68.75,
+      "lo": 57.81,
+      "hi": 79.69
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 68.75
+    },
+    "readproof_p1": {
+     "n": 64,
+     "served": 36,
+     "served_pct": 56.25,
+     "ci": {
+      "n": 64,
+      "mean": 56.25,
+      "lo": 43.75,
+      "hi": 68.75
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 56.25
+    }
+   },
+   "youtube": {
+    "naive_fetch": {
+     "n": 64,
+     "served": 64,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 64,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    },
+    "browser_text": {
+     "n": 64,
+     "served": 47,
+     "served_pct": 73.4375,
+     "ci": {
+      "n": 64,
+      "mean": 73.44,
+      "lo": 62.5,
+      "hi": 84.38
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 73.4375
+    },
+    "reader_service": {
+     "n": 64,
+     "served": 60,
+     "served_pct": 93.75,
+     "ci": {
+      "n": 64,
+      "mean": 93.75,
+      "lo": 87.5,
+      "hi": 98.44
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.75
+    },
+    "readproof_p0": {
+     "n": 64,
+     "served": 64,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 64,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    },
+    "readproof_p1": {
+     "n": 64,
+     "served": 64,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 64,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    }
+   },
+   "tiktok": {
+    "naive_fetch": {
+     "n": 64,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 64,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 64,
+     "served": 60,
+     "served_pct": 93.75,
+     "ci": {
+      "n": 64,
+      "mean": 93.75,
+      "lo": 87.5,
+      "hi": 98.44
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.75
+    },
+    "reader_service": {
+     "n": 64,
+     "served": 48,
+     "served_pct": 75.0,
+     "ci": {
+      "n": 64,
+      "mean": 75.0,
+      "lo": 64.06,
+      "hi": 85.94
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 75.0
+    },
+    "readproof_p0": {
+     "n": 64,
+     "served": 45,
+     "served_pct": 70.3125,
+     "ci": {
+      "n": 64,
+      "mean": 70.31,
+      "lo": 59.38,
+      "hi": 81.25
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 70.3125
+    },
+    "readproof_p1": {
+     "n": 64,
+     "served": 60,
+     "served_pct": 93.75,
+     "ci": {
+      "n": 64,
+      "mean": 93.75,
+      "lo": 87.5,
+      "hi": 98.44
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.75
+    }
+   },
+   "weibo": {
+    "naive_fetch": {
+     "n": 8,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 8,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 44,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 52,
+     "served": 15,
+     "served_pct": 28.846153846153847,
+     "ci": {
+      "n": 52,
+      "mean": 28.85,
+      "lo": 17.31,
+      "hi": 42.31
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 28.846153846153847
+    },
+    "reader_service": {
+     "n": 52,
+     "served": 16,
+     "served_pct": 30.76923076923077,
+     "ci": {
+      "n": 52,
+      "mean": 30.77,
+      "lo": 19.23,
+      "hi": 44.23
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 30.76923076923077
+    },
+    "readproof_p0": {
+     "n": 52,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 52,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p1": {
+     "n": 52,
+     "served": 16,
+     "served_pct": 30.76923076923077,
+     "ci": {
+      "n": 52,
+      "mean": 30.77,
+      "lo": 19.23,
+      "hi": 44.23
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 30.76923076923077
+    }
+   },
+   "toutiao": {
+    "naive_fetch": {
+     "n": 58,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 58,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 55,
+     "served": 55,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 55,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    },
+    "reader_service": {
+     "n": 64,
+     "served": 64,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 64,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    },
+    "readproof_p0": {
+     "n": 56,
+     "served": 56,
+     "served_pct": 100.0,
+     "ci": {
+      "n": 56,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 100.0
+    },
+    "readproof_p1": {
+     "n": 60,
+     "served": 56,
+     "served_pct": 93.33333333333333,
+     "ci": {
+      "n": 60,
+      "mean": 93.33,
+      "lo": 86.67,
+      "hi": 98.33
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 93.33333333333333
+    }
+   },
+   "x": {
+    "naive_fetch": {
+     "n": 68,
+     "served": 64,
+     "served_pct": 94.11764705882354,
+     "ci": {
+      "n": 68,
+      "mean": 94.12,
+      "lo": 88.24,
+      "hi": 98.53
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 94.11764705882354
+    },
+    "browser_text": {
+     "n": 8,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 8,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 60,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "reader_service": {
+     "n": 68,
+     "served": 46,
+     "served_pct": 67.6470588235294,
+     "ci": {
+      "n": 68,
+      "mean": 67.65,
+      "lo": 55.88,
+      "hi": 79.41
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 67.6470588235294
+    },
+    "readproof_p0": {
+     "n": 68,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 68,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p1": {
+     "n": 68,
+     "served": 64,
+     "served_pct": 94.11764705882354,
+     "ci": {
+      "n": 68,
+      "mean": 94.12,
+      "lo": 88.24,
+      "hi": 98.53
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 94.11764705882354
+    }
+   },
+   "wechat": {
+    "naive_fetch": {
+     "n": 12,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 12,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 20,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "browser_text": {
+     "n": 32,
+     "served": 10,
+     "served_pct": 31.25,
+     "ci": {
+      "n": 32,
+      "mean": 31.25,
+      "lo": 15.62,
+      "hi": 46.88
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 31.25
+    },
+    "reader_service": {
+     "n": 14,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 14,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 18,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p0": {
+     "n": 32,
+     "served": 0,
+     "served_pct": 0.0,
+     "ci": {
+      "n": 32,
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 0.0
+    },
+    "readproof_p1": {
+     "n": 32,
+     "served": 10,
+     "served_pct": 31.25,
+     "ci": {
+      "n": 32,
+      "mean": 31.25,
+      "lo": 15.62,
+      "hi": 46.88
+     },
+     "n_breaker_skipped": 0,
+     "served_pct_skips_as_not_served": 31.25
+    }
+   }
+  },
+  "overall": {
+   "naive_fetch": {
+    "n": 302,
+    "served": 128,
+    "served_pct": 42.384105960264904,
+    "ci": {
+     "n": 302,
+     "mean": 42.38,
+     "lo": 36.75,
+     "hi": 48.01
+    },
+    "n_with_skips": 504,
+    "served_pct_skips_as_not_served": 25.396825396825395,
+    "ci_skips_as_not_served": {
+     "n": 504,
+     "mean": 25.4,
+     "lo": 21.63,
+     "hi": 29.17
+    },
+    "macro_pct": 21.568627450980394
+   },
+   "browser_text": {
+    "n": 441,
+    "served": 260,
+    "served_pct": 58.956916099773245,
+    "ci": {
+     "n": 441,
+     "mean": 58.96,
+     "lo": 54.42,
+     "hi": 63.49
+    },
+    "n_with_skips": 501,
+    "served_pct_skips_as_not_served": 51.89620758483034,
+    "ci_skips_as_not_served": {
+     "n": 501,
+     "mean": 51.9,
+     "lo": 47.5,
+     "hi": 56.29
+    },
+    "macro_pct": 52.85129222629223
+   },
+   "reader_service": {
+    "n": 492,
+    "served": 264,
+    "served_pct": 53.65853658536585,
+    "ci": {
+     "n": 492,
+     "mean": 53.66,
+     "lo": 49.19,
+     "hi": 57.93
+    },
+    "n_with_skips": 510,
+    "served_pct_skips_as_not_served": 51.76470588235294,
+    "ci_skips_as_not_served": {
+     "n": 510,
+     "mean": 51.76,
+     "lo": 47.45,
+     "hi": 56.08
+    },
+    "macro_pct": 46.29393958438076
+   },
+   "readproof_p0": {
+    "n": 502,
+    "served": 265,
+    "served_pct": 52.788844621513945,
+    "ci": {
+     "n": 502,
+     "mean": 52.79,
+     "lo": 48.41,
+     "hi": 57.17
+    },
+    "n_with_skips": 502,
+    "served_pct_skips_as_not_served": 52.788844621513945,
+    "ci_skips_as_not_served": {
+     "n": 502,
+     "mean": 52.79,
+     "lo": 48.41,
+     "hi": 57.17
+    },
+    "macro_pct": 48.04398148148148
+   },
+   "readproof_p1": {
+    "n": 506,
+    "served": 401,
+    "served_pct": 79.24901185770752,
+    "ci": {
+     "n": 506,
+     "mean": 79.25,
+     "lo": 75.69,
+     "hi": 82.61
+    },
+    "n_with_skips": 506,
+    "served_pct_skips_as_not_served": 79.24901185770752,
+    "ci_skips_as_not_served": {
+     "n": 506,
+     "mean": 79.25,
+     "lo": 75.69,
+     "hi": 82.61
+    },
+    "macro_pct": 76.18452081687376
+   }
+  },
+  "walls": {
+   "douyin": {
+    "naive_fetch": {
+     "challenge": 12
+    },
+    "browser_text": {
+     "served": 35,
+     "soft_404": 24,
+     "network": 1
+    },
+    "reader_service": {
+     "served": 54,
+     "challenge": 6
+    },
+    "readproof_p0": {
+     "served": 60
+    },
+    "readproof_p1": {
+     "served": 60
+    }
+   },
+   "xiaohongshu": {
+    "naive_fetch": {
+     "login": 12
+    },
+    "browser_text": {
+     "served": 47,
+     "soft_404": 4,
+     "token": 2,
+     "login": 1
+    },
+    "reader_service": {
+     "served": 54
+    },
+    "readproof_p0": {
+     "policy": 51,
+     "unsupported": 3
+    },
+    "readproof_p1": {
+     "served": 45,
+     "token": 6,
+     "unsupported": 3
+    }
+   },
+   "bilibili": {
+    "naive_fetch": {
+     "challenge": 8
+    },
+    "browser_text": {
+     "served": 64
+    },
+    "reader_service": {
+     "served": 64
+    },
+    "readproof_p0": {
+     "served": 44,
+     "challenge": 20
+    },
+    "readproof_p1": {
+     "served": 36,
+     "challenge": 28
+    }
+   },
+   "youtube": {
+    "naive_fetch": {
+     "served": 64
+    },
+    "browser_text": {
+     "served": 64
+    },
+    "reader_service": {
+     "login": 32,
+     "served": 32
+    },
+    "readproof_p0": {
+     "served": 64
+    },
+    "readproof_p1": {
+     "served": 64
+    }
+   },
+   "tiktok": {
+    "naive_fetch": {
+     "served": 59,
+     "empty": 5
+    },
+    "browser_text": {
+     "served": 64
+    },
+    "reader_service": {
+     "served": 64
+    },
+    "readproof_p0": {
+     "served": 48,
+     "policy": 16
+    },
+    "readproof_p1": {
+     "served": 64
+    }
+   },
+   "weibo": {
+    "naive_fetch": {
+     "challenge": 8
+    },
+    "browser_text": {
+     "served": 48,
+     "deleted": 2,
+     "empty": 2
+    },
+    "reader_service": {
+     "served": 50,
+     "deleted": 2
+    },
+    "readproof_p0": {
+     "policy": 48,
+     "unsupported": 4
+    },
+    "readproof_p1": {
+     "served": 28,
+     "challenge": 16,
+     "deleted": 4,
+     "unsupported": 4
+    }
+   },
+   "toutiao": {
+    "naive_fetch": {
+     "empty": 43,
+     "challenge": 15
+    },
+    "browser_text": {
+     "served": 55
+    },
+    "reader_service": {
+     "served": 64
+    },
+    "readproof_p0": {
+     "served": 56
+    },
+    "readproof_p1": {
+     "served": 56,
+     "challenge": 4
+    }
+   },
+   "x": {
+    "naive_fetch": {
+     "served": 68
+    },
+    "browser_text": {
+     "challenge": 8
+    },
+    "reader_service": {
+     "served": 68
+    },
+    "readproof_p0": {
+     "policy": 68
+    },
+    "readproof_p1": {
+     "served": 68
+    }
+   },
+   "wechat": {
+    "naive_fetch": {
+     "challenge": 12
+    },
+    "browser_text": {
+     "challenge": 18,
+     "served": 14
+    },
+    "reader_service": {
+     "challenge": 14
+    },
+    "readproof_p0": {
+     "policy": 32
+    },
+    "readproof_p1": {
+     "challenge": 18,
+     "served": 14
+    }
+   }
+  },
+  "skipped": {
+   "x": {
+    "browser_text": {
+     "circuit_open": 60
+    }
+   },
+   "bilibili": {
+    "naive_fetch": {
+     "circuit_open": 56
+    }
+   },
+   "xiaohongshu": {
+    "naive_fetch": {
+     "circuit_open": 42
+    }
+   },
+   "weibo": {
+    "naive_fetch": {
+     "circuit_open": 44
+    }
+   },
+   "douyin": {
+    "naive_fetch": {
+     "circuit_open": 48
+    }
+   },
+   "wechat": {
+    "naive_fetch": {
+     "circuit_open": 20
+    },
+    "reader_service": {
+     "circuit_open": 18
+    }
+   },
+   "toutiao": {
+    "readproof_p0": {
+     "request_cap": 8
+    },
+    "browser_text": {
+     "request_cap": 7
+    },
+    "naive_fetch": {
+     "request_cap": 6
+    },
+    "readproof_p1": {
+     "request_cap": 4
+    }
+   }
+  }
+ },
+ "honesty_penalty": {
+  "overall": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": null,
+   "n_items": 502,
+   "n_posts": 140,
+   "a_pct": 79.08366533864542,
+   "b_pct": 52.788844621513945,
+   "diff_items": {
+    "n": 502,
+    "mean": 26.29,
+    "lo": 21.71,
+    "hi": 30.88
+   },
+   "diff_posts": {
+    "n": 502,
+    "mean": 26.29,
+    "lo": 17.83,
+    "hi": 34.81
+   }
+  },
+  "douyin": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "douyin",
+   "n_items": 60,
+   "n_posts": 15,
+   "a_pct": 93.33333333333333,
+   "b_pct": 93.33333333333333,
+   "diff_items": {
+    "n": 60,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "diff_posts": {
+    "n": 60,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   }
+  },
+  "xiaohongshu": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "xiaohongshu",
+   "n_items": 42,
+   "n_posts": 14,
+   "a_pct": 92.85714285714286,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 42,
+    "mean": 92.86,
+    "lo": 83.33,
+    "hi": 100.0
+   },
+   "diff_posts": {
+    "n": 42,
+    "mean": 92.86,
+    "lo": 78.57,
+    "hi": 100.0
+   }
+  },
+  "bilibili": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "bilibili",
+   "n_items": 64,
+   "n_posts": 16,
+   "a_pct": 56.25,
+   "b_pct": 68.75,
+   "diff_items": {
+    "n": 64,
+    "mean": -12.5,
+    "lo": -26.56,
+    "hi": 1.56
+   },
+   "diff_posts": {
+    "n": 64,
+    "mean": -12.5,
+    "lo": -43.75,
+    "hi": 18.75
+   }
+  },
+  "youtube": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "youtube",
+   "n_items": 64,
+   "n_posts": 16,
+   "a_pct": 100.0,
+   "b_pct": 100.0,
+   "diff_items": {
+    "n": 64,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "diff_posts": {
+    "n": 64,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   }
+  },
+  "tiktok": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "tiktok",
+   "n_items": 64,
+   "n_posts": 16,
+   "a_pct": 93.75,
+   "b_pct": 70.3125,
+   "diff_items": {
+    "n": 64,
+    "mean": 23.44,
+    "lo": 14.06,
+    "hi": 34.38
+   },
+   "diff_posts": {
+    "n": 64,
+    "mean": 23.44,
+    "lo": 20.31,
+    "hi": 25.0
+   }
+  },
+  "weibo": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "weibo",
+   "n_items": 52,
+   "n_posts": 16,
+   "a_pct": 30.76923076923077,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 52,
+    "mean": 30.77,
+    "lo": 19.23,
+    "hi": 44.23
+   },
+   "diff_posts": {
+    "n": 52,
+    "mean": 30.77,
+    "lo": 7.69,
+    "hi": 55.81
+   }
+  },
+  "toutiao": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "toutiao",
+   "n_items": 56,
+   "n_posts": 14,
+   "a_pct": 92.85714285714286,
+   "b_pct": 100.0,
+   "diff_items": {
+    "n": 56,
+    "mean": -7.14,
+    "lo": -14.29,
+    "hi": -1.79
+   },
+   "diff_posts": {
+    "n": 56,
+    "mean": -7.14,
+    "lo": -21.43,
+    "hi": 0.0
+   }
+  },
+  "x": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "x",
+   "n_items": 68,
+   "n_posts": 17,
+   "a_pct": 94.11764705882354,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 68,
+    "mean": 94.12,
+    "lo": 88.24,
+    "hi": 98.53
+   },
+   "diff_posts": {
+    "n": 68,
+    "mean": 94.12,
+    "lo": 82.35,
+    "hi": 100.0
+   }
+  },
+  "wechat": {
+   "a": "readproof_p1",
+   "b": "readproof_p0",
+   "platform": "wechat",
+   "n_items": 32,
+   "n_posts": 16,
+   "a_pct": 31.25,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 32,
+    "mean": 31.25,
+    "lo": 15.62,
+    "hi": 46.88
+   },
+   "diff_posts": {
+    "n": 32,
+    "mean": 31.25,
+    "lo": 12.5,
+    "hi": 56.25
+   }
+  },
+  "p0_policy_share": {
+   "overall": 41.82879377431907,
+   "douyin": 0.0,
+   "xiaohongshu": 94.44444444444444,
+   "bilibili": 0.0,
+   "youtube": 0.0,
+   "tiktok": 25.0,
+   "weibo": 92.3076923076923,
+   "toutiao": 0.0,
+   "x": 100.0,
+   "wechat": 100.0
+  }
+ },
+ "p1_vs_baselines": {
+  "naive_fetch": {
+   "overall": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": null,
+    "n_items": 302,
+    "n_posts": 80,
+    "a_pct": 90.06622516556291,
+    "b_pct": 42.384105960264904,
+    "diff_items": {
+     "n": 302,
+     "mean": 47.68,
+     "lo": 42.05,
+     "hi": 53.31
+    },
+    "diff_posts": {
+     "n": 302,
+     "mean": 47.68,
+     "lo": 36.42,
+     "hi": 58.69
+    }
+   },
+   "overall_skips_as_not_served": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": null,
+    "n_items": 504,
+    "n_posts": 141,
+    "a_pct": 79.16666666666667,
+    "b_pct": 25.396825396825395,
+    "diff_items": {
+     "n": 504,
+     "mean": 53.77,
+     "lo": 49.4,
+     "hi": 58.13
+    },
+    "diff_posts": {
+     "n": 504,
+     "mean": 53.77,
+     "lo": 45.38,
+     "hi": 62.2
+    }
+   },
+   "douyin": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "douyin",
+    "n_items": 12,
+    "n_posts": 3,
+    "a_pct": 100.0,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 12,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    },
+    "diff_posts": {
+     "n": 12,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    }
+   },
+   "xiaohongshu": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "xiaohongshu",
+    "n_items": 8,
+    "n_posts": 3,
+    "a_pct": 100.0,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    },
+    "diff_posts": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    }
+   },
+   "bilibili": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "bilibili",
+    "n_items": 8,
+    "n_posts": 2,
+    "a_pct": 100.0,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    },
+    "diff_posts": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    }
+   },
+   "youtube": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "youtube",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 100.0,
+    "b_pct": 100.0,
+    "diff_items": {
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "tiktok": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "tiktok",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 93.75,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 64,
+     "mean": 93.75,
+     "lo": 87.5,
+     "hi": 98.44
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 93.75,
+     "lo": 81.25,
+     "hi": 100.0
+    }
+   },
+   "weibo": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "weibo",
+    "n_items": 8,
+    "n_posts": 2,
+    "a_pct": 0.0,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 8,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 8,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "toutiao": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "toutiao",
+    "n_items": 58,
+    "n_posts": 15,
+    "a_pct": 93.10344827586206,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 58,
+     "mean": 93.1,
+     "lo": 86.21,
+     "hi": 98.28
+    },
+    "diff_posts": {
+     "n": 58,
+     "mean": 93.1,
+     "lo": 78.57,
+     "hi": 100.0
+    }
+   },
+   "x": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "x",
+    "n_items": 68,
+    "n_posts": 17,
+    "a_pct": 94.11764705882354,
+    "b_pct": 94.11764705882354,
+    "diff_items": {
+     "n": 68,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 68,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "wechat": {
+    "a": "readproof_p1",
+    "b": "naive_fetch",
+    "platform": "wechat",
+    "n_items": 12,
+    "n_posts": 6,
+    "a_pct": 16.666666666666668,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 12,
+     "mean": 16.67,
+     "lo": 0.0,
+     "hi": 41.67
+    },
+    "diff_posts": {
+     "n": 12,
+     "mean": 16.67,
+     "lo": 0.0,
+     "hi": 50.0
+    }
+   }
+  },
+  "browser_text": {
+   "overall": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": null,
+    "n_items": 441,
+    "n_posts": 126,
+    "a_pct": 77.55102040816327,
+    "b_pct": 58.956916099773245,
+    "diff_items": {
+     "n": 441,
+     "mean": 18.59,
+     "lo": 14.29,
+     "hi": 22.9
+    },
+    "diff_posts": {
+     "n": 441,
+     "mean": 18.59,
+     "lo": 11.37,
+     "hi": 25.85
+    }
+   },
+   "overall_skips_as_not_served": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": null,
+    "n_items": 501,
+    "n_posts": 141,
+    "a_pct": 79.44111776447106,
+    "b_pct": 51.89620758483034,
+    "diff_items": {
+     "n": 501,
+     "mean": 27.54,
+     "lo": 23.15,
+     "hi": 31.94
+    },
+    "diff_posts": {
+     "n": 501,
+     "mean": 27.54,
+     "lo": 19.92,
+     "hi": 35.36
+    }
+   },
+   "douyin": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "douyin",
+    "n_items": 60,
+    "n_posts": 15,
+    "a_pct": 93.33333333333333,
+    "b_pct": 38.333333333333336,
+    "diff_items": {
+     "n": 60,
+     "mean": 55.0,
+     "lo": 43.33,
+     "hi": 68.33
+    },
+    "diff_posts": {
+     "n": 60,
+     "mean": 55.0,
+     "lo": 38.33,
+     "hi": 70.0
+    }
+   },
+   "xiaohongshu": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "xiaohongshu",
+    "n_items": 42,
+    "n_posts": 14,
+    "a_pct": 92.85714285714286,
+    "b_pct": 92.85714285714286,
+    "diff_items": {
+     "n": 42,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 42,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "bilibili": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "bilibili",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 56.25,
+    "b_pct": 17.1875,
+    "diff_items": {
+     "n": 64,
+     "mean": 39.06,
+     "lo": 23.44,
+     "hi": 53.12
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 39.06,
+     "lo": 9.38,
+     "hi": 68.75
+    }
+   },
+   "youtube": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "youtube",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 100.0,
+    "b_pct": 73.4375,
+    "diff_items": {
+     "n": 64,
+     "mean": 26.56,
+     "lo": 15.62,
+     "hi": 37.5
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 26.56,
+     "lo": 9.38,
+     "hi": 45.31
+    }
+   },
+   "tiktok": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "tiktok",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 93.75,
+    "b_pct": 93.75,
+    "diff_items": {
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "weibo": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "weibo",
+    "n_items": 52,
+    "n_posts": 16,
+    "a_pct": 30.76923076923077,
+    "b_pct": 28.846153846153847,
+    "diff_items": {
+     "n": 52,
+     "mean": 1.92,
+     "lo": -13.46,
+     "hi": 15.38
+    },
+    "diff_posts": {
+     "n": 52,
+     "mean": 1.92,
+     "lo": -18.6,
+     "hi": 19.67
+    }
+   },
+   "toutiao": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "toutiao",
+    "n_items": 55,
+    "n_posts": 15,
+    "a_pct": 96.36363636363636,
+    "b_pct": 100.0,
+    "diff_items": {
+     "n": 55,
+     "mean": -3.64,
+     "lo": -9.09,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 55,
+     "mean": -3.64,
+     "lo": -12.5,
+     "hi": 0.0
+    }
+   },
+   "x": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "x",
+    "n_items": 8,
+    "n_posts": 2,
+    "a_pct": 100.0,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    },
+    "diff_posts": {
+     "n": 8,
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
+    }
+   },
+   "wechat": {
+    "a": "readproof_p1",
+    "b": "browser_text",
+    "platform": "wechat",
+    "n_items": 32,
+    "n_posts": 16,
+    "a_pct": 31.25,
+    "b_pct": 31.25,
+    "diff_items": {
+     "n": 32,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "diff_posts": {
+     "n": 32,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   }
+  },
+  "reader_service": {
+   "overall": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": null,
+    "n_items": 488,
+    "n_posts": 132,
+    "a_pct": 80.94262295081967,
+    "b_pct": 53.278688524590166,
+    "diff_items": {
+     "n": 488,
+     "mean": 27.66,
+     "lo": 23.16,
+     "hi": 32.17
+    },
+    "diff_posts": {
+     "n": 488,
+     "mean": 27.66,
+     "lo": 19.84,
+     "hi": 35.71
+    }
+   },
+   "overall_skips_as_not_served": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": null,
+    "n_items": 506,
+    "n_posts": 141,
+    "a_pct": 79.24901185770752,
+    "b_pct": 51.383399209486164,
+    "diff_items": {
+     "n": 506,
+     "mean": 27.87,
+     "lo": 23.32,
+     "hi": 32.41
+    },
+    "diff_posts": {
+     "n": 506,
+     "mean": 27.87,
+     "lo": 20.28,
+     "hi": 35.86
+    }
+   },
+   "douyin": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "douyin",
+    "n_items": 60,
+    "n_posts": 15,
+    "a_pct": 93.33333333333333,
+    "b_pct": 41.666666666666664,
+    "diff_items": {
+     "n": 60,
+     "mean": 51.67,
+     "lo": 40.0,
+     "hi": 65.0
+    },
+    "diff_posts": {
+     "n": 60,
+     "mean": 51.67,
+     "lo": 33.33,
+     "hi": 70.0
+    }
+   },
+   "xiaohongshu": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "xiaohongshu",
+    "n_items": 42,
+    "n_posts": 14,
+    "a_pct": 92.85714285714286,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 42,
+     "mean": 92.86,
+     "lo": 83.33,
+     "hi": 100.0
+    },
+    "diff_posts": {
+     "n": 42,
+     "mean": 92.86,
+     "lo": 78.57,
+     "hi": 100.0
+    }
+   },
+   "bilibili": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "bilibili",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 56.25,
+    "b_pct": 7.8125,
+    "diff_items": {
+     "n": 64,
+     "mean": 48.44,
+     "lo": 34.38,
+     "hi": 62.5
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 48.44,
+     "lo": 21.88,
+     "hi": 75.0
+    }
+   },
+   "youtube": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "youtube",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 100.0,
+    "b_pct": 93.75,
+    "diff_items": {
+     "n": 64,
+     "mean": 6.25,
+     "lo": 1.56,
+     "hi": 12.5
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 6.25,
+     "lo": 0.0,
+     "hi": 18.75
+    }
+   },
+   "tiktok": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "tiktok",
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 93.75,
+    "b_pct": 75.0,
+    "diff_items": {
+     "n": 64,
+     "mean": 18.75,
+     "lo": 9.38,
+     "hi": 28.12
+    },
+    "diff_posts": {
+     "n": 64,
+     "mean": 18.75,
+     "lo": 4.69,
+     "hi": 37.5
+    }
+   },
+   "weibo": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "weibo",
+    "n_items": 52,
+    "n_posts": 16,
+    "a_pct": 30.76923076923077,
+    "b_pct": 30.76923076923077,
+    "diff_items": {
+     "n": 52,
+     "mean": 0.0,
+     "lo": -15.38,
+     "hi": 15.38
+    },
+    "diff_posts": {
+     "n": 52,
+     "mean": 0.0,
+     "lo": -21.74,
+     "hi": 18.75
+    }
+   },
+   "toutiao": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "toutiao",
+    "n_items": 60,
+    "n_posts": 15,
+    "a_pct": 93.33333333333333,
+    "b_pct": 100.0,
+    "diff_items": {
+     "n": 60,
+     "mean": -6.67,
+     "lo": -13.33,
+     "hi": -1.67
+    },
+    "diff_posts": {
+     "n": 60,
+     "mean": -6.67,
+     "lo": -20.0,
+     "hi": 0.0
+    }
+   },
+   "x": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "x",
+    "n_items": 68,
+    "n_posts": 17,
+    "a_pct": 94.11764705882354,
+    "b_pct": 67.6470588235294,
+    "diff_items": {
+     "n": 68,
+     "mean": 26.47,
+     "lo": 16.18,
+     "hi": 36.76
+    },
+    "diff_posts": {
+     "n": 68,
+     "mean": 26.47,
+     "lo": 5.88,
+     "hi": 47.06
+    }
+   },
+   "wechat": {
+    "a": "readproof_p1",
+    "b": "reader_service",
+    "platform": "wechat",
+    "n_items": 14,
+    "n_posts": 7,
+    "a_pct": 28.571428571428573,
+    "b_pct": 0.0,
+    "diff_items": {
+     "n": 14,
+     "mean": 28.57,
+     "lo": 7.14,
+     "hi": 50.0
+    },
+    "diff_posts": {
+     "n": 14,
+     "mean": 28.57,
+     "lo": 0.0,
+     "hi": 57.14
+    }
+   }
+  }
+ },
+ "answer_from_wall": {
+  "naive_fetch": {
+   "eligible": 1,
+   "answered": 0,
+   "rate": {
+    "n": 1,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 1,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 1,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 1,
+   "by_platform": {
+    "xiaohongshu": {
+     "eligible": 1,
+     "answered": 0
+    }
+   },
+   "how": {
+    "token": 1
+   },
+   "partial_coverage": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 0,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "by_platform": {}
+   },
+   "all_unserved": {
+    "eligible": 1,
+    "answered": 0
+   }
+  },
+  "readproof_p1": {
+   "eligible": 73,
+   "answered": 0,
+   "rate": {
+    "n": 73,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 73,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 73,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 0,
+   "by_platform": {
+    "wechat": {
+     "eligible": 18,
+     "answered": 0
+    },
+    "weibo": {
+     "eligible": 20,
+     "answered": 0
+    },
+    "bilibili": {
+     "eligible": 28,
+     "answered": 0
+    },
+    "xiaohongshu": {
+     "eligible": 3,
+     "answered": 0
+    },
+    "toutiao": {
+     "eligible": 4,
+     "answered": 0
+    }
+   },
+   "how": {
+    "challenge": 66,
+    "deleted": 4,
+    "token": 3
+   },
+   "partial_coverage": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 2,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 2,
+     "answered": 0
+    },
+    "by_platform": {
+     "wechat": {
+      "eligible": 2,
+      "answered": 0
+     }
+    }
+   },
+   "all_unserved": {
+    "eligible": 75,
+    "answered": 0
+   },
+   "typed_abstention_check": {
+    "harness_not_served": 73,
+    "abstained": 73,
+    "abstained_without_model_call": 73,
+    "cause_equals_wall": 73,
+    "harness_served_not_fingerprint": 2,
+    "harness_served_not_fingerprint_answered": 0
+   }
+  },
+  "readproof_p0": {
+   "eligible": 36,
+   "answered": 0,
+   "rate": {
+    "n": 36,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 36,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 36,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 0,
+   "by_platform": {
+    "bilibili": {
+     "eligible": 20,
+     "answered": 0
+    },
+    "tiktok": {
+     "eligible": 16,
+     "answered": 0
+    }
+   },
+   "how": {
+    "challenge": 20,
+    "policy": 16
+   },
+   "partial_coverage": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 0,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "by_platform": {}
+   },
+   "all_unserved": {
+    "eligible": 36,
+    "answered": 0
+   },
+   "typed_abstention_check": {
+    "harness_not_served": 36,
+    "abstained": 36,
+    "abstained_without_model_call": 36,
+    "cause_equals_wall": 36,
+    "harness_served_not_fingerprint": 0,
+    "harness_served_not_fingerprint_answered": 0
+   }
+  }
+ },
+ "answer_from_wall_paired": {
+  "naive_fetch": {
+   "a": "readproof_p1",
+   "b": "naive_fetch",
+   "platform": null,
+   "n_items": 158,
+   "n_posts": 52,
+   "a_pct": 0.0,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 158,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "diff_posts": {
+    "n": 158,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   }
+  },
+  "browser_text": {
+   "a": "readproof_p1",
+   "b": "browser_text",
+   "platform": null,
+   "n_items": 257,
+   "n_posts": 85,
+   "a_pct": 0.0,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 257,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "diff_posts": {
+    "n": 257,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   }
+  },
+  "reader_service": {
+   "a": "readproof_p1",
+   "b": "reader_service",
+   "platform": null,
+   "n_items": 248,
+   "n_posts": 71,
+   "a_pct": 0.0,
+   "b_pct": 0.0,
+   "diff_items": {
+    "n": 248,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "diff_posts": {
+    "n": 248,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   }
+  }
+ },
+ "harness_served_but_fingerprint_missing": [
+  {
+   "key": "weibo:5353573301094921|desktop_status|readproof_p1",
+   "coverage": 0.529,
+   "class": "post_in_other_words",
+   "text_head": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻。\n\n我一直觉得，好好吃饭，就是好好热爱生活。闲暇的时候，我会"
+  },
+  {
+   "key": "weibo:5353573301094921|mobile_status|readproof_p1",
+   "coverage": 0.529,
+   "class": "post_in_other_words",
+   "text_head": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻。\n\n我一直觉得，好好吃饭，就是好好热爱生活。闲暇的时候，我会"
+  },
+  {
+   "key": "weibo:5353573301094921|share_text|readproof_p1",
+   "coverage": 0.529,
+   "class": "post_in_other_words",
+   "text_head": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻。\n\n我一直觉得，好好吃饭，就是好好热爱生活。闲暇的时候，我会"
+  },
+  {
+   "key": "weibo:5353573301094921|mobile_detail|readproof_p1",
+   "coverage": 0.529,
+   "class": "post_in_other_words",
+   "text_head": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻。\n\n我一直觉得，好好吃饭，就是好好热爱生活。闲暇的时候，我会"
+  },
+  {
+   "key": "weibo:5350602851750379|desktop_status|readproof_p1",
+   "coverage": 0.385,
+   "class": "post_in_other_words",
+   "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
+  },
+  {
+   "key": "wechat:OQ1HxnAuWkzgI4H_7CykSw|s_path|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
+  },
+  {
+   "key": "wechat:OQ1HxnAuWkzgI4H_7CykSw|share_text|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
+  },
+  {
+   "key": "weibo:5350602851750379|mobile_status|readproof_p1",
+   "coverage": 0.385,
+   "class": "post_in_other_words",
+   "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
+  },
+  {
+   "key": "weibo:5350602851750379|share_text|readproof_p1",
+   "coverage": 0.385,
+   "class": "post_in_other_words",
+   "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
+  },
+  {
+   "key": "weibo:5350602851750379|mobile_detail|readproof_p1",
+   "coverage": 0.385,
+   "class": "post_in_other_words",
+   "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
+  },
+  {
+   "key": "x:1992989895850430908|x|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+  },
+  {
+   "key": "x:1992989895850430908|mobile|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+  },
+  {
+   "key": "x:1992989895850430908|share_text|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+  },
+  {
+   "key": "x:1992989895850430908|share_param|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+  },
+  {
+   "key": "douyin:7597416406057280753|desktop|readproof_p1",
+   "coverage": 0.077,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "wechat:-XVHkbYihe_gPo0G71aW-A|s_path|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
+  },
+  {
+   "key": "wechat:-XVHkbYihe_gPo0G71aW-A|share_text|readproof_p1",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
+  },
+  {
+   "key": "douyin:7597416406057280753|desktop|readproof_p0",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|share_page|readproof_p1",
+   "coverage": 0.077,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|share_page|readproof_p0",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|share_text|readproof_p1",
+   "coverage": 0.077,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|share_text|readproof_p0",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|modal|readproof_p0",
+   "coverage": 0.0,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "douyin:7597416406057280753|modal|readproof_p1",
+   "coverage": 0.077,
+   "class": "wall_served_as_content",
+   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+  },
+  {
+   "key": "weibo:5356026885050384|desktop_status|readproof_p1",
+   "coverage": 0.381,
+   "class": "post_in_other_words",
+   "text_head": "#爸爸当家#\n宝宝生出来就是治愈爸妈的！ 喜剧贼好看的微博视频\n喜剧贼好看\n随时随地发现新鲜事！微博带你欣赏世界上每一个精彩瞬间，了解每一个幕后故事。分享你想表"
+  },
+  {
+   "key": "weibo:5356026885050384|mobile_status|readproof_p1",
+   "coverage": 0.381,
+   "class": "post_in_other_words",
+   "text_head": "#爸爸当家#\n宝宝生出来就是治愈爸妈的！ 喜剧贼好看的微博视频\n喜剧贼好看\n随时随地发现新鲜事！微博带你欣赏世界上每一个精彩瞬间，了解每一个幕后故事。分享你想表"
+  },
+  {
+   "key": "weibo:5356026885050384|share_text|readproof_p1",
+   "coverage": 0.381,
+   "class": "post_in_other_words",
+   "text_head": "#爸爸当家#\n宝宝生出来就是治愈爸妈的！ 喜剧贼好看的微博视频\n喜剧贼好看\n随时随地发现新鲜事！微博带你欣赏世界上每一个精彩瞬间，了解每一个幕后故事。分享你想表"
+  },
+  {
+   "key": "weibo:5356026885050384|mobile_detail|readproof_p1",
+   "coverage": 0.381,
+   "class": "post_in_other_words",
+   "text_head": "#爸爸当家#\n宝宝生出来就是治愈爸妈的！ 喜剧贼好看的微博视频\n喜剧贼好看\n随时随地发现新鲜事！微博带你欣赏世界上每一个精彩瞬间，了解每一个幕后故事。分享你想表"
+  },
+  {
+   "key": "tiktok:7523212467208539447|desktop|readproof_p1",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|desktop|readproof_p0",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|mobile|readproof_p1",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|share_text|readproof_p0",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|share_text|readproof_p1",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|share_param|readproof_p1",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  },
+  {
+   "key": "tiktok:7523212467208539447|share_param|readproof_p0",
+   "coverage": 0.333,
+   "class": "post_in_other_words",
+   "text_head": "Raising toddlers feels like climbing a wall with no instructions and a backpack "
+  }
+ ],
+ "crashes": [
+  {
+   "key": "toutiao:7650082060765315636|article|browser_text",
+   "error": "system error UnicodeEncodeError: 'utf-8' codec can't encode character '\\ud83d' in position 105179: surrogates not allowed"
+  },
+  {
+   "key": "toutiao:7650082060765315636|mobile_i|browser_text",
+   "error": "system error UnicodeEncodeError: 'utf-8' codec can't encode character '\\ud83d' in position 105379: surrogates not allowed"
+  }
+ ],
+ "weibo_audit": {
+  "posts_live": 11,
+  "posts_deleted": 1,
+  "posts_article": 4,
+  "systems": {
+   "naive_fetch": {
+    "n": 8,
+    "served_title_pct": 0.0,
+    "served_title_or_capture_pct": 0.0,
+    "served_title_or_capture_pct_skips_as_not_served": 0.0
+   },
+   "browser_text": {
+    "n": 52,
+    "served_title_pct": 28.846153846153847,
+    "served_title_or_capture_pct": 46.15384615384615,
+    "served_title_or_capture_pct_skips_as_not_served": 46.15384615384615
+   },
+   "reader_service": {
+    "n": 52,
+    "served_title_pct": 30.76923076923077,
+    "served_title_or_capture_pct": 50.0,
+    "served_title_or_capture_pct_skips_as_not_served": 50.0
+   },
+   "readproof_p0": {
+    "n": 52,
+    "served_title_pct": 0.0,
+    "served_title_or_capture_pct": 0.0,
+    "served_title_or_capture_pct_skips_as_not_served": 0.0
+   },
+   "readproof_p1": {
+    "n": 52,
+    "served_title_pct": 30.76923076923077,
+    "served_title_or_capture_pct": 53.84615384615385,
+    "served_title_or_capture_pct_skips_as_not_served": 53.84615384615385
+   }
+  }
+ },
+ "weak_fingerprints": [
+  {
+   "post_key": "youtube:rL5QEE27Si0",
+   "n_grams": 3,
+   "text": "Easy 5-Minute Breakfast"
+  },
+  {
+   "post_key": "x:2085335136774590795",
+   "n_grams": 3,
+   "text": "It's easy, nutritious, and delicious."
+  },
+  {
+   "post_key": "wechat:OQ1HxnAuWkzgI4H_7CykSw",
+   "n_grams": 3,
+   "text": "开源AI 2026"
+  }
+ ],
+ "reads": {
+  "bilibili|browser_text": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 128,
+   "seconds": 441.3
+  },
+  "bilibili|naive_fetch": {
+   "actual": 6,
+   "reused": 2,
+   "requests": 6,
+   "seconds": 23.1
+  },
+  "bilibili|reader_service": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 0,
+   "seconds": 991.8
+  },
+  "bilibili|readproof_p0": {
+   "actual": 16,
+   "reused": 48,
+   "requests": 30,
+   "seconds": 164.3
+  },
+  "bilibili|readproof_p1": {
+   "actual": 16,
+   "reused": 48,
+   "requests": 29,
+   "seconds": 125.0
+  },
+  "douyin|browser_text": {
+   "actual": 45,
+   "reused": 15,
+   "requests": 137,
+   "seconds": 1008.9
+  },
+  "douyin|naive_fetch": {
+   "actual": 9,
+   "reused": 3,
+   "requests": 15,
+   "seconds": 37.5
+  },
+  "douyin|reader_service": {
+   "actual": 49,
+   "reused": 11,
+   "requests": 0,
+   "seconds": 1071.9
+  },
+  "douyin|readproof_p0": {
+   "actual": 15,
+   "reused": 45,
+   "requests": 20,
+   "seconds": 199.2
+  },
+  "douyin|readproof_p1": {
+   "actual": 15,
+   "reused": 45,
+   "requests": 20,
+   "seconds": 154.4
+  },
+  "tiktok|browser_text": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 64,
+   "seconds": 507.5
+  },
+  "tiktok|naive_fetch": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 64,
+   "seconds": 314.0
+  },
+  "tiktok|reader_service": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 0,
+   "seconds": 826.5
+  },
+  "tiktok|readproof_p0": {
+   "actual": 32,
+   "reused": 32,
+   "requests": 56,
+   "seconds": 255.6
+  },
+  "tiktok|readproof_p1": {
+   "actual": 32,
+   "reused": 32,
+   "requests": 88,
+   "seconds": 356.7
+  },
+  "toutiao|browser_text": {
+   "actual": 43,
+   "reused": 14,
+   "requests": 131,
+   "seconds": 375.5
+  },
+  "toutiao|naive_fetch": {
+   "actual": 44,
+   "reused": 14,
+   "requests": 73,
+   "seconds": 359.2
+  },
+  "toutiao|reader_service": {
+   "actual": 56,
+   "reused": 8,
+   "requests": 0,
+   "seconds": 1115.7
+  },
+  "toutiao|readproof_p0": {
+   "actual": 14,
+   "reused": 42,
+   "requests": 44,
+   "seconds": 287.2
+  },
+  "toutiao|readproof_p1": {
+   "actual": 15,
+   "reused": 45,
+   "requests": 47,
+   "seconds": 287.8
+  },
+  "wechat|browser_text": {
+   "actual": 16,
+   "reused": 16,
+   "requests": 25,
+   "seconds": 164.0
+  },
+  "wechat|naive_fetch": {
+   "actual": 6,
+   "reused": 6,
+   "requests": 12,
+   "seconds": 37.9
+  },
+  "wechat|reader_service": {
+   "actual": 8,
+   "reused": 6,
+   "requests": 0,
+   "seconds": 73.1
+  },
+  "wechat|readproof_p0": {
+   "actual": 16,
+   "reused": 16,
+   "requests": 2,
+   "seconds": 1.4
+  },
+  "wechat|readproof_p1": {
+   "actual": 16,
+   "reused": 16,
+   "requests": 50,
+   "seconds": 250.6
+  },
+  "weibo|browser_text": {
+   "actual": 40,
+   "reused": 12,
+   "requests": 124,
+   "seconds": 359.5
+  },
+  "weibo|naive_fetch": {
+   "actual": 6,
+   "reused": 2,
+   "requests": 12,
+   "seconds": 44.7
+  },
+  "weibo|reader_service": {
+   "actual": 45,
+   "reused": 7,
+   "requests": 0,
+   "seconds": 864.2
+  },
+  "weibo|readproof_p0": {
+   "actual": 16,
+   "reused": 36,
+   "requests": 2,
+   "seconds": 1.2
+  },
+  "weibo|readproof_p1": {
+   "actual": 16,
+   "reused": 36,
+   "requests": 40,
+   "seconds": 318.0
+  },
+  "x|browser_text": {
+   "actual": 6,
+   "reused": 2,
+   "requests": 10,
+   "seconds": 69.3
+  },
+  "x|naive_fetch": {
+   "actual": 51,
+   "reused": 17,
+   "requests": 85,
+   "seconds": 258.3
+  },
+  "x|reader_service": {
+   "actual": 56,
+   "reused": 12,
+   "requests": 0,
+   "seconds": 746.1
+  },
+  "x|readproof_p0": {
+   "actual": 17,
+   "reused": 51,
+   "requests": 6,
+   "seconds": 14.1
+  },
+  "x|readproof_p1": {
+   "actual": 17,
+   "reused": 51,
+   "requests": 42,
+   "seconds": 58.0
+  },
+  "xiaohongshu|browser_text": {
+   "actual": 37,
+   "reused": 17,
+   "requests": 95,
+   "seconds": 324.6
+  },
+  "xiaohongshu|naive_fetch": {
+   "actual": 8,
+   "reused": 4,
+   "requests": 23,
+   "seconds": 60.4
+  },
+  "xiaohongshu|reader_service": {
+   "actual": 40,
+   "reused": 14,
+   "requests": 0,
+   "seconds": 696.3
+  },
+  "xiaohongshu|readproof_p0": {
+   "actual": 20,
+   "reused": 34,
+   "requests": 3,
+   "seconds": 5.9
+  },
+  "xiaohongshu|readproof_p1": {
+   "actual": 20,
+   "reused": 34,
+   "requests": 91,
+   "seconds": 303.8
+  },
+  "youtube|browser_text": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 80,
+   "seconds": 450.6
+  },
+  "youtube|naive_fetch": {
+   "actual": 48,
+   "reused": 16,
+   "requests": 80,
+   "seconds": 290.5
+  },
+  "youtube|reader_service": {
+   "actual": 51,
+   "reused": 13,
+   "requests": 0,
+   "seconds": 1002.0
+  },
+  "youtube|readproof_p0": {
+   "actual": 16,
+   "reused": 48,
+   "requests": 19,
+   "seconds": 53.1
+  },
+  "youtube|readproof_p1": {
+   "actual": 16,
+   "reused": 48,
+   "requests": 19,
+   "seconds": 32.5
+  }
+ },
+ "runs": [
+  {
+   "kind": "run",
+   "phase": "reads",
+   "run_id": "20261121T172053-11ae4d",
+   "started": "2026-11-21T09:20:53+00:00",
+   "readproof_commit": "3788ced",
+   "ended": "2026-11-21T09:22:31+00:00",
+   "seconds": 98.3,
+   "origin": "residential:MY",
+   "gap_s": 5.0,
+   "cap_per_platform": 300,
+   "systems": [
+    "naive_fetch",
+    "browser_text",
+    "reader_service",
+    "readproof_p0",
+    "readproof_p1"
+   ],
+   "platform_requests": {
+    "douyin": 17,
+    "xiaohongshu": 23
+   },
+   "domain_requests": {
+    "douyin.com": 13,
+    "xiaohongshu.com": 11,
+    "rednote.com": 12,
+    "iesdouyin.com": 4
+   },
+   "waited_s": 92,
+   "stats": {
+    "read": 22,
+    "requests:douyin": 17,
+    "requests:xiaohongshu": 23,
+    "reused": 18
+   },
+   "events": [],
+   "breaker_open": [],
+   "stopped": {}
+  },
+  {
+   "kind": "run",
+   "phase": "reads",
+   "run_id": "20261121T172404-efad49",
+   "started": "2026-11-21T09:24:04+00:00",
+   "readproof_commit": "3788ced",
+   "ended": "2026-11-21T09:28:56+00:00",
+   "seconds": 292.9,
+   "origin": "residential:MY",
+   "gap_s": 5.0,
+   "cap_per_platform": 300,
+   "systems": [
+    "naive_fetch",
+    "browser_text",
+    "reader_service",
+    "readproof_p0",
+    "readproof_p1"
+   ],
+   "platform_requests": {
+    "douyin": 52,
+    "xiaohongshu": 95,
+    "x": 62,
+    "bilibili": 60,
+    "toutiao": 52,
+    "weibo": 55,
+    "wechat": 40,
+    "youtube": 46,
+    "tiktok": 40
+   },
+   "precharged_from_earlier_runs_today": {
+    "douyin": 17,
+    "xiaohongshu": 23
+   },
+   "domain_requests": {
+    "x.com": 35,
+    "bilibili.com": 60,
+    "toutiao.com": 52,
+    "weibo.com": 17,
+    "qq.com": 40,
+    "youtube.com": 37,
+    "tiktok.com": 40,
+    "douyin.com": 25,
+    "xiaohongshu.com": 42,
+    "rednote.com": 30,
+    "twitter.com": 27,
+    "weibo.cn": 38,
+    "iesdouyin.com": 10,
+    "youtu.be": 9
+   },
+   "waited_s": 771,
+   "stats": {
+    "read": 282,
+    "requests:bilibili": 60,
+    "requests:toutiao": 52,
+    "requests:x": 62,
+    "requests:tiktok": 40,
+    "requests:youtube": 46,
+    "requests:xiaohongshu": 72,
+    "requests:wechat": 40,
+    "requests:weibo": 55,
+    "requests:douyin": 35,
+    "reused": 224,
+    "skipped:circuit_open": 34
+   },
+   "events": [
+    {
+     "ts": "2026-11-21T09:26:12+00:00",
+     "event": "circuit_open",
+     "platform": "bilibili",
+     "system": "naive_fetch",
+     "last": "challenge"
+    },
+    {
+     "ts": "2026-11-21T09:26:25+00:00",
+     "event": "circuit_open",
+     "platform": "x",
+     "system": "browser_text",
+     "last": "challenge"
+    },
+    {
+     "ts": "2026-11-21T09:26:58+00:00",
+     "event": "circuit_open",
+     "platform": "xiaohongshu",
+     "system": "naive_fetch",
+     "last": "login"
+    },
+    {
+     "ts": "2026-11-21T09:27:01+00:00",
+     "event": "circuit_open",
+     "platform": "weibo",
+     "system": "naive_fetch",
+     "last": "challenge"
+    },
+    {
+     "ts": "2026-11-21T09:28:34+00:00",
+     "event": "circuit_open",
+     "platform": "douyin",
+     "system": "naive_fetch",
+     "last": "challenge"
+    }
+   ],
+   "breaker_open": [
+    "bilibili/naive_fetch:challenge",
+    "x/browser_text:challenge",
+    "xiaohongshu/naive_fetch:login",
+    "weibo/naive_fetch:challenge",
+    "douyin/naive_fetch:challenge"
+   ],
+   "stopped": {}
+  },
+  {
+   "kind": "run",
+   "phase": "reads",
+   "run_id": "20261121T172904-25e5f2",
+   "started": "2026-11-21T09:29:04+00:00",
+   "readproof_commit": "3788ced",
+   "ended": "2026-11-21T09:51:50+00:00",
+   "seconds": 1365.8,
+   "origin": "residential:MY",
+   "gap_s": 5.0,
+   "cap_per_platform": 300,
+   "systems": [
+    "naive_fetch",
+    "browser_text",
+    "reader_service",
+    "readproof_p0",
+    "readproof_p1"
+   ],
+   "platform_requests": {
+    "douyin": 192,
+    "xiaohongshu": 216,
+    "bilibili": 193,
+    "toutiao": 295,
+    "x": 143,
+    "tiktok": 272,
+    "youtube": 198,
+    "wechat": 89,
+    "weibo": 178
+   },
+   "precharged_from_earlier_runs_today": {
+    "douyin": 52,
+    "xiaohongshu": 95,
+    "bilibili": 60,
+    "toutiao": 52,
+    "x": 62,
+    "tiktok": 40,
+    "youtube": 46,
+    "wechat": 40,
+    "weibo": 55
+   },
+   "domain_requests": {
+    "qq.com": 49,
+    "toutiao.com": 243,
+    "tiktok.com": 232,
+    "x.com": 47,
+    "xiaohongshu.com": 85,
+    "douyin.com": 96,
+    "youtube.com": 113,
+    "bilibili.com": 133,
+    "weibo.com": 39,
+    "twitter.com": 34,
+    "weibo.cn": 84,
+    "youtu.be": 39,
+    "rednote.com": 36,
+    "iesdouyin.com": 44
+   },
+   "waited_s": 6147,
+   "stats": {
+    "reused": 774,
+    "skipped:circuit_open": 288,
+    "read": 982,
+    "requests:weibo": 123,
+    "requests:xiaohongshu": 121,
+    "requests:x": 81,
+    "requests:bilibili": 133,
+    "requests:wechat": 49,
+    "requests:toutiao": 243,
+    "requests:youtube": 152,
+    "requests:tiktok": 232,
+    "requests:douyin": 140,
+    "skipped:request_cap": 25
+   },
+   "events": [
+    {
+     "ts": "2026-11-21T09:29:09+00:00",
+     "event": "circuit_open",
+     "platform": "wechat",
+     "system": "naive_fetch",
+     "last": "challenge"
+    },
+    {
+     "ts": "2026-11-21T09:30:27+00:00",
+     "event": "circuit_open",
+     "platform": "wechat",
+     "system": "reader_service",
+     "last": "challenge"
+    }
+   ],
+   "breaker_open": [
+    "douyin/naive_fetch:challenge",
+    "bilibili/naive_fetch:challenge",
+    "xiaohongshu/naive_fetch:login",
+    "x/browser_text:challenge",
+    "weibo/naive_fetch:challenge",
+    "wechat/naive_fetch:challenge",
+    "wechat/reader_service:challenge"
+   ],
+   "stopped": {}
+  }
+ ],
+ "trackK": {
+  "generated_by": "bench/trackK_run.py",
+  "date": "2026-11-21",
+  "readproof_commit": "3788ced",
+  "origin": "residential:MY",
+  "n_posts": 7,
+  "posts": [
+   "K01-douyin",
+   "K02-bilibili",
+   "K03-rednote-video",
+   "K04-rednote-images",
+   "K05-youtube",
+   "K06-tiktok",
+   "K07-x"
+  ],
+  "platforms": [
+   "bilibili",
+   "douyin",
+   "tiktok",
+   "x",
+   "xiaohongshu",
+   "youtube"
+  ],
+  "n_items": 28,
+  "channels": [
+   "speech",
+   "on_screen",
+   "caption",
+   "comment",
+   "image"
+  ],
+  "controls": 1,
+  "systems": [
+   "closed_book",
+   "naive_fetch"
+  ],
+  "counts": {
+   "closed_book": {
+    "caption": {
+     "abstained": 1
+    }
+   },
+   "naive_fetch": {
+    "caption": {
+     "abstained": 1
+    }
+   }
+  },
+  "totals": {
+   "closed_book": {
+    "abstained": 1
+   },
+   "naive_fetch": {
+    "abstained": 1
+   }
+  },
+  "answer_errors": {},
+  "reads": {
+   "K01-douyin": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": "soft_404",
+     "bytes": 1454484,
+     "visible_chars": 4884,
+     "seconds": 28.91,
+     "error": "navigation timeout 25s",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 3
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": "challenge",
+     "bytes": 72914,
+     "visible_chars": 0,
+     "seconds": 0.18,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 3872,
+     "visible_chars": 3819,
+     "seconds": 18.32,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": 200,
+     "wall": null,
+     "bytes": 145682,
+     "visible_chars": 157,
+     "seconds": 23.87,
+     "error": "",
+     "reader": "embed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2,
+      "image_text": 1
+     },
+     "requests": 6
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 937941,
+     "visible_chars": 515,
+     "seconds": 31.92,
+     "error": "",
+     "reader": "embed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2,
+      "speech": 13,
+      "on_screen": 5,
+      "image_text": 1
+     },
+     "requests": 6
+    }
+   },
+   "K02-bilibili": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": null,
+     "bytes": 1505695,
+     "visible_chars": 2643,
+     "seconds": 4.21,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 2
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 412,
+     "wall": "challenge",
+     "bytes": 3400,
+     "visible_chars": 108,
+     "seconds": 4.2,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 11913,
+     "visible_chars": 11596,
+     "seconds": 8.83,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": 200,
+     "wall": "challenge",
+     "bytes": 46076,
+     "visible_chars": 8,
+     "seconds": 19.14,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 4
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 1274422,
+     "visible_chars": 858,
+     "seconds": 52.61,
+     "error": "",
+     "reader": "page",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 5,
+      "speech": 13,
+      "on_screen": 5,
+      "image_text": 1
+     },
+     "requests": 9
+    }
+   },
+   "K03-rednote-video": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": "login",
+     "bytes": 92523,
+     "visible_chars": 68,
+     "seconds": 4.98,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 4
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": "login",
+     "bytes": 237650,
+     "visible_chars": 0,
+     "seconds": 8.43,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 2
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 715,
+     "visible_chars": 708,
+     "seconds": 3.85,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": null,
+     "wall": "policy",
+     "bytes": 0,
+     "visible_chars": 0,
+     "seconds": 0.19,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 1
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": "token",
+     "bytes": 791442,
+     "visible_chars": 225,
+     "seconds": 27.53,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 7
+    }
+   },
+   "K04-rednote-images": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": "login",
+     "bytes": 92523,
+     "visible_chars": 68,
+     "seconds": 12.25,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 4
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": "login",
+     "bytes": 237650,
+     "visible_chars": 0,
+     "seconds": 8.89,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 2
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 715,
+     "visible_chars": 708,
+     "seconds": 3.38,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": null,
+     "wall": "policy",
+     "bytes": 0,
+     "visible_chars": 0,
+     "seconds": 0.02,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 0
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": "token",
+     "bytes": 791442,
+     "visible_chars": 225,
+     "seconds": 14.51,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 5
+    }
+   },
+   "K05-youtube": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": null,
+     "bytes": 1884774,
+     "visible_chars": 183,
+     "seconds": 5.71,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 2
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": null,
+     "bytes": 1368192,
+     "visible_chars": 146,
+     "seconds": 9.45,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 2
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": "login",
+     "bytes": 4416,
+     "visible_chars": 4404,
+     "seconds": 16.64,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": 200,
+     "wall": null,
+     "bytes": 8420,
+     "visible_chars": 169,
+     "seconds": 10.34,
+     "error": "",
+     "reader": "oembed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2,
+      "image_text": 1
+     },
+     "requests": 4
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 8420,
+     "visible_chars": 169,
+     "seconds": 15.34,
+     "error": "",
+     "reader": "oembed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2,
+      "image_text": 1
+     },
+     "requests": 4
+    }
+   },
+   "K06-tiktok": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 200,
+     "wall": null,
+     "bytes": 660613,
+     "visible_chars": 539,
+     "seconds": 6.01,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": null,
+     "bytes": 516723,
+     "visible_chars": 0,
+     "seconds": 4.26,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 25395,
+     "visible_chars": 23473,
+     "seconds": 6.63,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": 200,
+     "wall": null,
+     "bytes": 865102,
+     "visible_chars": 1080,
+     "seconds": 41.71,
+     "error": "",
+     "reader": "page",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 3,
+      "speech": 6,
+      "on_screen": 5,
+      "image_text": 1
+     },
+     "requests": 9
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 869783,
+     "visible_chars": 1080,
+     "seconds": 46.54,
+     "error": "",
+     "reader": "page",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 3,
+      "speech": 6,
+      "on_screen": 5,
+      "image_text": 1
+     },
+     "requests": 9
+    }
+   },
+   "K07-x": {
+    "browser_text": {
+     "system": "browser_text",
+     "status": 403,
+     "wall": "challenge",
+     "bytes": 39,
+     "visible_chars": 0,
+     "seconds": 3.73,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "naive_fetch": {
+     "system": "naive_fetch",
+     "status": 200,
+     "wall": null,
+     "bytes": 100026,
+     "visible_chars": 1011,
+     "seconds": 4.88,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 1
+    },
+    "reader_service": {
+     "system": "reader_service",
+     "status": 200,
+     "wall": null,
+     "bytes": 2084,
+     "visible_chars": 2083,
+     "seconds": 3.55,
+     "error": "",
+     "reader": null,
+     "harness_served": null,
+     "records_per_channel": null,
+     "requests": 0
+    },
+    "readproof_p0": {
+     "system": "readproof_p0",
+     "status": null,
+     "wall": "policy",
+     "bytes": 0,
+     "visible_chars": 0,
+     "seconds": 6.33,
+     "error": "",
+     "reader": null,
+     "harness_served": false,
+     "records_per_channel": {},
+     "requests": 3
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 978,
+     "visible_chars": 229,
+     "seconds": 15.0,
+     "error": "",
+     "reader": "oembed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2
+     },
+     "requests": 5
+    }
+   }
+  },
+  "note": "Counts only. Post URLs, codes and answers are private until the answer key is published (bench/canary/COMMITMENT.md)."
+ }
+}

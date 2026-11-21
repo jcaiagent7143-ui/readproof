@@ -1,0 +1,4 @@
+# Full obtained page text of third-party posts (up to 30,000 characters per read) stays local: DESIGN.md §7 releases
+# third-party content only as IDs, URLs, hashes, spans and short quotes. Publish trackA_reads_public.jsonl instead
+# (written by bench/score.py). Remove a line here only after deciding the release question.
+trackA_reads.jsonl
