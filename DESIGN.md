@@ -127,7 +127,7 @@ Toutiao `/group/` vs `/article/` vs m.toutiao.com; Bilibili BV vs av, `?p=`, b23
 
 ## 8. Systems (`bench/systems/`)
 
-All model-using systems share one backbone per run (default `google/gemma-4-31b-it:free`, open weights).
+All model-using systems share one backbone per run (default `google/gemma-4-26b-a4b-it:free`, open weights).
 `closed_book` (question + URL string); `naive_fetch` (GET as shipped by common agent loaders, HTML→text, 20k chars);
 `reader_service` (r.jina.ai markdown); `browser_text` (headless Chromium innerText); `readproof` (ours, P1) and its
 ablations (−walls, −canonical, −speech, −on_screen, −verify, P0, datacenter origin); commercial assistants (manual
