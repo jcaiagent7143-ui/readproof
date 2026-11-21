@@ -500,9 +500,12 @@ same reading, logging and cost accounting.
 \begin{figure}[t]
 \centering
 \rpfigure{fig_bench}
-\caption{Building ReadProof-Bench. People capture gold in the official app, so building the benchmark needs
-no automated crawling of pages that robots.txt disallows. The canary panel's gold is exact by construction,
-and its codes are unguessable, so it skips the filters that third-party items need.}
+\caption{How ReadProof-Bench is built, as specified for all four tracks. This version runs two paths: Track~A,
+with seeds from web search, link forms from the generator and the search-result title as the reference
+fingerprint in place of human capture, and Track~K, whose gold is exact by construction and whose codes cannot be
+guessed, so it skips the filters that third-party items need. Human capture in the official app, the dual
+extractors, both filters and the hidden test answers serve Tracks~B and~C in the next version. No path needs
+automated crawling of pages that robots.txt disallows.}
 \label{fig:bench}
 \end{figure}
 

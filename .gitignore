@@ -16,3 +16,5 @@ paper/build/
 .DS_Store
 tools/bin/
 runs/
+
+paper/arxiv/
