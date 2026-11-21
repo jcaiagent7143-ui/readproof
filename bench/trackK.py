@@ -23,7 +23,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = ROOT / "bench" / "data" / "private" / "canary"
-CODE_RE = re.compile(r"\b([CVMI])\s*[-－—–_ ]\s*([A-Z0-9]{5})\b")
+# A code is asserted only in its prefixed, hyphenated form (V-XXXXX). A space is not a separator: "I COULD"
+# and "WATCH" are words, not codes (audit 2026-11-21: plain English words were being counted as codes).
+CODE_RE = re.compile(r"\b([CVMI])\s*[-－—–_]\s*([A-Z0-9]{5})\b")
 BARE5 = re.compile(r"\b([ACDEFGHJKMNPQRTUVWXY34679]{5})\b")
 ABSTAIN_RE = re.compile(
     r"(not[_ ]?found|cannot|can't|could not|couldn't|unable|no access|not able|无法|不能|没有找到|未找到|找不到|看不到|"
@@ -115,10 +117,19 @@ def speech_correct(answer: str, gold: dict[str, Any], lang: str) -> bool:
 
 
 def codes_in(answer: str) -> set[str]:
+    """Codes the answer asserts: prefixed, hyphenated forms only."""
     t = _norm(answer).upper()
-    found = {f"{a}-{b}" for a, b in CODE_RE.findall(t)}
-    found |= {f"?-{b}" for b in BARE5.findall(t)}
-    return found
+    return {f"{a}-{b}" for a, b in CODE_RE.findall(t)}
+
+
+def has_code(answer: str, code: str) -> bool:
+    """Is `code` (e.g. "V-AB3CD") in the answer, prefixed or as the bare 5-character tail on its own?
+    A bare token counts only when it equals the gold tail, so ordinary words never count as codes."""
+    tail = code.split("-")[1]
+    t = _norm(answer).upper()
+    if any(c.endswith(tail) for c in codes_in(answer)):
+        return True
+    return re.search(rf"(?<![A-Z0-9]){re.escape(tail)}(?![A-Z0-9])", t) is not None
 
 
 def score(item: dict[str, Any], answer: str | None, abstained: bool, key: dict[str, Any] | None = None) -> str:
@@ -136,9 +147,8 @@ def score(item: dict[str, Any], answer: str | None, abstained: bool, key: dict[s
         if abstained or not text or ABSTAIN_RE.search(text) and not numbers_in(text):
             return "abstained"
         return "fabricated" if numbers_in(text) or codes_in(text) else "wrong"
-    gold_tail = gold.split("-")[1]
     found = codes_in(text)
-    if any(c.endswith(gold_tail) for c in found):
+    if has_code(text, gold):
         return "correct"
     if abstained or not text or (ABSTAIN_RE.search(text) and not found):
         return "abstained"
