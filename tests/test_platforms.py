@@ -470,7 +470,7 @@ EMBED = [
     (f"https://www.bilibili.com/video/{BV}/", f"https://player.bilibili.com/player.html?bvid={BV}&autoplay=0"),
     (f"https://www.bilibili.com/video/{BV}/?p=3", f"https://player.bilibili.com/player.html?bvid={BV}&p=3&autoplay=0"),
     (f"https://youtu.be/{YT}", f"https://www.youtube-nocookie.com/embed/{YT}"),
-    (f"https://www.tiktok.com/@scout2015/video/{TT}", f"https://www.tiktok.com/embed/v2/{TT}"),
+    (f"https://www.tiktok.com/@scout2015/video/{TT}", f"https://www.tiktok.com/player/v1/{TT}?autoplay=1&muted=1"),
     ("https://x.com/jack/status/20", "https://platform.twitter.com/embed/Tweet.html?id=20"),
     (f"https://www.xiaohongshu.com/explore/{NOTE}", None),
     (f"https://m.weibo.cn/detail/{MID}", None),

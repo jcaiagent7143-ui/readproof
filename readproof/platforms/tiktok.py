@@ -103,7 +103,9 @@ class TikTokSpec(Spec):
         return self.with_short(out, known, text)
 
     def embed_url(self, ref: PostRef) -> str | None:
-        return f"https://www.tiktok.com/embed/v2/{ref.post_id}"
+        # The player TikTok's own oEmbed response advertises (2026-11-21). robots.txt disallows /embed/v2 for
+        # `User-agent: *` but not /player/v1, and on a live read /embed/v2 never started media while /player/v1 did.
+        return f"https://www.tiktok.com/player/v1/{ref.post_id}?autoplay=1&muted=1"
 
     def oembed_url(self, url: str) -> str | None:
         ref = self.parse(url)
