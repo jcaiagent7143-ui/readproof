@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use ReadProof or ReadProof-Bench, please cite the paper below."
+title: "ReadProof: an access-aware harness and benchmark for agentic search over social media"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/jcaiagent7143-ui/readproof"
+version: "0.1.0"
+date-released: "2026-11-22"
+authors:
+  - family-names: Chew
+    given-names: Loong Nian
+    affiliation: LinkDigest
+keywords:
+  - agentic search
+  - social media
+  - benchmark
+  - retrieval
+  - robots.txt
+  - grounding
+preferred-citation:
+  type: article
+  title: "Did the Agent Read It? ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes for Agentic Search over Social Media"
+  authors:
+    - family-names: Chew
+      given-names: Loong Nian
+      affiliation: LinkDigest
+  year: 2026
