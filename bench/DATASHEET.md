@@ -12,7 +12,7 @@
   Toutiao, X, WeChat articles), discovered on 2026-11-21 through public web search; up to four link forms per post
   (522 post × form items). Each item carries the post URL as found, its form, the platform, the search-result title used as the
   reference fingerprint, the topic domain and language. Released results contain no page text.
-- **Track K (planted canaries).** Seven posts published by the author on his own accounts (Douyin, Bilibili, RedNote video,
+- **Track K (planted canaries).** Seven posts published by the author on the author's own accounts (Douyin, Bilibili, RedNote video,
   RedNote image note, YouTube, TikTok, X) on 2026-11-21. Each hides random codes in exactly one channel: spoken only, on screen
   only, caption only, author comment only, or inside one image. The answer key was committed by SHA-256 before any system ran
   (bench/canary/COMMITMENT.md) and is published after evaluation; the media are released in full (the author holds the rights).
