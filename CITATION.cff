@@ -4,7 +4,14 @@ title: "ReadProof: an access-aware harness and benchmark for agentic search over
 type: software
 license: Apache-2.0
 repository-code: "https://github.com/jcaiagent7143-ui/readproof"
-version: "0.1.0"
+abstract: >-
+  ReadProof is an open-source harness and benchmark that measure whether an AI agent actually reads the
+  social-media post a user links (Douyin, Xiaohongshu/RedNote, Bilibili, YouTube, TikTok, Weibo, Toutiao, X,
+  WeChat), under access rules enforced in code: declared identity, no cookies, no captcha solving or signature
+  generation, robots.txt and Content-Signal evaluated on every request. It returns typed walls instead of page
+  text, channel-located evidence (speech, on-screen text, captions, comments) and quotes verified in code.
+  ReadProof-Bench v1 has Track A (145 posts, 522 link forms) and Track K (planted canaries).
+version: "0.1.1"
 date-released: "2026-11-21"
 authors:
   - family-names: Chew
