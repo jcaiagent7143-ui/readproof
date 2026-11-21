@@ -14,3 +14,4 @@ paper/build/
 *.bbl
 *.blg
 .DS_Store
+tools/bin/

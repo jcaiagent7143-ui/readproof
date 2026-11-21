@@ -1,0 +1,1151 @@
+[
+ {
+  "id": "douyin-bytedance-verify-live",
+  "file": "bytedance_verify.real.html",
+  "url": "https://www.douyin.com/video/7664299952662777098",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html",
+   "server": "Tengine"
+  },
+  "bytes": 72914,
+  "expect": {
+   "wall": "challenge",
+   "rule": "douyin:bytedance-verify",
+   "marker": "byted_acrawler",
+   "visible_chars": 0
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (72,914 bytes, sha256 9b56a6ac…e309e)"
+ },
+ {
+  "id": "toutiao-bytedance-verify-live",
+  "file": "bytedance_verify.real.html",
+  "url": "https://www.toutiao.com/article/7709705250554266155/",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html",
+   "server": "volc-dcdn"
+  },
+  "bytes": 72914,
+  "expect": {
+   "wall": "challenge",
+   "rule": "toutiao:bytedance-verify",
+   "marker": "byted_acrawler",
+   "visible_chars": 0
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (byte-identical to Douyin's)"
+ },
+ {
+  "id": "bilibili-risk-captcha-live",
+  "file": "bilibili_risk_captcha.real.html",
+  "url": "https://www.bilibili.com/video/BV1JE411g7XF/",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "bytes": 1374,
+  "expect": {
+   "wall": "challenge",
+   "rule": "bilibili:risk-captcha",
+   "marker": "验证码_哔哩哔哩"
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (voucher id redacted)"
+ },
+ {
+  "id": "xhs-rednote-login-302-live",
+  "file": "xhs_rednote_login_302.real.html",
+  "url": "https://www.rednote.com/explore/69de07d8000000002103b4fd",
+  "status": 302,
+  "headers": {
+   "content-type": "text/html; charset=utf-8",
+   "server": "TencentEdgeOne",
+   "location": "https://www.rednote.com/login?redirectPath=http%3A%2F%2Fwww.rednote.com%2Fexplore%2F69de07d8000000002103b4fd%3FexSource%3Dnull"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "xhs:login-interstitial",
+   "marker": "/login",
+   "wraps": "69de07d8000000002103b4fd"
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (whole 149-byte body)"
+ },
+ {
+  "id": "weibo-visitor-system-live",
+  "file": "weibo_sina_visitor.real.html",
+  "url": "https://weibo.com/1642904381/RlylI8KlM",
+  "final_url": "https://passport.weibo.com/visitor/visitor?entry=miniblog&a=enter&url=https%3A%2F%2Fweibo.com%2F1642904381%2FRlylI8KlM&domain=weibo.com&_rand=0",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html",
+   "server": "APISIX/3.14.1"
+  },
+  "bytes": 9606,
+  "expect": {
+   "wall": "challenge",
+   "rule": "weibo:visitor-system",
+   "marker": "Sina Visitor System"
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (inline visitor script cut)"
+ },
+ {
+  "id": "wechat-param-error-live",
+  "file": "wechat_param_error.real.html",
+  "url": "https://mp.weixin.qq.com/s/ReadProofFixture000000001",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=UTF-8"
+  },
+  "bytes": 32067,
+  "expect": {
+   "wall": "deleted",
+   "rule": "wechat:param-error",
+   "marker": "参数错误"
+  },
+  "source": "live capture 2026-11-21, ReadProof UA, no cookies, residential MY; trimmed (message box and a11y spans kept)"
+ },
+ {
+  "id": "generic-transport-error",
+  "body": "",
+  "url": "https://example.com/post/1",
+  "status": null,
+  "error": "ConnectTimeout: timed out",
+  "expect": {
+   "wall": "network",
+   "rule": "generic:transport",
+   "marker": null
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-429",
+  "body": "Too Many Requests",
+  "url": "https://example.com/post/1",
+  "status": 429,
+  "headers": {
+   "retry-after": "30"
+  },
+  "expect": {
+   "wall": "rate_limited",
+   "rule": "generic:http-429"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-404",
+  "body": "<h1>Not Found</h1>",
+  "url": "https://example.com/post/1",
+  "status": 404,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "generic:http-404"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-410",
+  "body": "gone",
+  "url": "https://example.com/post/1",
+  "status": 410,
+  "expect": {
+   "wall": "deleted",
+   "rule": "generic:http-410"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-401",
+  "body": "unauthorized",
+  "url": "https://example.com/post/1",
+  "status": 401,
+  "expect": {
+   "wall": "login",
+   "rule": "generic:http-401"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-451",
+  "body": "unavailable for legal reasons",
+  "url": "https://example.com/post/1",
+  "status": 451,
+  "expect": {
+   "wall": "region",
+   "rule": "generic:http-451"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-login-redirect",
+  "file": "generic_article.html",
+  "url": "https://example.com/post/1",
+  "final_url": "https://example.com/login?next=%2Fpost%2F1",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "generic:login-redirect",
+   "marker": "/login"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-home-redirect",
+  "file": "generic_article.html",
+  "url": "https://example.com/post/1",
+  "final_url": "https://example.com/",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "soft_404",
+   "rule": "generic:home-redirect"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-404-redirect",
+  "body": "<p>not here</p>",
+  "url": "https://example.com/post/1",
+  "final_url": "https://example.com/404",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "generic:not-found-redirect"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-redirect-not-followed",
+  "body": "",
+  "url": "https://example.com/post/1",
+  "status": 301,
+  "headers": {
+   "location": "https://example.com/post/2"
+  },
+  "expect": {
+   "wall": "unknown",
+   "rule": "generic:redirect-not-followed"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-cloudflare-header",
+  "file": "generic_cloudflare_challenge.html",
+  "url": "https://example.com/post/1",
+  "status": 403,
+  "headers": {
+   "content-type": "text/html; charset=utf-8",
+   "cf-mitigated": "challenge",
+   "server": "cloudflare"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "generic:challenge",
+   "marker": "cloudflare:cf-mitigated"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-cloudflare-page",
+  "file": "generic_cloudflare_challenge.html",
+  "url": "https://example.com/post/1",
+  "status": 503,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "generic:challenge",
+   "marker": "Just a moment"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-akamai",
+  "file": "generic_akamai_denied.html",
+  "url": "https://example.com/post/1",
+  "status": 403,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "generic:challenge",
+   "marker": "Access Denied"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-tencent-captcha",
+  "file": "generic_tencent_captcha.html",
+  "url": "https://example.com/post/1",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "generic:challenge",
+   "marker": "安全验证"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-403-plain",
+  "body": "forbidden",
+  "url": "https://example.com/post/1",
+  "status": 403,
+  "expect": {
+   "wall": "challenge",
+   "rule": "generic:http-403-refused"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-500",
+  "body": "oops",
+  "url": "https://example.com/post/1",
+  "status": 502,
+  "expect": {
+   "wall": "network",
+   "rule": "generic:http-502"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-400",
+  "body": "bad request",
+  "url": "https://example.com/post/1",
+  "status": 400,
+  "expect": {
+   "wall": "unknown",
+   "rule": "generic:http-400"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-empty-spa-shell",
+  "file": "generic_spa_shell.html",
+  "url": "https://example.com/post/1",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "empty",
+   "rule": "generic:empty",
+   "visible_chars": 0
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-served-article",
+  "file": "generic_article.html",
+  "url": "https://example.com/post/1",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "served"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "generic-media",
+  "body": "\u0000\u0000\u0000 ftypisom",
+  "url": "https://cdn.example.com/v.mp4",
+  "status": 200,
+  "headers": {
+   "content-type": "video/mp4"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "served:media"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-player-self-see",
+  "file": "douyin_player_self_see.json",
+  "url": "https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7400000000000000001",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "spec": "douyin",
+  "expect": {
+   "wall": "self_visible",
+   "rule": "douyin:filter",
+   "marker": "status_self_see"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-player-core-dep",
+  "file": "douyin_player_core_dep.json",
+  "url": "https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7400000000000000002",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "spec": "douyin",
+  "expect": {
+   "wall": "unknown",
+   "rule": "douyin:player-declined",
+   "marker": "core_dep"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-player-served",
+  "file": "douyin_player_served.json",
+  "url": "https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7400000000000000003",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "spec": "douyin",
+  "expect": {
+   "wall": null,
+   "rule": "douyin:aweme-detail"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-player-cannot-play",
+  "file": "douyin_player_cannot_play.html",
+  "url": "https://open.douyin.com/player/video?vid=7131994530479377695&autoplay=0",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "app_only",
+   "rule": "douyin:player-cannot-play",
+   "marker": "当前内容无法播放"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-security-refusal",
+  "body": "Blocked by ArgusSecurityPlugin",
+  "url": "https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7400000000000000004",
+  "status": 403,
+  "headers": {
+   "content-type": "text/plain"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "douyin:security-refusal",
+   "marker": "ArgusSecurityPlugin"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "douyin-gone",
+  "file": "douyin_gone.html",
+  "url": "https://www.douyin.com/video/7400000000000000005",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "douyin:gone",
+   "marker": "你要观看的视频不存在"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "toutiao-render-data",
+  "file": "toutiao_render_data.html",
+  "url": "https://www.toutiao.com/article/7709705250554266155/",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "toutiao:render-data"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "toutiao-gone",
+  "file": "toutiao_gone.html",
+  "url": "https://www.toutiao.com/article/7709705250554266155/",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "toutiao:gone",
+   "marker": "页面不存在"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-captcha",
+  "body": "",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd?xsec_token=CB=&xsec_source=pc_share",
+  "final_url": "https://www.xiaohongshu.com/website-login/captcha?redirectPath=x",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "xhs:captcha",
+   "marker": "/website-login/captcha"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-300031-with-token",
+  "body": "<html><body></body></html>",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd?xsec_token=CB=&xsec_source=pc_share",
+  "final_url": "https://www.xiaohongshu.com/404/sec_OAWUWluk?error_code=300031&error_msg=%E5%BD%93%E5%89%8D%E7%AC%94%E8%AE%B0%E6%9A%82%E6%97%B6%E6%97%A0%E6%B3%95%E6%B5%8F%E8%A7%88",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "app_only",
+   "rule": "xhs:300031",
+   "marker": "error_code=300031"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-300031-tokenless",
+  "body": "<html><body></body></html>",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd",
+  "final_url": "https://www.xiaohongshu.com/404/sec_OAWUWluk?error_code=300031",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "token",
+   "rule": "xhs:300031-tokenless",
+   "marker": "300031"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-300031-rednote-untrusted",
+  "body": "<html><body></body></html>",
+  "url": "https://www.rednote.com/discovery/item/69de07d8000000002103b4fd?xsec_token=CB=",
+  "final_url": "https://www.rednote.com/404/sec_NkaGqLNa?error_code=300031",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "unknown",
+   "rule": "xhs:300031-rednote-untrusted"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-300013",
+  "body": "",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd?xsec_token=CB=",
+  "final_url": "https://www.xiaohongshu.com/404?error_code=300013",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "rate_limited",
+   "rule": "xhs:300013"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-page-gone-tokenless",
+  "file": "xhs_page_gone.html",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "token",
+   "rule": "xhs:page-gone-tokenless",
+   "marker": "页面不见了"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-page-gone-with-token",
+  "file": "xhs_page_gone.html",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd?xsec_token=CB=",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "xhs:page-gone",
+   "marker": "页面不见了"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-feed-redirect",
+  "body": "<html><head><title>小红书 - 你的生活兴趣社区</title></head><body></body></html>",
+  "url": "https://www.xiaohongshu.com/discovery/item/69de07d8000000002103b4fd?xsec_token=CB=",
+  "final_url": "https://www.xiaohongshu.com/explore?exSource=null",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "soft_404",
+   "rule": "xhs:feed-redirect"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "xhs-note-payload",
+  "file": "xhs_note_payload.html",
+  "url": "https://www.xiaohongshu.com/explore/69de07d8000000002103b4fd?xsec_token=CB=",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "xhs:note-payload"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "bilibili-api-missing",
+  "file": "bilibili_api_missing.json",
+  "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1AvhjtcxH6",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8",
+   "bili-status-code": "-404"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "bilibili:not-found",
+   "marker": "code=-404"
+  },
+  "source": "shape confirmed live 2026-11-21 (46 bytes), fixture written by hand"
+ },
+ {
+  "id": "bilibili-api-risk",
+  "file": "bilibili_api_risk.json",
+  "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1JE411g7XF",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "bilibili:risk-refused",
+   "marker": "code=-412"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "bilibili-api-uploader-only",
+  "file": "bilibili_api_uploader_only.json",
+  "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1JE411g7XF",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": "self_visible",
+   "rule": "bilibili:uploader-only",
+   "marker": "code=62012"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "bilibili-api-region",
+  "file": "bilibili_api_region.json",
+  "url": "https://api.bilibili.com/pgc/player/web/playurl?ep_id=1",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": "region",
+   "rule": "bilibili:region",
+   "marker": "code=-10403"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "bilibili-api-ok",
+  "file": "bilibili_api_ok.json",
+  "url": "https://api.bilibili.com/x/web-interface/view?bvid=BV1JE411g7XF",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "bilibili:ok"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "bilibili-412-page",
+  "file": "bilibili_412.html",
+  "url": "https://www.bilibili.com/video/BV1JE411g7XF/",
+  "status": 412,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "bilibili:412",
+   "marker": "由于触发哔哩哔哩安全风控策略"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-unavailable",
+  "file": "youtube_unavailable.html",
+  "url": "https://www.youtube.com/watch?v=aaaaaaaaaaa",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "youtube:unavailable",
+   "marker": "Video unavailable"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-bot-check",
+  "file": "youtube_bot_check.html",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "youtube:bot-check",
+   "marker": "not a bot"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-private",
+  "file": "youtube_private.html",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "self_visible",
+   "rule": "youtube:private",
+   "marker": "private"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-age",
+  "file": "youtube_age.html",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "youtube:login-required",
+   "marker": "LOGIN_REQUIRED"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-region",
+  "file": "youtube_region.html",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "region",
+   "rule": "youtube:region",
+   "marker": "country"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-playable",
+  "file": "youtube_playable.html",
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "youtube:playable"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "youtube-oembed-401",
+  "body": "Unauthorized",
+  "url": "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdQw4w9WgXcQ&format=json",
+  "status": 401,
+  "expect": {
+   "wall": "unknown",
+   "rule": "youtube:oembed-unauthorized"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "tiktok-served",
+  "file": "tiktok_served.html",
+  "url": "https://www.tiktok.com/@scout2015/video/6718335390845095173",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "tiktok:item"
+  },
+  "source": "shape of the live 2026-11-21 page (statusCode 0), written by hand"
+ },
+ {
+  "id": "tiktok-not-found",
+  "file": "tiktok_not_found.html",
+  "url": "https://www.tiktok.com/@someone/video/7000000000000000001",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "tiktok:not-found",
+   "marker": "statusCode=10204"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "tiktok-private",
+  "file": "tiktok_private.html",
+  "url": "https://www.tiktok.com/@someone/video/7000000000000000002",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "self_visible",
+   "rule": "tiktok:private",
+   "marker": "statusCode=10216"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "tiktok-app-shell",
+  "file": "tiktok_shell.html",
+  "url": "https://www.tiktok.com/@someone/video/7000000000000000003",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "empty",
+   "rule": "generic:empty"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "tiktok-product-page",
+  "body": "<html><head><title>TikTok Shop</title></head><body>product</body></html>",
+  "url": "https://www.tiktok.com/@someone/video/7000000000000000004",
+  "final_url": "https://www.tiktok.com/view/product/1729000000000000000",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "unsupported",
+   "rule": "tiktok:product-page"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "weibo-visitor-302",
+  "body": "",
+  "url": "https://weibo.com/1642904381/RlylI8KlM",
+  "status": 302,
+  "headers": {
+   "location": "https://passport.weibo.com/visitor/visitor?entry=miniblog&a=enter&url=https%3A%2F%2Fweibo.com%2F1642904381%2FRlylI8KlM&domain=weibo.com&_rand=0"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "weibo:visitor-system"
+  },
+  "source": "Location as captured live 2026-11-21 (UA echo removed)"
+ },
+ {
+  "id": "weibo-sign-in",
+  "body": "",
+  "url": "https://m.weibo.cn/detail/5351369302084798",
+  "final_url": "https://passport.weibo.cn/signin/login?r=https%3A%2F%2Fm.weibo.cn%2Fdetail%2F5351369302084798",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "weibo:sign-in"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "weibo-gone",
+  "file": "weibo_gone.html",
+  "url": "https://m.weibo.cn/detail/5100000000000000",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "weibo:gone",
+   "marker": "该微博不存在"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "weibo-author-setting",
+  "file": "weibo_author_setting.html",
+  "url": "https://m.weibo.cn/detail/5351369302084798",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "self_visible",
+   "rule": "weibo:author-setting",
+   "marker": "由于作者设置"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "weibo-render-data",
+  "file": "weibo_render_data.html",
+  "url": "https://m.weibo.cn/detail/5351369302084798",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "weibo:render-data"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "weibo-api-refused",
+  "file": "weibo_api_refused.json",
+  "url": "https://m.weibo.cn/statuses/show?id=RlylI8KlM",
+  "status": 200,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "weibo:api-refused",
+   "marker": "errno=100015"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "x-served-with-login-sidebar",
+  "file": "x_served.html",
+  "url": "https://x.com/someone/status/1234567890123456789",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "x:post-title"
+  },
+  "source": "structure of the live 2026-11-21 page, written by hand"
+ },
+ {
+  "id": "x-login-interstitial",
+  "body": "",
+  "url": "https://x.com/someone/status/1234567890123456789",
+  "final_url": "https://x.com/i/flow/login?redirect_after_login=%2Fsomeone%2Fstatus%2F1234567890123456789",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "x:login-interstitial",
+   "marker": "/i/flow/login"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "x-not-found",
+  "file": "x_not_found.html",
+  "url": "https://x.com/someone/status/1234567890123456789",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "x:gone",
+   "marker": "doesn’t exist"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "x-protected",
+  "file": "x_protected.html",
+  "url": "https://x.com/someone/status/1234567890123456789",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "x:protected",
+   "marker": "protected"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "x-oembed-404",
+  "body": "{\"error\":\"not found\"}",
+  "url": "https://publish.twitter.com/oembed?url=https%3A%2F%2Ftwitter.com%2Fsomeone%2Fstatus%2F1",
+  "status": 404,
+  "headers": {
+   "content-type": "application/json; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "generic:http-404"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "wechat-captcha-redirect",
+  "body": "",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzA3MDU4NTYzMw==&mid=2650000001&idx=1&sn=abc",
+  "final_url": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=x&target_url=y",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "wechat:captcha"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "wechat-environment",
+  "file": "wechat_environment.html",
+  "url": "https://mp.weixin.qq.com/s/AbCdEfGhIjKlMnOpQrStUv",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "challenge",
+   "rule": "wechat:environment-check",
+   "marker": "环境异常"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "wechat-deleted",
+  "file": "wechat_deleted.html",
+  "url": "https://mp.weixin.qq.com/s/AbCdEfGhIjKlMnOpQrStUv",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "deleted",
+   "rule": "wechat:removed",
+   "marker": "该内容已被发布者删除"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "wechat-link-expired",
+  "file": "wechat_link_expired.html",
+  "url": "https://mp.weixin.qq.com/s?__biz=MzA3MDU4NTYzMw==&mid=1&idx=1&sn=x",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "token",
+   "rule": "wechat:link-expired",
+   "marker": "链接已过期"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "wechat-article-hidden-until-scripts",
+  "file": "wechat_article.html",
+  "url": "https://mp.weixin.qq.com/s/AbCdEfGhIjKlMnOpQrStUv",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": null,
+   "rule": "wechat:article"
+  },
+  "source": "synthetic"
+ },
+ {
+  "id": "linkedin-authwall",
+  "body": "",
+  "url": "https://www.linkedin.com/posts/someone_title-activity-7260000000000000000-AbCd",
+  "final_url": "https://www.linkedin.com/authwall?trk=gf&sessionRedirect=x",
+  "status": 200,
+  "headers": {
+   "content-type": "text/html; charset=utf-8"
+  },
+  "expect": {
+   "wall": "login",
+   "rule": "linkedin:authwall",
+   "marker": "/authwall"
+  },
+  "source": "synthetic"
+ }
+]
