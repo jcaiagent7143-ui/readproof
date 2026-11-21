@@ -8,7 +8,7 @@ the posts went live (posts.json). Every answer is scored into one of four outcom
   abstained   the system said it could not find or read it
   wrong       anything else (an answer with no code at all)
 
-Speech codes are compared by toneless pinyin so a homophone spelling (骆驼 heard as 落陀) still proves the audio
+Speech codes are compared by toneless pinyin so a homophone spelling (海豚 heard as 海屯) still proves the audio
 was transcribed; English speech codes are compared as lower-case words. Numbers may be written in digits,
 Chinese numerals or English words.
 """

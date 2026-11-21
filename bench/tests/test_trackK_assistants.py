@@ -9,7 +9,7 @@ KEY = {"posts": {
            "codes": {"speech": {"words": ["amber", "falcon"], "number": 42}, "on_screen": "V-ACDEF",
                      "caption": "C-GHJKM", "comment": "M-NPQRT"}},
     "P4": {"platform": "xiaohongshu", "kind": "images", "lang": "zh",
-           "codes": {"speech": {"words": ["骆驼", "星星"], "number": 17}, "image": "I-UVWXY", "caption": "C-34679",
+           "codes": {"speech": {"words": ["海豚", "星星"], "number": 17}, "image": "I-UVWXY", "caption": "C-34679",
                      "comment": "M-AC3D4"}},
 }}
 

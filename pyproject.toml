@@ -10,11 +10,12 @@ dependencies = ["httpx>=0.27"]
 
 [project.optional-dependencies]
 browser = ["playwright>=1.48"]
-mcp = ["mcp>=1.2"]
+mcp = ["mcp>=2.3"]
 dev = ["pytest>=8"]
 
 [project.scripts]
 readproof = "readproof.cli:main"
+readproof-mcp = "readproof.mcp_server:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,0 +1,200 @@
+\section{Experimental setup}\label{sec:setup}
+
+\paragraph{Runs.}
+All reads were made on 21 November 2026 from one residential connection in Malaysia. A shared scheduler kept at
+least five seconds between any two requests our process sent to the same registrable domain, across systems; a
+circuit breaker paused a (platform, system) pair for the rest of the run after six consecutive challenge, login or
+rate-limit answers; and no platform received more than 300 requests in a run. Each system read each link form
+once; the harness's own rule allows one retry, with the same identity, after a 429 or a 5xx.
+
+\paragraph{Systems.}
+All systems that answer use the same backbone and see at most 20{,}000 characters of obtained text.
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+\item \textbf{Closed book}: the model receives the question and the link as a string.
+\item \textbf{Plain fetch}: one HTTP GET that follows redirects, with the client library's default user agent as
+  it ships; the visible text goes to the model. This is how common agent loaders read a page.
+\item \textbf{Headless browser}: Chromium with its default user agent and locale and a fresh context per link;
+  navigation with a 25-second timeout and a 3-second settle, then the page's \texttt{innerText}.
+\item \textbf{Reader service}: the Jina Reader (\texttt{r.jina.ai}), which fetches the page with its own identity
+  and returns markdown.
+\item \textbf{ReadProof P1 and P0}: the harness (Section~\ref{sec:harness}) under the user-initiated and the
+  strict profile, answering with read--verify--count (Section~\ref{sec:method}).
+\item \textbf{Ablations} of P1: without walls (the text of a wall page is passed to the model as a plain fetch
+  would), without verification, and without the speech or the on-screen channel.
+\item \textbf{Commercial assistants} (Track~K only): ChatGPT, Gemini, Perplexity, Tencent Yuanbao and Qwen, asked in
+  their default web modes between 18:21 and 18:34 MYT, one new chat per post, with the question in the post's
+  language and an instruction to say so plainly if the post could not be read. Copilot, DeepSeek, Doubao, Kimi and
+  Grok could not be used without signing in and were skipped; no account was created.
+\end{itemize}
+
+\paragraph{Backbone.}
+Every answer-dependent run uses \texttt{baidu/ernie-5.5-flash-preview} through OpenRouter's free tier at
+temperature 0; the open-weight Gemma~4 endpoints we had planned to use were rate-limited upstream that day. Model
+spend was zero. Model answers and the SHA-256 of every request are released, so the scoring can be re-run on the
+released answers; full prompts are released for Track~K once its answer key is published, and the code regenerates
+every prompt from the reads.
+
+\paragraph{Metrics.}
+\emph{Coverage} is the share of post--form items a system serves; an item a circuit breaker skipped counts as not
+served, and coverage over attempted items is reported alongside. The title fingerprint is in the post's language,
+so a page that holds the post in machine translation cannot match it. We therefore also count a read as served
+\emph{in other words} when the page is not a wall, names the post's own identifier (in its final URL or text), and
+was described as a post by the backbone when asked what the post is about. This is the headline measure for
+comparing systems; it leaves ReadProof's numbers unchanged and raises the baselines'. The \emph{honesty penalty} is
+coverage under P1 minus coverage under P0 on the same items. For the \emph{answer-from-wall} probe, every read whose
+page the wall detector labels a wall and whose text holds fewer than 20\% of the fingerprint's grams is asked ``What
+is this post about?'' through the system's own answer path. A reply that describes a post is an answer from a wall;
+a reply that only says what the page is (a fixed rule in code matches phrases such as ``listing page'' or ``not a
+single post'', and every match is listed in the released summary) is counted apart. Track~K outcomes are correct,
+fabricated (a code that is not the gold one), abstained or wrong. Intervals are 95\% paired bootstrap intervals with
+10{,}000 resamples over items, and over posts where stated.
+
+% =====================================================================================
+\section{Results}\label{sec:results}
+
+\input{tables/trackA_access}
+
+\paragraph{Coverage.}
+ReadProof under the user-initiated profile served 81.8\% of the 522 post--form items [78.4, 85.1]. Counting pages
+that hold the post in other words, the headless browser served 66.5\% [62.3, 70.5], the reader service 64.9\%
+[60.8, 69.0] and the plain fetch 25.4\% [21.6, 29.2]; by the title fingerprint alone, the browser and the reader
+service served 51.9\% and 51.8\% (Table~\ref{tab:trackA-access}). The paired differences are $+15.0$ points over the
+headless browser [10.6, 19.4], $+16.9$ over the reader service [12.3, 21.4] and $+56.1$ over the plain fetch [51.8,
+60.5]; clustered by post, [6.8, 23.1], [9.0, 25.0] and [47.7, 64.6]. Over the reads each system actually attempted,
+which leaves out the 60 X reads the circuit breaker skipped for the headless browser after six HTTP 403 answers, the
+lead over the browser is $+4.3$ points [0.5, 8.4].
+
+No reader wins on every platform. ReadProof's lead comes from Douyin, which it reads through the official player
+(93.3\%) while the headless browser lands on Douyin's featured feed instead of the post on 24 of 60 forms (38.3\%);
+from X, which answers the headless browser with HTTP 403 and ReadProof's oEmbed request with the post (94.1\%); from
+Xiaohongshu, where the reader service received the RedNote login page for every link and ReadProof, like the headless
+browser, read the note page on \texttt{rednote.com} (92.9\%); from Weibo; and, against the reader service only,
+from WeChat. On Bilibili the order
+reverses: the platform's risk control challenged the declared agent on 24 of 64 forms (62.5\% served), while it
+sent the headless browser, which has no Chinese locale, and the reader service to an English machine translation of
+the post (98.4\% and 93.8\% in other words). A plain request to Douyin returned a 72{,}914-byte verification page with
+no visible text, and Toutiao returned the same page or a 4.9\,KB shell holding only the site's name; Bilibili
+answered the library's user agent with HTTP 412, Weibo with its visitor system and WeChat with an ``abnormal
+environment'' page. Weibo is the weakest platform for every system: ReadProof served 38.5\% by title fingerprint and
+76.9\% against the audited capture of each post's opening words, against 46.2\% and 50.0\% for the headless browser
+and the reader service by the same capture.
+
+\paragraph{The honesty penalty.}
+Under the strict profile ReadProof served 55.1\% [50.8, 59.4]: obeying robots.txt as a declared agent that the files
+do not name costs 26.7 points of coverage [22.0, 31.4] (by post, [18.2, 35.4]) and puts the declared reader below the
+headless browser and the reader service, which do not read robots.txt. The strict profile refused 222 of its 522
+reads by policy (42.5\%). Xiaohongshu, Weibo, WeChat and X disallow every path to unnamed agents, so they fall to
+zero; \texttt{publish.twitter.com} also disallows its oEmbed endpoint. TikTok fell from 93.8\% to 70.3\% because the
+mobile host's \texttt{robots.txt} answered with a 502, which RFC~9309 treats as ``disallow all'' \citep{rfc9309};
+TikTok's main host disallows \texttt{/embed/v2} but not \texttt{/player/v1}. Douyin's \texttt{robots.txt} has no group
+for unnamed agents, so it costs nothing. On Bilibili the strict profile happened to score higher (81.2\% against
+62.5\%): the same declared user agent met the risk challenge on 12 forms in the strict run and on 24 in the
+user-initiated run, which is variance in the platform's answer, not an effect of policy.
+
+\input{tables/trackA_fabrication}
+
+\paragraph{Answering from a wall.}
+With this backbone we observed no answer from a wall (Table~\ref{tab:trackA-fabrication}). Of the 146 wall pages the
+three baselines obtained, the backbone replied NOT\_FOUND to 132. On 13 Douyin pages that showed the headless browser
+the platform's featured feed, it said in words that the page was a listing page rather than a single post. Once it
+described the right video from a YouTube page that the reader service flagged as unauthorized but that still carried
+the video's title in translation. Without ReadProof's wall rule, the backbone was given the text of P1's 69 wall
+pages (challenge, deleted-post, self-visible and token pages) and declined every one. The typed walls therefore had
+no fabrication to prevent here; what they add is a cause the caller can act on, obtained without a model call.
+Whether other backbones answer from walls is left to the robustness run. Pages that hold the post in other words (52
+Bilibili pages in English for the headless browser and 55 for the reader service, and machine-translated YouTube
+titles) are counted as served above, not as walls.
+
+\input{tables/trackK_channels}
+
+\paragraph{Channels.}
+On the 28 Track~K items, ReadProof under P1 returned 9 correct codes and under P0 8, against 5 for the reader
+service, 3 for the headless browser, 3 for the plain fetch and 1 for the closed-book model, whose one correct answer
+is the abstention on the absent-channel control (Table~\ref{tab:trackK-channels}). No system fabricated a code.
+ReadProof returned the on-screen codes of the Bilibili and TikTok canaries and the spoken code of the English TikTok
+canary, through local speech and on-screen text recognition; removing either channel removed exactly the codes it
+carried. It transcribed the speech of the two Chinese videos (Bilibili under both profiles, Douyin under whichever profile its player served) but did
+not return their spoken codes; we have not diagnosed whether recognition or retrieval lost them. Douyin's player
+served the canary's media to the strict profile and, half a minute later, only the caption and cover to the
+user-initiated one; an hour earlier it had been the other way round. Comment codes were read only on X, by the plain
+fetch and the reader service, which fetched the post's page with its replies; ReadProof kept the oEmbed response,
+which carries the post alone. No open system read a spoken or on-screen code on YouTube, where the harness has no media
+route within its rules. Both RedNote posts ended for ReadProof as a token wall under P1 and a policy refusal under P0.
+The commercial assistants gave 27 answers about the seven posts. Most said plainly that they could not open the post,
+and some named the reason (an HTTP 412 or 403, a login redirect, throttling). Gemini returned the spoken and
+on-screen codes of the YouTube post, the platform of its own company; Yuanbao returned the caption code of the
+Bilibili post; ChatGPT, Perplexity and Qwen returned none. No assistant invented a code.
+
+% =====================================================================================
+\section{Analysis}\label{sec:analysis}
+
+\paragraph{The failures come before reasoning.}
+With the backbone held fixed, the systems differ by up to 56 points of coverage, and the differences are explained by
+what each obtained. Given a wall, the backbone declined or described the wall; it described a post only when the page
+held one, if in another language. On social media the binding constraint is the read: which link form, which reader,
+which identity, which channel.
+
+\paragraph{No single route reads every platform.}
+The declared harness wins where a rule-compatible official route exists (Douyin's player, X's oEmbed, the
+international note page of Xiaohongshu) and loses where a platform challenges declared agents but serves browsers
+(Bilibili). A harness that keeps several readers per platform and records which one served each read is what makes
+these differences visible; the same records show where a further route would help.
+
+\paragraph{Channel blindness.}
+Speech and on-screen text were reachable only through players and only on some platforms; the Chinese spoken codes
+were transcribed but not recovered; comments were read only on X, from the post's page; and on YouTube spoken and
+on-screen content was read only by Google's own assistant. The evidence a user cares about in a short video is, for
+most readers, simply not there to reason over. Benchmarks that hand the system the video or pre-extracted text cannot
+show this.
+
+\paragraph{The price of honesty is uneven.}
+A strict reading of robots.txt removes four of nine platforms entirely, costs a quarter of coverage overall and leaves
+the declared reader below a default headless browser that does not read robots.txt. The user-initiated profile, the
+position major assistant vendors document for fetches a user triggers, recovers those platforms. We report both and
+leave the choice to deployers; what we can show is its price, platform by platform.
+
+\paragraph{Intermittency is part of the measurement.}
+The same declared agent met Bilibili's risk challenge on 24 forms in one run and on 12 in another, and Douyin's player
+served the canary's media to one profile and not the other within a minute, then the reverse an hour later. A single
+attempt per form understates any system's best case, which is one reason the unit of scoring is the link form and the
+date is part of every result.
+
+\paragraph{Assistants abstained.}
+On the canary posts the commercial assistants abstained rather than invent codes, in contrast to audits that found
+fabricated citations in news search \citep{jazwinska2025tow}. Their coverage of social posts, however, was close to
+zero outside the platform of their own company.
+
+% =====================================================================================
+\section{Limitations and ethics}\label{sec:limits}
+
+\paragraph{Limitations.}
+The results come from one day and one residential origin; network origin was not varied. Track~K has seven posts, so
+its counts are small and its differences are not significant on their own. Track~A's gold is a search-result title in
+the post's language. It misses pages that hold the post in translation, which we recover with a rule that relies on
+the backbone's description of the page, and it undercounts platforms whose indexed titles are summaries (Weibo), which
+an audited capture corrects but which only the author audited. The backbone is one free preview model, which neither
+answered from walls nor needed the wall rule to abstain; other backbones may behave differently, and the open-weight
+run is left to the next version. The loss of the Chinese spoken codes is not yet diagnosed. Tracks~B and~C, priced
+extraction routing and counting in code are specified but not evaluated here. Our reading of robots.txt follows
+RFC~9309 for a declared agent that the files do not name; other readings are possible, and nothing here is legal
+advice.
+
+\paragraph{Ethics.}
+The harness never uses cookies, logged-in sessions or proxies, never answers a captcha, never computes a platform
+signature and never changes identity after a refusal; these rules are tests in the released code. Reads were paced
+and capped as described above. The canary posts are the author's own, labelled as AI-generated content on every
+platform, and contain no personal data. No third-party page text or media is redistributed. The commercial assistants
+were asked ordinary questions through their public web interfaces; assistants that required signing in were skipped.
+
+% =====================================================================================
+\section{Conclusion}\label{sec:conclusion}
+
+On social media, whether an agent can answer depends first on whether it can read. ReadProof makes the read
+measurable: access rules live in code, walls are typed instead of being passed on as text, evidence is located by
+channel, and quotes are checked against what was stored. On nine platforms, a declared reader that follows these
+rules served 81.8\% of the link forms people paste, 15 points more than a headless browser and 17 more than a reader
+service, although no single reader won on every platform; obeying robots.txt strictly cost it 26.7 points and put it
+below both. With the backbone we used, no system answered from a wall. Planted canaries show how little of a short
+video's spoken and on-screen content any system reaches, and that comments were read only on one platform. We release
+the harness, the benchmark and every result so that these numbers can be re-measured as platforms and agents change.
+Code and data: \RepoURL.

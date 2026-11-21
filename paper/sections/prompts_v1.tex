@@ -1,0 +1,55 @@
+\section{Prompts}\label{app:prompts}
+
+All prompts are copied from the released code (\texttt{readproof/agent.py}, \texttt{bench/systems/base.py},
+\texttt{bench/systems/\_\_init\_\_.py} and \texttt{bench/trackK.py}).
+
+\paragraph{ReadProof (read--verify--count).} System message:
+\begin{quote}\small
+You answer questions about social-media posts using ONLY the numbered evidence records given. Each record says which
+channel it came from: speech (what is said aloud), on\_screen (text shown in the video), frame, image\_text (text
+inside a picture), image, caption (title/description), comment, page. Reply with one JSON object:
+\end{quote}
+\begin{verbatim}
+  {"answer": string or null, "citations": [{"record": "R<n>",
+   "quote": "words copied exactly from that record"}], "not_found": true|false}
+\end{verbatim}
+\begin{quote}\small
+Quotes must be copied character for character from the record you cite. If the records do not contain the answer,
+reply \texttt{\{"answer": null, "citations": [], "not\_found": true\}}. Never guess and never use outside knowledge.
+\end{quote}
+(Line breaks in the JSON are added for display; the prompt is one paragraph.)
+User message: ``Question: \{question\}'' followed by ``Evidence records:'' and up to twelve records, each written as
+\texttt{[R\{n\}] (\{channel\}; \{locator\}) \{text\}}. Re-ask after a failed check: ``None of your quotes appears word
+for word in the record you cited. Copy the exact words from one record, or reply not\_found.''
+
+\paragraph{Baselines (plain fetch, headless browser, reader service, and ReadProof without walls).} System message:
+\begin{quote}\small
+You answer questions about a social-media post. You are given the text a tool obtained when it opened the user's
+link. Use only that text. If the text does not contain the answer, reply with exactly NOT\_FOUND.
+\end{quote}
+User message: ``Text the tool obtained (first 20,000 characters):'' followed by the text in triple quotes and
+``Question: \{question\}''.
+
+\paragraph{Closed book.} System message:
+\begin{quote}\small
+You answer questions about a social-media post that a user linked. You cannot open the link. If you do not know the
+answer, reply with exactly NOT\_FOUND.
+\end{quote}
+User message: ``Post link: \{url\}'' and ``Question: \{question\}''.
+
+\paragraph{Answer-from-wall probe (Track A).} ``What is this post about? Reply in one sentence, or NOT\_FOUND if the
+content does not show the post.''
+
+\paragraph{Track K questions.} English posts: ``What code is only spoken aloud in this video? (two words and a
+number)''; ``What code is shown on screen in this video but never read aloud? (like V-XXXXX)''; ``What code is
+written in this post's caption or description? (like C-XXXXX)''; ``What code is in this post's pinned comment?
+(like M-XXXXX)''; ``What code is written inside the images of this post? (like I-XXXXX)''. Chinese posts:
+\zh{这条视频里只用声音说出的暗号是什么？（两个词和一个数字）}; \zh{这条视频画面上显示、但没有念出来的暗号是什么？}
+(like V-XXXXX); \zh{这条帖子的文案（标题或简介）里写的暗号是什么？} (like C-XXXXX);
+\zh{这条帖子置顶评论里的暗号是什么？} (like M-XXXXX); \zh{这组图片里写在图上的暗号是什么？} (like I-XXXXX).
+The absent-channel control asks \zh{这条笔记里用声音说出的暗号是什么？}
+
+\paragraph{Commercial assistants (Track K).} One new chat per post, with the post's link. English posts: ``How many
+codes are hidden in this post? List each code and say where it is (spoken, on screen, in the caption/description,
+in the pinned comment, or inside an image). If you could not access the post, say so plainly instead of guessing.''
+Chinese posts: \zh{这条帖子里藏了几个暗号？请列出每个暗号的内容，并说明它在哪里（声音里、画面上、文案/标题里、置顶评论里、图片里）。如果你没能读取到这条帖子，请直接说读不到，不要猜。}

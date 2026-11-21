@@ -66,9 +66,9 @@ readproof/verify.py       norm/locate/verify_quote (ported from LinkDigest verif
 readproof/retrieve.py     per-channel char-n-gram BM25 over Records + reciprocal-rank fusion
 readproof/llm.py          OpenAI-compatible client (OpenRouter free models by default), response cache by request hash
 readproof/agent.py        read–verify–count loop (Answer with citations, typed abstention, one re-ask)
-readproof/aggregate.py    label_posts + count (code) + adjusted classify-and-count with bootstrap CI
+readproof/aggregate.py    (planned, Track C) label_posts + count (code) + adjusted classify-and-count with bootstrap CI
 readproof/harness.py      Harness.read(url) and Harness.answer(question, urls): wires everything
-readproof/mcp_server.py   MCP tools: read, search_records, verify, label_posts, count, budget
+readproof/mcp_server.py   MCP tools: read, search_records, verify, budget (label_posts, count arrive with Track C)
 readproof/cli.py          `readproof read URL --profile P1`, `readproof bench ...`
 bench/                    seeds, builders, baseline systems, scoring
 paper/                    LaTeX + TikZ figures

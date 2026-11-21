@@ -4,7 +4,7 @@
 \small
 \caption{Track A access. Share of reads (\%) in which the post's reference fingerprint appears in the text the system obtained ($\geq$60\% of its grams), by platform and system; $n$ = scored (post, link form) items per platform. P1$-$P0 is the honesty penalty in percentage points (paired, same items). Origin residential:MY, 2026-11-21; 145 posts, up to four link forms each.}
 \label{tab:trackA-access}
-\begin{tabular}{l r r r r r r r}
+\resizebox{\linewidth}{!}{\begin{tabular}{l r r r r r r r}
 \toprule
 Platform & $n$ & naive fetch & browser text & reader service & ReadProof P0 & ReadProof P1 & P1$-$P0 \\
 \midrule
@@ -21,8 +21,10 @@ WeChat & 32 & 0.0$^\dagger$ & 31.2 & 0.0$^\dagger$ & 0.0 & 31.2 & +31.2 \\
 All$^\ddagger$ & 510 & 25.4 & 51.9 & 51.8 & 55.1 & 81.8 & +26.7 \\
 \quad 95\% CI &  & [21.6, 29.2] & [47.5, 56.3] & [47.5, 56.1] & [50.8, 59.4] & [78.4, 85.1] & [+22.0, +31.4] \\
 All, attempted only &  & 42.4 & 59.0 & 53.7 & 55.1 & 81.8 &  \\
+All, post in other words$^\S$ &  & 25.4 & 66.5 & 64.9 & 55.1 & 81.8 &  \\
+\quad 95\% CI &  & [21.6, 29.2] & [62.3, 70.5] & [60.8, 69.0] & [50.8, 59.4] & [78.4, 85.1] &  \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 
-\vspace{2pt}{\footnotesize $^\dagger$ after six consecutive refusals (challenge, login or rate limit) the politeness circuit breaker paused this system on this platform; the cell is over the reads attempted. $^\ddagger$ pooled over all scored items, breaker-skipped reads counted as not served.}
+\vspace{2pt}{\footnotesize $^\dagger$ after six consecutive refusals (challenge, login or rate limit) the politeness circuit breaker paused this system on this platform; the cell is over the reads attempted. $^\ddagger$ pooled over all scored items, breaker-skipped reads counted as not served. $^\S$ as $^\ddagger$, also counting reads the fingerprint misses whose page is not a wall, names the post's own identifier, and was described as a post by the backbone when asked what the post is about (mostly Bilibili's English and YouTube's machine-translated pages served to the headless browser and the reader service).}
 \end{table}

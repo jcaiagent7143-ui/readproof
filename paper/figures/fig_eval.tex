@@ -1,8 +1,8 @@
 \documentclass[tikz,border=0pt]{standalone}
 \input{rppreamble}
 \begin{document}
-% The ReadProof evaluation pipeline. Top row: the three inputs, combined by a
-% product, fill the run matrix, which runs on two parallel arms. One return
+% The ReadProof v1 evaluation pipeline (2026-11-21). Top row: the three inputs, combined by a
+% product, fill the run matrix, which runs live once and is replayed for scoring. One return
 % line carries both arms' runs to the bottom row: logs, scorer, metrics,
 % leaderboard. Both rows read left to right.
 \begin{tikzpicture}[node distance=0.4cm,
@@ -21,18 +21,17 @@
 \node[neutral, anchor=south west] (CA) at ($(SY.north west)+(0,0.1)$)
   {commercial assistants:\\manual audit on Track K};
 \node[rp, text width=\iw, below=0.2cm of SY] (AP)
-  {\rpt{Access profiles}\\P0 strict\rpdot P1 user-initiated\rpdot P2 user-assisted};
+  {\rpt{Access profiles} (ReadProof)\\P0 strict\rpdot P1 user-initiated};
 \node[neutral, text width=\iw, below=0.2cm of AP] (NO)
-  {\rpt{Network origins}\\residential:\textless{}cc\textgreater{}\rpdot
-   datacenter:\textless{}provider\textgreater{}};
+  {\rpt{Network origin}\\one residential connection, residential:MY};
 \node[op, right=0.42cm of AP] (X) {$\times$};
 % ---------------- run matrix and the two arms ----------------
 \node[rp, right=0.4cm of X] (RM)
-  {\rpt{Run matrix}\\one open-weights\\backbone per run\\same tools and budget};
+  {\rpt{Run matrix}\\one backbone for\\every answer\\same pacing for all};
 \node[rp, text width=\aw, anchor=west] (FR) at ($(RM.east)+(0.97,0.94)$)
-  {\rpt{Frozen replay arm}\\identical stored records\\for every system\\replayable offline};
+  {\rpt{Replay}\\stored reads and\\model answers;\\scoring re-runs exactly};
 \node[rp, text width=\aw, anchor=west] (LV) at ($(RM.east)+(0.97,-0.94)$)
-  {\rpt{Live arm}\\links fetched on\\repeated days\\from a fixed origin};
+  {\rpt{Live reads}\\2026-11-21\\every system,\\every link form};
 \begin{scope}[on background layer]
   \node[lane, fit=(FR)] (gFR) {};
   \node[lane, fit=(LV)] (gLV) {};
@@ -42,12 +41,11 @@
 \node[store, text width=3.3cm, anchor=west] (LOG) at ($(SY.west |- ch)+(0,-1.42)$)
   {\rpt{Runs + trajectory logs}\\JSONL:\ gate, fetch, wall,\\extraction, verification,\\model calls, budget};
 \node[rp gate, text width=5.72cm, right=of LOG] (SC)
-  {\rpt{Scorer}\\deterministic first:\ coverage@form, wall type,\\
-   exact code, quote validity, count error,\\compliance-log checks\\[1.5pt]
-   {\color{rpGreyDark}LLM judge only for free-form answers,}\\
-   {\color{rpGreyDark}with a human-audited sample}};
+  {\rpt{Scorer} (deterministic)\\fingerprint coverage: $\ge$60\% of grams\\
+   answer-from-wall probe\rpdot exact canary codes\\[1.5pt]
+   {\color{rpGreyDark}no LLM judge}};
 \node[rp, right=of SC] (MT) {\rpt{Metrics}\\paired bootstrap\\95\% CIs};
-\node[neutral, right=of MT] (LB) {\rpt{Leaderboard}\\hidden test\\answers};
+\node[neutral, right=of MT] (LB) {\rpt{Release}\\IDs, hashes,\\answers; key\\after evaluation};
 % ---------------- flows ----------------
 \draw[merge] (SY.east) -| (X.north);
 \draw[merge] (NO.east) -| (X.south);

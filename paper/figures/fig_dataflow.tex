@@ -1,12 +1,9 @@
 \documentclass[tikz,border=0pt]{standalone}
 \input{rppreamble}
 \begin{document}
-% Data flow from a question to an answer. Each stage (left) emits the typed record beside it
-% (right; GateDecision, FetchResult, WallVerdict, Record, Citation and Answer fields, WallType and
-% Channel values as in readproof/types.py). Red rail (far left): refusals and walls leave
-% the pipeline as typed causes. Log bar (far right): every arrow writes one JSONL line.
-% Columns: rail x=0 | stages 1.05..5.05 | records 5.25..14.45 | log bar.
-% A stage and its record share one row centre, so each join is a single horizontal line.
+% Data flow of one read and one answer in ReadProof v1. Each stage (left) emits the typed record beside it
+% (right; field names as in readproof/types.py). Red rail (far left): refusals and walls leave the pipeline as
+% typed causes. Log bar (far right): every arrow writes one JSONL line.
 \begin{tikzpicture}[
   stage/.style={rp, text width=3.719cm, minimum height=0.52cm},
   gate/.style={rp gate, text width=3.719cm, minimum height=0.52cm},
@@ -15,70 +12,59 @@
 \def\xs{3.05}% stage centre
 \def\xd{5.25}% record west edge
 % ---------------- stages ----------------
-\node[neutral, text width=3.719cm, minimum height=0.52cm] (IN) at (\xs,-0.271)
-  {question, post link or topic};
-\node[stage] (S1) at (\xs,-1.152) {\rpt{Discover}};
-\node[gate] (S2) at (\xs,-2.665) {\rpt{Policy gate}\\profile P0/P1/P2\\robots group for the\\
+\node[neutral, text width=3.719cm, minimum height=0.52cm] (IN) at (\xs,-0.366)
+  {question and a post link or share text};
+\node[gate] (S1) at (\xs,-1.975) {\rpt{Policy gate}\\profile P0/P1/P2\\robots group for the\\
   declared UA\rpdot Content-Signal\\public addresses};
-\node[stage] (S3) at (\xs,-4.593) {\rpt{Read}\\declared UA\rpdot no cookies\\
+\node[stage] (S2) at (\xs,-3.903) {\rpt{Read}\\declared UA\rpdot no cookies\\
   $\le$\,1 same-identity retry};
-\node[gate] (S4) at (\xs,-5.907) {\rpt{Wall check}};
-\node[stage] (S5) at (\xs,-7.534) {\rpt{Extract}};
-\node[stage] (S6) at (\xs,-8.847) {\rpt{Retrieve}\\per-channel BM25\\reciprocal-rank fusion};
-\node[stage] (S7) at (\xs,-10.021) {\rpt{Verify} (in code)};
-\node[stage] (S8) at (\xs,-11.030) {\rpt{Label}\\one LLM call per served post};
-\node[stage] (S9) at (\xs,-12.038) {\rpt{Count} (code)};
-\node[stage] (S10) at (\xs,-13.190) {\rpt{Answer}};
+\node[gate] (S3) at (\xs,-5.217) {\rpt{Wall check}};
+\node[stage] (S4) at (\xs,-6.844) {\rpt{Extract}};
+\node[stage] (S5) at (\xs,-8.157) {\rpt{Retrieve}\\per-channel BM25\\reciprocal-rank fusion};
+\node[stage] (S6) at (\xs,-9.331) {\rpt{Verify} (in code)};
+\node[stage] (S7) at (\xs,-10.483) {\rpt{Answer}};
 % ---------------- typed records ----------------
-\node[rec] (D1) at (\xd,-1.152) {discover(query, platforms, window)\\
-  \phantom{di}\rpto{} candidates \{url, platform, form, engine, rank\}};
-\node[rec] (D2) at (\xd,-2.665) {GateDecision \{url, allowed, profile, reason, robots\_group,\\
+\node[rec] (D1) at (\xd,-1.975) {GateDecision \{url, allowed, profile, reason, robots\_group,\\
   \phantom{GateDecision \{}matched\_rule, robots\_binding, content\_signal\}\\
   allowed \rpto{} canonical URL,\\
   \phantom{di}e.g.\ toutiao /group/\textless{}id\textgreater{} \rpto{} /article/\textless{}id\textgreater{}/\\
   \phantom{di}(the disallowed hop is never fetched)};
-\node[rec] (D3) at (\xd,-4.593) {FetchResult \{url, final\_url, status, bytes, sha256,\\
+\node[rec] (D2) at (\xd,-3.903) {FetchResult \{url, final\_url, status, bytes, sha256,\\
   \phantom{FetchResult \{}fetched\_at, origin, user\_agent, attempt\}};
-\node[rec] (D4) at (\xd,-5.907) {WallVerdict \{served, wall, signal, visible\_chars\}\\
+\node[rec] (D3) at (\xd,-5.217) {WallVerdict \{served, wall, signal, visible\_chars\}\\
   wall $\in$ \{policy, challenge, login, token, deleted,\\
   \phantom{wall $\in$ \{}self\_visible, app\_only, region, soft\_404,\\
   \phantom{wall $\in$ \{}rate\_limited, empty, network, unsupported, unknown\}};
-\node[rec] (D5) at (\xd,-7.534) {Record \{record\_id, post\_key, channel, locator, text,\\
+\node[rec] (D4) at (\xd,-6.844) {Record \{record\_id, post\_key, channel, locator, text,\\
   \phantom{Record \{}source\_sha256, extractor, fetched\_at\}\\
   channel $\in$ speech[t0,t1]\rpdot on\_screen[t]\rpdot frame[t]\rpdot image\_text[k]\\
   \phantom{channel $\in$ }image[k]\rpdot caption[field]\rpdot comment[rank]\rpdot page[offset]};
-\node[rec] (D6) at (\xd,-8.847) {top-k records per channel};
-\node[rec] (D7) at (\xd,-10.021) {Citation \{record\_id, quote, verified\}\\
-  verified = quote $\subset$ norm(record.text)};
-\node[rec] (D8) at (\xd,-11.030) {\{post\_key, aspect:\ yes \textbar{} no \textbar{} unclear, quote, record\_id\}\\
-  quote fails \rpto{} one re-ask \rpto{} unclear};
-\node[rec] (D9) at (\xd,-12.038) {N = $\Sigma$ yes\rpdot M = \textbar{}served\textbar{}\rpdot
-  K = \textbar{}not served\textbar{} by cause\\
-  N\_adj with bootstrap CI};
-\node[rec] (D10) at (\xd,-13.190) {Answer \{text, abstained, cause, citations, channel\}\\
-  "N of M served posts (K not served:\ ...)"\\
-  \phantom{di}+ one verified quote per counted post};
+\node[rec] (D5) at (\xd,-8.157) {top-k records (k = 12) for the question};
+\node[rec] (D6) at (\xd,-9.331) {Citation \{record\_id, quote, verified\}\\
+  verified = norm(quote) $\subset$ norm(record.text)\\
+  none verified \rpto{} one re-ask \rpto{} abstain (unsupported)};
+\node[rec] (D7) at (\xd,-10.483) {Answer \{text, abstained, cause, citations, channel\}\\
+  cause = the wall type when no read was served};
 % ---------------- flow ----------------
 \draw[flow] (IN) -- (S1);
-\draw[rpflow] (S1) -- (S2);
-\draw[rpflow] (S2) -- node[edge label, left=2pt] {allowed} (S3);
-\draw[rpflow] (S3) -- (S4);
-\draw[rpflow] (S4) -- node[edge label, left=2pt] {served} (S5);
-\foreach \a/\b in {S5/S6,S6/S7,S7/S8,S8/S9,S9/S10}{\draw[rpflow] (\a) -- (\b);}
-\foreach \i in {1,...,10}{\draw[assoc] (S\i.east) -- (D\i.west);}
+\draw[rpflow] (S1) -- node[edge label, left=2pt] {allowed} (S2);
+\draw[rpflow] (S2) -- (S3);
+\draw[rpflow] (S3) -- node[edge label, left=2pt] {served} (S4);
+\foreach \a/\b in {S4/S5,S5/S6,S6/S7}{\draw[rpflow] (\a) -- (\b);}
+\foreach \i in {1,...,7}{\draw[assoc] (S\i.east) -- (D\i.west);}
 % ---------------- refusal rail ----------------
 \coordinate (R) at (0,0);
-\draw[wallflow] (S2.west) -- (S2.west -| R) -- (S10.west -| R) -- (S10.west);
-\draw[wallflow, -] (S4.west) -- (S4.west -| R);
-\node[wall label, anchor=south] at ($(S2.west -| R)!0.45!(S2.west)+(0,0.04)$) {refused};
-\node[wall label, anchor=south] at ($(S4.west -| R)!0.5!(S4.west)+(0,0.04)$) {wall};
-\node[wall label, rotate=90] at ($(S4.west -| R)!0.5!(S10.west -| R)+(0.3,0)$)
+\draw[wallflow] (S1.west) -- (S1.west -| R) -- (S7.west -| R) -- (S7.west);
+\draw[wallflow, -] (S3.west) -- (S3.west -| R);
+\node[wall label, anchor=south] at ($(S1.west -| R)!0.45!(S1.west)+(0,0.04)$) {refused};
+\node[wall label, anchor=south] at ($(S3.west -| R)!0.5!(S3.west)+(0,0.04)$) {wall};
+\node[wall label, rotate=90] at ($(S3.west -| R)!0.5!(S7.west -| R)+(0.3,0)$)
   {{\rpmono not\_served\{cause\}} \rpto{} typed abstention};
 % ---------------- trajectory log ----------------
-\path let \p1=($(D1.north)-(D10.south)$) in
+\path let \p1=($(D1.north)-(D7.south)$) in
   node[neutral, rotate=90, minimum width=\y1, dash pattern=on 3pt off 1.5pt, anchor=north]
-  (LOG) at ($(D1.north east)!0.5!(D10.south east)+(0.26,0)$)
+  (LOG) at ($(D1.north east)!0.5!(D7.south east)+(0.26,0)$)
   {\rpt{Trajectory log}\rpdot every arrow writes one JSONL line};
-\foreach \i in {1,...,10}{\draw[logflow] (D\i.east) -- (D\i.east -| LOG.north);}
+\foreach \i in {1,...,7}{\draw[logflow] (D\i.east) -- (D\i.east -| LOG.north);}
 \end{tikzpicture}
 \end{document}

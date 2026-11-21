@@ -220,3 +220,40 @@ def test_round_change_keeps_systems_apart():
     done, _ = score.latest_reads(rows)
     change = score.round_change(rows, seeds, score.score_reads(done, seeds))["douyin"]
     assert change["readproof_p0"]["round2_pct"] == 0.0 and change["readproof_p1"]["round2_pct"] == 100.0
+
+
+# --- a reply that describes the page is not an answer from a wall; the post in other words is served ------------
+
+
+def test_a_reply_that_describes_the_page_is_not_an_answer_from_a_wall():
+    from bench.score import says_not_the_post
+    assert says_not_the_post("This is not a single post but the homepage/listing page of Douyin's featured feed.")
+    assert says_not_the_post("A featured-video feed page listing many videos, rather than a single post.")
+    assert says_not_the_post("这不是一条帖子，而是抖音精选的首页。")
+    assert says_not_the_post("This post is a YouTube video comparing four electric SUVs.") is None
+    assert says_not_the_post("The video shows a cook stir-frying asparagus with shrimp paste.") is None
+    assert says_not_the_post("") is None and says_not_the_post(None) is None
+
+
+def _ow_item(key, system, served, wall=None, coverage=0.0, platform="bilibili", post_key="bilibili:BV1abcdef"):
+    return {"key": key, "platform": platform, "post_key": post_key, "form": "desktop", "system": system,
+            "served": served, "coverage": coverage, "wall": wall, "text_chars": 100, "harness_served": None}
+
+
+def test_other_words_needs_the_posts_own_id_no_wall_and_a_described_post():
+    from bench.score import other_words_keys
+    done = {
+        "k1": {"post_id": "BV1abcdef", "final_url": "https://www.bilibili.com/en/video/BV1abcdef/", "text": "English"},
+        "k2": {"post_id": "BV1abcdef", "final_url": "https://www.bilibili.com/", "text": "a feed of other videos"},
+        "k3": {"post_id": "BV1abcdef", "final_url": "https://www.bilibili.com/en/video/BV1abcdef/", "text": "x"},
+        "k4": {"post_id": "BV1abcdef", "final_url": "https://www.bilibili.com/en/video/BV1abcdef/", "text": "x"},
+        "k5": {"post_id": "BV1abcdef", "final_url": "https://www.bilibili.com/en/video/BV1abcdef/", "text": "x"},
+    }
+    items = [_ow_item("k1", "browser_text", False), _ow_item("k2", "browser_text", False),
+             _ow_item("k3", "browser_text", False), _ow_item("k4", "browser_text", False, wall="challenge"),
+             _ow_item("k5", "browser_text", True)]
+    answers = [{"key": k, "answer_system": "browser_text", "abstained": False, "answer": "A cook makes six dishes."}
+               for k in ("k1", "k2", "k4", "k5")]
+    answers.append({"key": "k3", "answer_system": "browser_text", "abstained": True, "answer": "NOT_FOUND"})
+    ow = other_words_keys(items, done, answers)
+    assert ow == {"k1": "translated"}  # k2: no own id; k3: abstained; k4: a wall; k5: already served

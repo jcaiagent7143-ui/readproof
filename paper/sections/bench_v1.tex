@@ -1,0 +1,72 @@
+ReadProof-Bench is specified with four tracks (Figure~\ref{fig:bench}, Table~\ref{tab:tracks}). This version
+evaluates the two that measure acquisition and channel coverage directly, Track~A and Track~K; Tracks~B and~C are
+specified, and their tooling is released, with results in a later version. Every item records its collection
+date and every result records the profile, the declared user agent and the network origin, because posts
+disappear quickly and selectively \citep{pew2024disappears,zhu2013velocity} and re-collected social-media data
+drift \citep{elmas2023persistence}.
+
+\begin{table}[t]
+\centering\small
+\caption{The four tracks of ReadProof-Bench and what this version evaluates.}
+\label{tab:tracks}
+\begin{tabular}{@{}l p{2.7cm} p{4.0cm} p{3.0cm} p{1.9cm}@{}}
+\toprule
+Track & Unit & Gold & Headline metrics & This version \\
+\midrule
+A access & a link form of a public post & a reference fingerprint of the post (its search-result title) & coverage per
+  form, answer-from-wall, honesty penalty & 145 posts, 522 forms \\
+K canaries & one channel of one of the author's posts & the planted code, exact by construction & correct codes
+  per channel, fabrication & 7 posts, 28 items \\
+B evidence & a question about one post & answer, channel, locator, verbatim quote & accuracy per channel, quote
+  validity & specified \\
+C counting & a set of posts on one topic & per-post labels & count error, interval coverage & specified \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Track A: access across link forms.}
+We collected 145 public posts on nine platforms (Douyin, Xiaohongshu and RedNote, Bilibili, YouTube, TikTok,
+Weibo, Toutiao, X and WeChat articles) on 21 November 2026 with a web search engine, about fifteen per platform
+spread over eight topic domains; no platform was crawled to build the list. Each seed keeps the URL exactly as
+the engine returned it, the post identifier, the topic and language, and the title or snippet the engine showed,
+which serves as the post's reference fingerprint. For each post the platform module emits up to four link forms
+that people actually paste (Appendix~\ref{app:forms}): the canonical desktop address, the mobile address, the
+share text in the app's own template with the address embedded, and the most informative platform variant (a share token stripped
+for Xiaohongshu, the share path for Toutiao, the mobile detail page for Weibo, \texttt{youtu.be} for YouTube),
+522 post--form items in all. A system \emph{serves} an item when at least 60\% of the fingerprint's character
+bigrams (Chinese) or words (other languages) occur in the text it obtained. The scoring unit is the link form,
+not the post, because the same post can open from one form and fail from another. Because the fingerprint is in the
+post's language, we also count a page that holds the post in other words, such as a machine translation
+(Section~\ref{sec:setup}). Weibo's indexed titles are
+summaries rather than the post's words, so for Weibo we also report coverage against an audited capture of each
+post's opening words.
+
+\paragraph{Track K: planted canaries.}
+The author published seven posts on 21 November 2026 on the author's own accounts: videos on Douyin, Bilibili,
+YouTube, TikTok, RedNote and X, and a four-image note on RedNote. Each post carries distinct random codes, each
+in exactly one channel: spoken only (two nouns and a number, masked in the burned-in subtitle), on screen only
+(never spoken), in the caption only, in the author's first comment only (pinned where the platform's web
+interface allows it), or inside one carousel image. The image note also has a spoken code that was never planted,
+which makes ``what code is spoken in this post?'' an absent-channel control: the only correct answer is that
+there is none. A correct code proves that the system read that channel on that platform, without access to its
+logs; a different code is a fabrication; ``not found'' is an abstention. Codes differ across posts and channels,
+so none can be guessed. The answer key was committed by its SHA-256 hash before any system ran and is published
+after the evaluation rounds. Spoken Chinese codes are scored by toneless pinyin, so a homophone spelling
+(for example \zh{海豚} heard as \zh{海屯}, both \emph{haitun}) still proves that the audio was transcribed. Track~K is the one slice whose media
+can be released in full, because the author holds the rights. It extends the planted codes of the robots.txt
+study of AI assistants \citep{lopezfonseca2026robots} to third-party platforms that cannot be instrumented from
+outside.
+
+\paragraph{Tracks B and C (specified).}
+Track~B asks questions answerable from exactly one channel of one third-party post, with gold from the agreement
+of two independent extractors, a closed-book filter and an answerability filter \citep{lee2026vragbench,
+wei2025browsecomp}. Track~C asks ``of these $M$ posts, how many say $A$?'' over sets of posts on one topic,
+with per-post labels and one verified quote per counted post, as QQSUM derives prevalence from matches on
+individual comments \citep{tang2025qqsum}. Both are specified in the released design document and are left to
+the next version.
+
+\paragraph{Release.}
+Third-party content is released only as post identifiers, URLs, titles and hashes; no page text and no media.
+Track~K media and the answer key are released in full once the evaluation rounds end. The systems in this version read the links they are
+given and use no web search, so the answer key cannot leak to them through search. Code is released under
+Apache-2.0 and data under CC~BY~4.0; Appendix~\ref{app:datasheet} is the datasheet \citep{gebru2021datasheets}.

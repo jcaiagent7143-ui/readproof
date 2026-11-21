@@ -2,7 +2,7 @@
 \begin{table}[t]
 \centering
 \small
-\caption{Track K (planted canaries), 28 questions on 7 live posts (bilibili, douyin, tiktok, x, xiaohongshu, youtube), run 2026-11-21; answers by \texttt{baidu/ernie-5.5-flash-preview:free}. Each cell: correct / fabricated / abstained / wrong.}
+\caption{Track K (planted canaries), 28 questions on 7 live posts (bilibili, douyin, tiktok, x, xiaohongshu, youtube), run 2026-11-21; answers by \texttt{baidu/ernie-5.5-flash-preview:free}. Each cell: correct / fabricated / abstained / wrong. The speech question on the image post (K04) is the absent-channel control: there the correct answer is an abstention. Commercial assistants were asked one whole-post question per post in a new guest chat (manual audit), scored per channel; the number after each name is the posts it answered.}
 \label{tab:trackK-channels}
 \begin{tabular}{l c c c c c }
 \toprule
@@ -19,13 +19,13 @@ P1 $-$verify & 2/0/5/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
 P1 $-$speech & 1/0/6/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
 P1 $-$on-screen & 2/0/5/0 & 0/0/6/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
 \midrule
-\multicolumn{6}{l}{\footnotesize Commercial assistants, guest use (manual audit, 27 answered posts; whole-post answers scored per channel; K04 speech = absent-channel control)} \\
+\multicolumn{6}{l}{\footnotesize Commercial assistants (27 answered posts)} \\
 ChatGPT (7) & 1/0/6/0 & 0/0/6/0 & 0/0/7/0 & 0/0/7/0 & 0/0/1/0 \\
 Gemini (7) & 2/0/5/0 & 1/0/5/0 & 0/0/7/0 & 0/0/7/0 & 0/0/1/0 \\
 Perplexity (5) & 1/0/4/0 & 0/0/4/0 & 0/0/5/0 & 0/0/5/0 & 0/0/1/0 \\
 Yuanbao (7) & 1/0/6/0 & 0/0/6/0 & 1/0/6/0 & 0/0/7/0 & 0/0/1/0 \\
 Qwen (1) & 0/0/1/0 & 0/0/1/0 & 0/0/1/0 & 0/0/1/0 & -- \\
-\multicolumn{6}{l}{\footnotesize Not usable without sign-in: Copilot, DeepSeek, Doubao, Grok, Kimi} \\
+\multicolumn{6}{l}{\footnotesize Needed sign-in, skipped: Copilot, DeepSeek, Doubao, Grok, Kimi} \\
 \bottomrule
 \end{tabular}
 \end{table}

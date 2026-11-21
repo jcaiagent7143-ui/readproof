@@ -1,7 +1,7 @@
 \documentclass[tikz,border=0pt]{standalone}
 \input{rppreamble}
 \begin{document}
-% The ReadProof harness (after Figure 3 of the design survey).
+% The ReadProof harness as released in v1 (after Figure 3 of the design survey).
 % Lanes: left x=2.35 (budget, log bus), centre x=7.0 (read path), right x=12.6.
 \begin{tikzpicture}[node distance=0.36cm]
 \def\cw{5.4cm}% centre-lane text width
@@ -9,9 +9,9 @@
 \def\dx{5.65}% centre -> right lane offset
 % ---------------- centre lane ----------------
 \node[neutral, text width=3.5cm] (U) at (7.0,0)
-  {\rpt{Agent or user}\\question\rpdot post link\rpdot topic};
+  {\rpt{Agent or user}\\question\rpdot link or share text};
 \node[rp strong, text width=\cw, below=0.5cm of U] (O)
-  {\rpt{Orchestrator}\\read--verify--count loop\rpdot answer draft};
+  {\rpt{Read--verify agent}\\read\rpdot retrieve\rpdot answer with citations};
 \node[rp gate, text width=\cw, below=0.74cm of O] (PG)
   {\rpt{Policy gate}\\access profile P0/P1/P2\rpdot robots.txt\\Content-Signal\rpdot deny list\rpdot SSRF guard};
 \node[rp, text width=\cw, below=of PG] (CAN)
@@ -21,25 +21,19 @@
 \node[rp gate, text width=\cw, below=of RP] (WD)
   {\rpt{Wall detector}\\visible text\rpdot platform signatures};
 \node[rp, text width=\cw, below=0.44cm of WD] (EX)
-  {\rpt{Extractors}\\speech\rpdot on-screen text\rpdot frames\\image text\rpdot caption\rpdot served comments};
+  {\rpt{Extractors}\\speech\rpdot on-screen text\rpdot image text\\caption\rpdot comments the page serves};
 \node[store, text width=\cw, below=of EX] (ES)
   {\rpt{Evidence store}\\SHA-256 snapshots\rpdot located records};
 \node[rp, text width=\cw, below=of ES] (V)
   {\rpt{Verifier}\\quote $\subset$ stored record, checked in code};
 % ---------------- right lane ----------------
-\node[rp, text width=\rw] (CP) at ($(U.center)+(\dx,0)$)
-  {\rpt{Context policy} (plug-in)\\discard-all\rpdot keep-last-$K$\rpdot fold};
-\node[neutral, text width=\rw] (D) at ($(O.center)+(\dx,0)$)
-  {\rpt{Discovery} (plug-in)\\topic \rpto{} candidate post links};
 \node[wall, text width=\rw, anchor=south] (NS) at ($(WD.center)+(\dx,-0.3)$)
   {\rpt{not\_served\{\textit{type}\}}\\[1pt]{\rpmono policy\rpdot challenge\rpdot login\rpdot token\\
    deleted\rpdot self\_visible\rpdot app\_only\\
    region\rpdot soft\_404\rpdot rate\_limited\\
    empty\rpdot network\rpdot unsupported}};
-\node[rp, text width=\rw] (AG) at ($(V.center)+(\dx,0)$)
-  {\rpt{Aggregator}\\LLM labels each post\rpdot code counts};
 \node[neutral, text width=\rw, anchor=north] (A) at ($(NS.south)+(0,-0.55)$)
-  {\rpt{Answer}\\verified quotes\rpdot $N$~of~$M$ served\\or abstention with its cause};
+  {\rpt{Answer}\\cited, every quote verified,\\or abstention with its cause};
 % ---------------- left lane ----------------
 \node[rp, text width=2.7cm] (BT) at ($(O.center)+(-4.6,0)$)
   {\rpt{Priced budget}\\USD and seconds\\per tool, capped};
@@ -48,11 +42,11 @@
 \begin{scope}[on background layer]
   \node[group, fit=(PG)(CAN)(RP)(WD), inner xsep=0.2cm, inner ysep=0.12cm] (gRead) {};
   \node[group, fit=(EX)(ES), inner xsep=0.2cm, inner ysep=0.12cm] (gEvid) {};
-  \node[group, fit=(V)(AG), inner xsep=0.2cm, inner ysep=0.12cm] (gOut) {};
+  \node[group, fit=(V), inner xsep=0.2cm, inner ysep=0.12cm] (gOut) {};
 \end{scope}
 \node[group label, align=center] at ($(CAN.south)!0.5!(RP.north)+(-4.6,0)$) {compliant\\read path};
 \node[group label, align=center] at ($(EX.south)!0.5!(ES.north)+(-4.6,0)$) {evidence\\layer};
-\node[group label, align=center] at ($(V.center)+(-4.6,0.62)$) {verification and\\aggregation};
+\node[group label, align=center] at ($(V.center)+(-4.6,0.62)$) {verification};
 % ---------------- log ----------------
 \coordinate (busTop) at ($(BT.west)+(-0.36,0)$);
 \node[neutral, anchor=north, text width=14.6cm, dash pattern=on 3pt off 1.5pt]
@@ -60,11 +54,8 @@
   {\rpt{Append-only trajectory log} (JSONL)\rpdot one line per gate decision, request, wall verdict, extraction, verification, model call and budget change\rpdot replay};
 % ---------------- flows ----------------
 \draw[flow] (U) -- (O);
-\draw[assoc] (CP.west) -| ($(O.north east)+(-0.3,0)$);
 \draw[assoc] (BT.east) -- (O.west);
-\draw[flow] (O.east) -- (D.west);
 \draw[flow] (O.south) -- node[edge label, left, pos=0.42] {post link} (PG.north);
-\draw[flow] (D.south) |- ($(PG.north)+(1.6,0.4)$) node[edge label, above, pos=0.78] {candidates} -- ($(PG.north)+(1.6,0)$);
 \draw[rpflow] (PG.south) -- node[edge label, left] {allowed} (CAN.north);
 \draw[rpflow] (CAN) -- (RP);
 \draw[rpflow] (RP) -- (WD);
@@ -73,8 +64,7 @@
 \draw[flow] (WD.south) -- node[edge label, left] {served} (EX.north);
 \draw[flow] (EX) -- (ES);
 \draw[flow] (ES) -- (V);
-\draw[flow] (V) -- (AG);
-\draw[flow] (AG) -- (A);
+\draw[flow] (V.east) -| (A.south);
 \draw[wallflow] (NS.south) -- node[wall label, right] {abstain} (A.north);
 % ---------------- log bus ----------------
 \draw[logflow] (busTop) -- (busTop |- LOG.north);

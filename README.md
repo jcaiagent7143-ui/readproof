@@ -2,7 +2,7 @@
 
 **Did the agent read it?** ReadProof is an open harness and a benchmark for agentic search over social media. It measures
 whether an AI system actually obtains the post a user pastes — on Douyin, Xiaohongshu/RedNote, Bilibili, YouTube, TikTok,
-Weibo, Toutiao, X and WeChat — under access rules that are enforced in code, and whether it answers from a page it never read.
+Weibo, Toutiao, X and WeChat — under access rules that are enforced in code, and whether it answers from a page that is not the post.
 
 - **Harness** (`readproof/`, Apache-2.0): declared identity, no cookies, no proxies, no captcha answering, no signature
   computation, at most one retry; robots.txt and Content-Signal evaluated on every request (binding under the strict profile);
@@ -14,24 +14,30 @@ Weibo, Toutiao, X and WeChat — under access rules that are enforced in code, a
 ## Results (2026-11-21, one residential origin; full tables in `paper/tables/`)
 
 **Track A — 145 posts, 9 platforms, 522 post × link-form items.** Served = the post's reference fingerprint appears in what
-the system obtained.
+the system obtained; "in other words" also counts a page that is not a wall, names the post's own ID and was described as
+that post by the backbone (mostly machine translations: Bilibili serves a browser without a Chinese locale English pages).
 
-| System | Served |
-|---|---|
-| **ReadProof, user-initiated profile (P1)** | **81.8%** [78.4, 85.1] |
-| ReadProof, strict robots profile (P0) | 55.1% [50.8, 59.4] |
-| Headless browser text | 51.9% |
-| Reader service (Jina Reader) | 51.8% |
-| Plain HTTP fetch | 25.4% |
+| System | Served, in other words | Served, fingerprint only |
+|---|---|---|
+| **ReadProof, user-initiated profile (P1)** | **81.8%** [78.4, 85.1] | 81.8% |
+| Headless browser text | 66.5% [62.3, 70.5] | 51.9% |
+| Reader service (Jina Reader) | 64.9% [60.8, 69.0] | 51.8% |
+| ReadProof, strict robots profile (P0) | 55.1% [50.8, 59.4] | 55.1% |
+| Plain HTTP fetch | 25.4% [21.6, 29.2] | 25.4% |
 
-- Obeying robots.txt strictly costs **26.7 points** of coverage (P1 − P0): Xiaohongshu, Weibo, WeChat and X disallow every
-  unnamed bot.
-- The headless browser **answered from a block page in 30.2%** of the cases where it had obtained one; ReadProof returns a
-  typed wall instead and never passes wall text to the model.
+- P1 leads the headless browser by **+15.0 points** [10.6, 19.4] and the reader service by +16.9 [12.3, 21.4]. No reader
+  wins everywhere: ReadProof wins on Douyin (official player, 93% vs 38–42%), X and Xiaohongshu; the headless browser and the
+  reader service win on Bilibili, which challenges a declared agent but serves browsers an English page.
+- Obeying robots.txt strictly costs **26.7 points** of coverage (P1 − P0) and leaves the declared reader below the headless
+  browser: Xiaohongshu, Weibo, WeChat and X disallow every unnamed bot.
+- With the backbone used (`baidu/ernie-5.5-flash-preview`, free), **no system answered from a wall**: on 146 wall pages it
+  replied NOT_FOUND or said what the page was ("a listing page, not a single post"). ReadProof returns a typed wall with its
+  cause instead of page text, without a model call.
 
 **Track K — 7 canary posts, 28 channel items.** ReadProof P1 read 9 codes correctly, the best open baseline 5. No system
-invented a code, and no system read a pinned comment. Five commercial assistants asked the same questions in their default
-web modes found 3 codes in 27 answers in total — 2 of them by Gemini on YouTube, Google's own platform.
+invented a code. Comment codes were read only on X, by the plain fetch and the reader service; the Chinese spoken codes were
+transcribed but not recovered. Five commercial assistants asked in their default web modes found 3 codes in 27 answers in
+total — 2 of them by Gemini on YouTube, Google's own platform.
 
 ## Quickstart
 
@@ -41,6 +47,10 @@ uv venv -p 3.12 .venv && uv pip install -p .venv/bin/python -e '.[dev,browser]'
 .venv/bin/python -m pytest -q                       # the rules are tests: tests/test_rules.py
 .venv/bin/readproof read "https://www.bilibili.com/video/<BV id>/" --profile P1 --json
 ```
+
+Agents can call the harness over the Model Context Protocol (stdio): install the `mcp` extra and run `readproof-mcp`. It
+exposes four tools — `read` (records located by channel, or a typed wall), `search_records`, `verify` (quote checked in
+code) and `budget`.
 
 Speech recognition uses `whisper-cli` (whisper.cpp) with a local model; on-screen text uses Apple Vision on macOS
 (`tools/vision_ocr.swift`, compiled on first use), with tesseract as a fallback. Model calls go through any
