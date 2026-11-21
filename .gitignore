@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+/runs/
+/store/
+/media/
+bench/data/private/
+bench/results/raw/
+paper/build/
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+.DS_Store
