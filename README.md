@@ -72,8 +72,8 @@ Third-party posts are referenced by URL, platform identifier and short title onl
 
 *Did the Agent Read It? ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes for Agentic Search over
 Social Media* — PDF in `paper/main.pdf`; citation in `CITATION.cff`.
-Archived on Zenodo: [doi:10.5281/zenodo.24420305](https://doi.org/10.5281/zenodo.24420305) (all versions; v0.1.1 is
-10.5281/zenodo.24420306).
+Archived on Zenodo: [doi:10.5281/zenodo.24420305](https://doi.org/10.5281/zenodo.24420305) (all versions).
+Benchmark data on Hugging Face: [JackChew/readproof-bench](https://huggingface.co/datasets/JackChew/readproof-bench).
 
 ## Disclosure
 
