@@ -1,0 +1,31 @@
+% rppreamble.tex -- engine switch for the standalone figure builds.
+% Tectonic/XeTeX loads xeCJK; pdfLaTeX (arXiv) loads CJKutf8 with gbsn.
+% Every Chinese string goes through \zh{...}. main.tex repeats this switch,
+% and the standalone package skips this preamble when main.tex inputs a figure.
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{xeCJK}
+  \setCJKmainfont{FandolSong-Regular.otf}
+  \setCJKsansfont{FandolHei-Regular.otf}
+  \setCJKmonofont{FandolHei-Regular.otf}
+  \providecommand{\zh}[1]{#1}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \usepackage{CJKutf8}
+  \DeclareRobustCommand{\zh}[1]{\begin{CJK}{UTF8}{gbsn}#1\end{CJK}}
+\fi
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\input{rpstyle}
+% Opaque white page under everything, for the standalone PDFs and PNG checks
+% only (main.tex never reads this preamble). A layer below "background" keeps
+% the pale group panels visible.
+\pgfdeclarelayer{rppage}
+\pgfsetlayers{rppage,background,main}
+\tikzset{every picture/.append style={execute at end picture={%
+  \begin{pgfonlayer}{rppage}\fill[white]
+    ([shift={(-2pt,-2pt)}]current bounding box.south west) rectangle
+    ([shift={(2pt,2pt)}]current bounding box.north east);\end{pgfonlayer}}}}

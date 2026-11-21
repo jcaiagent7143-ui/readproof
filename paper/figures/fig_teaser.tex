@@ -1,0 +1,65 @@
+\documentclass[tikz,border=0pt]{standalone}
+\input{rppreamble}
+\begin{document}
+% Teaser: one Douyin share text, read two ways.
+% Left panel (naive agent): one column on the spine x=\xl.
+% Right panel (ReadProof) from x=\xr: gate and reader stacked flush left, then the
+% wall detector forks into the wall column (left) and the served column (right).
+\begin{tikzpicture}[
+  tag/.style={wall strong, font=\rpmono, inner xsep=2.2pt, inner ysep=1.8pt},
+  naive title/.style={panel title, text=rpRed, anchor=base, inner sep=0pt},
+  rp title/.style={panel title, text=rpViolet, anchor=base, inner sep=0pt},
+  panel rule/.style={draw=rpGrey, line width=0.4pt},
+]
+\def\gap{0.26}% vertical gap between stacked nodes (cm)
+\def\xl{2.276}% left spine (half the input box width)
+\def\xr{6.892}% left edge of the right panel
+\def\yin{-0.38}% top of both input boxes
+\def\shareText{\zh{复制打开抖音，看看【作品】……}\\{\rpmono https://v.douyin.com/\textless{}code\textgreater{}/}}
+\coordinate (xu) at ($(\xr,0)+(2.725cm+4.575pt,0)$);% axis of gate, reader and right input
+\coordinate (xs) at ($(\xr,0)+(1.57cm+4.3pt,0)$);% axis of the wall column
+% ---------------- titles ----------------
+\node[naive title] at (\xl,-0.23) {A naive agent};
+\node[rp title] at ($(xu)+(0,-0.23)$) {ReadProof};
+% ---------------- right panel ----------------
+\node[neutral, text width=4.25cm, anchor=north] (RIN) at ($(xu)+(0,\yin)$) {\shareText};
+\node[rp gate, text width=5.45cm, below=\gap cm of RIN] (PG)
+  {\rpt{Policy gate} (P1)\\allowed\rpdot robots.txt logged\rpdot declared identity};
+\node[rp, text width=5.45cm, below=\gap cm of PG] (CAN)
+  {\rpt{Canonicalize and read}\\share text \rpto{} URL\rpdot page \rpto{} official player};
+\node[rp gate, anchor=north] (WD) at ($(CAN.south -| xs)+(0,-\gap)$) {\rpt{Wall detector}};
+\node[wall, text width=3.14cm, below=0.15cm of WD] (NS)
+  {\rpt{not\_served\{challenge\}}\\{\rpmono visible\_chars=0}\\{\rpmono bytes=72914}};
+\node[rp, text width=4.26cm, anchor=north west] (REC) at ($(WD.north -| NS.east)+(0.33,0)$)
+  {\rpt{Records}\\{\rpmono speech [t0, t1]}\\{\rpmono on\_screen [t]}\\{\rpmono caption [title]}\\each names its snapshot SHA-256};
+\coordinate (r6) at ($(REC.south)+(0,-0.24)$);
+\node[wall, text width=3.14cm, anchor=north] (TA) at (NS.south |- r6)
+  {\rpt{Typed abstention}\\cause:\ challenge,\\nothing asserted};
+\node[rp, text width=4.26cm, anchor=north] (VQ) at (REC.south |- r6)
+  {\rpt{Verified quote} {\color{rpViolet}$\checkmark$}\\quote $\subset$ stored record\\answer with citation};
+% ---------------- left panel ----------------
+\node[neutral, text width=4.25cm, anchor=north] (LIN) at (\xl,\yin) {\shareText};
+\node[wall, text width=3.0cm, anchor=north] (ANS) at (LIN.south |- r6)
+  {\rpt{Answers anyway}\\a fluent summary of\\a video it never received};
+\node[neutral, anchor=south] (LLM) at ($(ANS.north)+(0,\gap)$) {\rpt{LLM}};
+\node[wall, text width=4.25cm, anchor=south] (RESP) at ($(LLM.north)+(0,0.45)$)
+  {\rpt{HTTP 200 OK}\\72,914 bytes\rpdot 0 visible characters\\{\rpmono \textless{}script\textgreater{} only}};
+\node[tag, anchor=west] (TAG) at ($(ANS.east)+(0.12,0)$) {answer-from-wall};
+% ---------------- rule between the panels ----------------
+\coordinate (rule) at ($(\xr,0)+(-0.17,0)$);
+\draw[panel rule] (rule) -- (rule |- VQ.south);
+% ---------------- flows: left ----------------
+\draw[flow] (LIN) -- node[edge label, right] {GET\rpdot HTML \rpto{} text} (RESP);
+\draw[wallflow] (RESP) -- node[wall label, right] {empty text + question} (LLM);
+\draw[wallflow] (LLM) -- (ANS);
+% ---------------- flows: right ----------------
+\draw[flow] (RIN) -- (PG);
+\draw[rpflow] (PG) -- (CAN);
+\draw[rpflow] (CAN.south -| WD.north) -- (WD.north);
+\draw[wallflow] (WD.west) -| ($(NS.north west)+(0.3,0)$);
+\node[wall label, anchor=south east] at ($(WD.west)+(-0.04,0.035)$) {wall};
+\draw[rpflow] (WD.east) -- node[edge label, above=1pt] {served} (WD.east -| REC.west);
+\draw[wallflow] (NS) -- (TA);
+\draw[rpflow] (REC) -- (VQ);
+\end{tikzpicture}
+\end{document}

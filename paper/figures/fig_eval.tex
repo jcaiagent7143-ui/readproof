@@ -1,0 +1,65 @@
+\documentclass[tikz,border=0pt]{standalone}
+\input{rppreamble}
+\begin{document}
+% The ReadProof evaluation pipeline. Top row: the three inputs, combined by a
+% product, fill the run matrix, which runs on two parallel arms. One return
+% line carries both arms' runs to the bottom row: logs, scorer, metrics,
+% leaderboard. Both rows read left to right.
+\begin{tikzpicture}[node distance=0.4cm,
+  op/.style={neutral, circle, inner sep=0.6pt, font=\rpfont},
+  merge/.style={flow, -},
+  lane/.style={group, inner xsep=0.18cm, inner ysep=0.12cm},
+]
+\def\iw{5.65cm}% input text width
+\def\aw{3.0cm}% arm text width
+% ---------------- inputs (stacked) ----------------
+\node[rp, text width=\iw] (SY) at (0,0)
+  {\rpt{Systems}\\closed\_book\rpdot naive\_fetch\rpdot reader\_service\\
+   browser\_text\rpdot readproof and its ablations};
+% Commercial assistants sit beside the systems but outside the run matrix
+% (audited by hand), so their note has no edge into the product.
+\node[neutral, anchor=south west] (CA) at ($(SY.north west)+(0,0.1)$)
+  {commercial assistants:\\manual audit on Track K};
+\node[rp, text width=\iw, below=0.2cm of SY] (AP)
+  {\rpt{Access profiles}\\P0 strict\rpdot P1 user-initiated\rpdot P2 user-assisted};
+\node[neutral, text width=\iw, below=0.2cm of AP] (NO)
+  {\rpt{Network origins}\\residential:\textless{}cc\textgreater{}\rpdot
+   datacenter:\textless{}provider\textgreater{}};
+\node[op, right=0.42cm of AP] (X) {$\times$};
+% ---------------- run matrix and the two arms ----------------
+\node[rp, right=0.4cm of X] (RM)
+  {\rpt{Run matrix}\\one open-weights\\backbone per run\\same tools and budget};
+\node[rp, text width=\aw, anchor=west] (FR) at ($(RM.east)+(0.97,0.94)$)
+  {\rpt{Frozen replay arm}\\identical stored records\\for every system\\replayable offline};
+\node[rp, text width=\aw, anchor=west] (LV) at ($(RM.east)+(0.97,-0.94)$)
+  {\rpt{Live arm}\\links fetched on\\repeated days\\from a fixed origin};
+\begin{scope}[on background layer]
+  \node[lane, fit=(FR)] (gFR) {};
+  \node[lane, fit=(LV)] (gLV) {};
+\end{scope}
+% ---------------- bottom row ----------------
+\coordinate (ch) at ($(gLV.south)+(0,-0.4)$);% the return line runs here
+\node[store, text width=3.3cm, anchor=west] (LOG) at ($(SY.west |- ch)+(0,-1.42)$)
+  {\rpt{Runs + trajectory logs}\\JSONL:\ gate, fetch, wall,\\extraction, verification,\\model calls, budget};
+\node[rp gate, text width=5.72cm, right=of LOG] (SC)
+  {\rpt{Scorer}\\deterministic first:\ coverage@form, wall type,\\
+   exact code, quote validity, count error,\\compliance-log checks\\[1.5pt]
+   {\color{rpGreyDark}LLM judge only for free-form answers,}\\
+   {\color{rpGreyDark}with a human-audited sample}};
+\node[rp, right=of SC] (MT) {\rpt{Metrics}\\paired bootstrap\\95\% CIs};
+\node[neutral, right=of MT] (LB) {\rpt{Leaderboard}\\hidden test\\answers};
+% ---------------- flows ----------------
+\draw[merge] (SY.east) -| (X.north);
+\draw[merge] (NO.east) -| (X.south);
+\draw[merge] (AP.east) -- (X.west);
+\draw[flow] (X.east) -- (RM.west);
+\draw[flow] (RM.east) -- ++(0.42,0) |- (FR.west);
+\draw[flow] (RM.east) -- ++(0.42,0) |- (LV.west);
+\coordinate (jx) at ($(gFR.east)+(0.3,0)$);
+\draw[merge] (LV.east) -- (LV.east -| jx);
+\draw[flow] (FR.east) -- (FR.east -| jx) -- (jx |- ch) -- (LOG.north |- ch) -- (LOG.north);
+\draw[flow] (LOG) -- (SC);
+\draw[flow] (SC) -- (MT);
+\draw[flow] (MT) -- (LB);
+\end{tikzpicture}
+\end{document}

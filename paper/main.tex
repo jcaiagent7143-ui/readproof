@@ -1,0 +1,1278 @@
+% main.tex -- ReadProof (arXiv: cs.IR primary; cross-list cs.CL, cs.AI).
+% Build here with:   tectonic main.tex            (XeTeX branch: xeCJK)
+% arXiv builds with: pdflatex + bibtex            (pdfLaTeX branch: CJKutf8, gbsn)
+% Every Chinese string goes through \zh{...}; the rest of the source is ASCII.
+% Every number the experiments report is a macro in results.tex (regenerate with gen_results.py).
+\documentclass[11pt]{article}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{xeCJK}
+  \setCJKmainfont{FandolSong-Regular.otf}
+  \setCJKsansfont{FandolHei-Regular.otf}
+  \setCJKmonofont{FandolHei-Regular.otf}
+  \newcommand{\zh}[1]{#1}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+  \usepackage{CJKutf8}
+  \DeclareRobustCommand{\zh}[1]{\begin{CJK}{UTF8}{gbsn}#1\end{CJK}}
+\fi
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{array,booktabs,multirow,threeparttable}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{standalone}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\input{figures/rpstyle}
+\input{results}
+\hypersetup{colorlinks=true, linkcolor=rpViolet!70!black, citecolor=rpViolet!70!black,
+  urlcolor=rpViolet!70!black, pdfauthor={Loong Nian Chew},
+  pdftitle={Did the Agent Read It? ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes for Agentic Search over Social Media}}
+\captionsetup{font=small, labelfont=bf}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}\setcounter{topnumber}{3}\setcounter{totalnumber}{5}
+\renewcommand{\bibfont}{\small}\setlength{\bibsep}{3pt plus 1pt}
+\setlist{itemsep=2pt, topsep=4pt}
+\renewcommand{\arraystretch}{1.12}
+
+\newcommand{\sys}[1]{\texttt{#1}}% system names
+\newcommand{\ch}[1]{\texttt{#1}}% channel names
+\newcommand{\wt}[1]{\texttt{#1}}% wall types
+\newcommand{\pending}[1]{\textcolor{red}{[#1]}}% narrative to be written once results exist
+% Figures are standalone TikZ files in figures/ (each also builds to its own PDF); a missing file prints a box.
+\newcommand{\rpfigure}[1]{\IfFileExists{figures/#1.tex}{\includestandalone{figures/#1}}%
+  {\fbox{\parbox{0.8\textwidth}{\centering\ttfamily figures/\detokenize{#1}.tex is missing}}}}
+% TODO before posting: make the repository public at this address (it is the URL in the declared User-Agent).
+\newcommand{\RepoURL}{\url{https://github.com/jcaiagent7143-ui/readproof}}
+\newcommand{\PaperDate}{Draft of 21 November 2026. Numbers printed as \TBD{} are placeholders.}
+
+\title{\textbf{Did the Agent Read It?}\\[4pt]
+  \large ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes\\
+  for Agentic Search over Social Media}
+\author{Loong Nian Chew\thanks{Competing interests: the author operates LinkDigest, a commercial service that
+  reads social-media links. The harness and benchmark released with this paper are independent of that
+  service, and no LinkDigest production route, account, cookie, proxy or customer data is used in any
+  reported result.}\\[2pt] LinkDigest}
+\date{\small\PaperDate}
+
+\begin{document}
+\maketitle
+
+\begin{figure}[!ht]
+\centering
+\rpfigure{fig_teaser}
+\caption{The same Douyin share link, read two ways. \emph{Left:} a naive fetch receives a 72{,}914-byte
+verification page with no visible text, and a model asked about the post answers anyway. \emph{Right:}
+ReadProof gates and canonicalizes the link, reads it through the platform's own player, and returns
+either a typed wall with its evidence or channel-located records whose quotes are verified in code. The
+page size is from the author's operational logs (Section~\ref{sec:intro}); Track~A re-measures it.}
+\label{fig:teaser}
+\end{figure}
+
+\begin{abstract}
+\noindent Agentic search systems now approach the ceiling of open-web text benchmarks, yet on social media
+they often fail before any reasoning starts: the link to a public post returns a verification page, a login
+wall or an expired share token, and when the post is served, the answer often sits in speech, burned-in text,
+carousel images or comments that a text pipeline never reads. Benchmarks that supply a fixed corpus,
+pre-extracted media or the video itself cannot observe these failures. We present ReadProof, an open-source
+harness and benchmark that make the read itself measurable. The harness enforces its access rules in code,
+each pinned by a test: a declared identity, no cookies, no captcha solving or signature generation, and no
+change of identity or address after a refusal. It evaluates robots.txt and Content-Signal on every request
+under declared access profiles, returns a typed wall instead of page text, reads media through a platform's
+official player, stores evidence as content-addressed records located by channel, and accepts a citation only
+when its quote is an exact substring of a stored record. ReadProof-Bench has four tracks: access across the
+link forms people actually paste, a planted-canary panel of the author's own posts with one code per channel,
+questions answerable from exactly one channel of one post, and a counting pilot. With read--verify--count, a
+training-free method that abstains with a typed cause, routes extraction by a priced budget and counts in
+code, ReadProof serves \ResHeadCovReadProof{} of link forms under the user-initiated profile against
+\ResHeadCovNaive{} for a naive fetch; baselines answer from \ResHeadAFWBaselines{} of the walls they receive;
+and obeying robots.txt as a declared bot costs \ResHeadPenalty{} of coverage, which we call the honesty
+penalty.
+\end{abstract}
+
+
+
+% =====================================================================================
+\section{Introduction}\label{sec:intro}
+
+The headline benchmark for agentic search no longer separates systems. BrowseComp was built from questions
+that are hard to find but easy to verify \citep{wei2025browsecomp}; its best reported accuracy is now 92.2\%,
+from a system that runs four agents in parallel by default \citep{openai2026gpt56}, and an aggregator lists
+no independently verified result among 77 self-reported ones \citep{llmstats2026browsecomp}. The
+benchmarks that still separate systems have the shape of social media. Where evidence sits in web images
+and video, the best reported accuracies are 24.25\% on MM-BrowseComp \citep{li2025mmbrowsecomp} and
+36.0\% on MMSearch-Plus \citep{tao2025mmsearchplus}; where the answer requires exhaustive collection, the
+best system completed 5\% of WideSearch tables when the benchmark was released \citep{wong2025widesearch}.
+
+We argue that on social media, agents fail before they reason. A question about a post passes through six
+stages (discover, acquire, detect, extract, ground, aggregate), and the first four come before any reasoning
+about content. In the author's operational logs, a plain request to a Douyin or Toutiao share link returned
+a 72{,}914-byte verification page with zero visible characters (Figure~\ref{fig:teaser}), and of nine link
+forms of one public Xiaohongshu note (desktop and mobile URLs, share text and short links, with and without
+the share token, on two domains) three opened while the rest ended at a 404 or a login page. These are
+motivating observations, not results; Track~A re-measures them with the released harness. On the general
+web, 20.9\% of the HTTP-200 responses that a static client receives lack the page's main content, and 13.1\%
+of sites answer 200 for a path that does not exist \citep{zhang2026silent}. When a post is served, the
+answer often lives in a channel a text pipeline does not read. On 252 real Xiaohongshu photo questions the
+best of nine frontier vision-language models answers 52.8\% correctly, and agentic search adds 2.0
+points \citep{jiang2026notevqa}; on open-web video, the authors of Video-BrowseComp find that ``the main
+bottleneck lies before video understanding: agents often fail to find the answer-bearing video at all''
+\citep{liang2025videobrowser}.
+
+Existing benchmarks skip the read by construction. BrowseComp-Plus replaces the live web with a fixed
+corpus so that comparisons are reproducible \citep{chen2025browsecompplus}; SoMe gives agents an offline
+database of 9.2 million posts whose images and videos were converted to text by GPT-4o and Qwen2.5-VL
+before evaluation \citep{xue2026some}; video deep-research benchmarks hand the agent the video
+\citep{liu2026videodr,meng2026omnidr,liang2026groundedvdr}. Each choice is sound for its purpose, and each
+removes acquisition, wall detection and extraction from what is measured. On a set of real links,
+end-to-end accuracy decomposes as
+\begin{equation}\label{eq:decomp}
+  \mathrm{Acc} \;=\; c\,a_{s} \;+\; (1-c)\,a_{w},
+\end{equation}
+where $c$ is coverage, the share of links whose content the system actually received, $a_s$ its accuracy
+on those links, and $a_w$ its accuracy on the rest. Published numbers report $a_s$. On questions that a
+closed-book model cannot answer, an honest system has $a_w \approx 0$: after a wall, a correct answer means
+the content came from somewhere other than the post, and an incorrect one is a fabrication.
+
+Measuring acquisition without fixing the rules would reward circumvention. The widely used open-source
+tools for Chinese platforms acquire content through logged-in browser sessions, stored login cookies and
+reimplemented request signatures \citep{nanmicoder2026mediacrawler,xpzouying2026xhsmcp,evil0ctal2026douyinapi};
+commercial assistants have surfaced content from publishers that block them
+\citep{jazwinska2025tow,cloudflare2025perplexity}; and most agents prompted neutrally scrape sites whose
+terms prohibit it, with compliance below 5\% \citep{imperial2026scrapebench}. We therefore measure reading
+under declared access profiles whose rules are enforced in code, and we report what honesty costs. This
+paper contributes:
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{ReadProof, an open-source harness} (Apache-2.0) in which access rules are data and tests, not
+  prose. A policy gate decides every request under an access profile; a canonicalizer resolves share
+  artefacts one gated hop at a time; readers prefer the platform's official player; a wall detector returns
+  one of fourteen typed walls instead of page text; extractors write content-addressed records located by
+  channel; a verifier accepts a quote only if it is an exact substring of a stored record; an append-only
+  log records every decision; and agents reach all of it through the Model Context Protocol
+  (Section~\ref{sec:harness}).
+\item \textbf{ReadProof-Bench, a benchmark with four tracks.} Track~A scores access per link form on nine
+  platforms. Track~K is a planted-canary panel: the author's own posts, each carrying a random code in
+  exactly one channel, so that a correct code proves a read and a different code proves a fabrication.
+  Track~B asks questions answerable from exactly one channel of one post, with gold from two independent
+  extractors and closed-book and answerability filters. Track~C is a counting pilot
+  (Section~\ref{sec:bench}).
+\item \textbf{Read--verify--count, a training-free method} that abstains with a typed cause, routes
+  extraction by a priced budget, gates citations on verified quotes with one re-ask, and counts in code with
+  an adjusted classify-and-count estimator and bootstrap intervals (Section~\ref{sec:method}).
+\item \textbf{A measurement of the honesty penalty}, the coverage that a declared, rule-following reader
+  gives up when robots.txt binds it, reported with the effect of network origin, the rate of answers built
+  on walls, quote validity, and cost per correct answer split into media extraction and model tokens
+  (Sections~\ref{sec:setup}--\ref{sec:analysis}).
+\end{itemize}
+No single element is new: fetch failures \citep{zhang2026silent}, scraping compliance
+\citep{imperial2026scrapebench}, social-media agents \citep{xue2026some} and Xiaohongshu question answering
+\citep{jiang2026notevqa} each have recent precedents. The contribution is their combination: starting from
+the share artefacts people paste for public posts, tracing every acquisition failure to a typed wall under a
+declared profile that never works around platform defences, locating each answer's evidence in a labelled
+channel with a verified quote, counting across posts against per-post gold, and pricing each correct answer.
+Code, data and logs: \RepoURL.
+
+% =====================================================================================
+\section{Related work}\label{sec:related}
+
+\paragraph{Deep-research harnesses and context management.}
+Recent technical reports isolate the harness by changing one component at a time. When a trajectory fills
+80\% of the window, DeepSeek-V3.2 compares summarizing it with discarding tool history: discarding all
+earlier tool calls raises BrowseComp accuracy from 51.4 to 67.6, while summarization reaches 60.2 after 364
+steps on average \citep{deepseek2025v32}. Kimi~K2.5 (60.6 to 74.9, and 78.4 with a trained agent swarm;
+\citealp{kimi2026k25}) and GLM-5.1 (68.0 to 79.3; \citealp{zai2026glm51}) report the same strategy,
+DeepSeek-V4 keeps it for up to 500 steps in a 512K-token context \citep{deepseek2026v4}, and with a
+one-million-token window Kimi~K3 gains 0.8 points from compaction (90.4 to 91.2; \citealp{moonshot2026kimik3}).
+Other designs carry state outside the tool history: Tongyi DeepResearch rebuilds each step from an evolving
+report \citep{tongyi2025deepresearch}, MiroThinker keeps the five most recent observations and adds local and
+global verification of the evidence chain \citep{mirothinker2026h1}, AgentFold folds its history at several
+scales \citep{ye2025agentfold}, and TTD-DR refines a draft report by retrieval-informed denoising
+\citep{han2025ttddr}. In Anthropic's orchestrator--worker system, tokens spent explain 80\% of the variance on
+BrowseComp, and sub-agents return condensed summaries of 1{,}000--2{,}000 tokens
+\citep{anthropic2025multiagent,anthropic2025context}; blocking search results that named the benchmark, where
+URL blocklists had failed, stopped agents from retrieving its answer key \citep{anthropic2026evalawareness}.
+A controlled study finds that a central coordinator contains error amplification (4.4$\times$, against
+17.2$\times$ for independent agents) and helps parallelizable tasks but hurts sequential ones
+\citep{kim2025scaling}. DeepSeek has also released a plugin-based harness as a developer preview
+\citep{deepseek2026harness,shi2026composability}. These systems share one reading interface, a search tool
+plus a fetch or visit tool whose output a model summarizes; none types a refused read or locates evidence by
+channel. ReadProof supplies that read path and exposes their context policies as a plug-in.
+
+\paragraph{Reinforcement-learned search agents.}
+Search-R1 trains with PPO or GRPO on an exact-match outcome reward, masking retrieved tokens from the loss,
+against a 2018 Wikipedia index \citep{jin2025searchr1}; R1-Searcher rewards retrieval first and answers
+second \citep{song2025r1searcher}; DeepResearcher trains against the live web \citep{zheng2025deepresearcher};
+ZeroSearch replaces the search engine with a simulator model, cutting the cost of about 64{,}000 training
+searches from \$586.7 through a commercial search API to \$17.7--70.8 of GPU time \citep{sun2025zerosearch};
+ASearcher scales fully asynchronous RL to long horizons with about 16{,}000 H800 GPU-hours
+\citep{gao2025asearcher}; WebSailor synthesizes high-uncertainty questions by obfuscating random-walk
+subgraphs \citep{li2025websailor}. SocialBuddy, an RL search agent built for social content, searches
+friends' feeds in a simulated environment of 10 million generated posts through structured filter tools,
+trains with more than 2{,}000 H20 GPU-hours, and promises its code on acceptance \citep{li2026socialbuddy}.
+Reliability studies temper these gains. During Search-R1 training, the share of correct Bamboogle answers
+supported by retrieved evidence falls from 84.0\% to 42.9\% \citep{liu2026grounded}; eight paraphrased echoes
+of a false claim overturn 58--73\% of previously correct answers, and exact-match RL drives abstention below
+15\% once the evidence is deleted \citep{yang2026echospec}; and a replication obtained 0.403 where Search-R1
+reports 0.431 \citep{xu2026howtotrain}. These environments are Wikipedia, the open web or a simulation, and
+none of them meets a platform wall. ReadProof's deterministic signals (wall type, quote validity, count
+error) could serve as verifiable rewards; we leave training to future work.
+
+\paragraph{Benchmarks for agentic search.}
+BrowseComp's 1{,}266 questions are built to be hard to find but easy to verify \citep{wei2025browsecomp};
+BrowseComp-ZH carries the design to 289 multi-hop questions on the Chinese web \citep{zhou2025browsecompzh};
+BrowseComp-Plus fixes a curated corpus of about 100{,}000 documents for 830 questions, on which GPT-5 rises
+from 55.9\% to 70.1\% with a better retriever \citep{chen2025browsecompplus}; GAIA withholds the answers to
+300 of its 466 questions for a leaderboard \citep{mialon2023gaia}; Humanity's Last Exam adds 2{,}500
+questions \citep{phan2025hle}; and WideSearch asks for exhaustive tables \citep{wong2025widesearch}.
+MM-BrowseComp \citep{li2025mmbrowsecomp} and MMSearch-Plus \citep{tao2025mmsearchplus} place evidence in web
+images and video. VideoDR \citep{liu2026videodr}, OmniDR-Bench \citep{meng2026omnidr} and GroundedVDR
+\citep{liang2026groundedvdr} start from a supplied video and add web search; in GroundedVDR the best of eight
+systems answers 76.0\% correctly, yet none recovers the complete required web evidence for more than 8\% of
+the questions. MultiVENT~2.0's 3{,}906 queries over more than 218{,}000 videos target visual content, audio,
+embedded text and metadata \citep{kriz2025multivent}. Channel-specific text matters: OCR, speech and object-detection text
+retrieved for a video improves long-video question answering \citep{luo2025videorag}, and Xiaohongshu's
+multimodal note representations were redesigned because fine-tuned LLMs neglect image content
+\citep{zhang2025notellm2}. On social media, SoMe is the closest agent benchmark:
+9{,}164{,}284 posts behind an offline tool interface, media converted to text before evaluation, and
+question answers scored by an LLM on a 0--5 scale \citep{xue2026some}. SNS-Bench evaluates LLMs on eight
+social-networking-service tasks with 6{,}658 questions \citep{guo2025snsbench}. Xiaohongshu's own teams
+release Qilin, an app-level multimodal retrieval dataset \citep{chen2025qilin}, NoteVQA
+\citep{jiang2026notevqa} and VibeSearchBench, 200 proactive-search tasks on which the best F1 is 30.30
+\citep{xhs2026vibesearchbench}; LocalSearchBench covers 900 local-life tasks over 1.3 million merchants
+\citep{he2026localsearchbench}. None of these benchmarks starts from the share artefacts people paste for
+public posts, and none scores whether the agent received the post at all.
+
+\paragraph{Grounding and attribution.}
+Attribution asks whether a generic reader would agree that a statement holds according to its source
+\citep{rashkin2021ais}; ALCE scores citation recall and precision with an entailment model
+\citep{gao2023alce}. An audit of four generative search engines found 51.5\% of generated sentences fully
+supported by their citations and 74.5\% of citations supporting their sentence \citep{liu2023verifiability};
+automatic attribution judges reach about 80\% macro-F1 \citep{li2024attributionbench}, and small checkers
+approach much larger models at a fraction of the cost \citep{tang2024minicheck}. Audits of deployed systems
+report citation accuracy of 40--80\% for deep-research configurations \citep{venkit2025deeptrace}; 3--13\%
+of citation URLs that probably never existed \citep{rao2026reference}; most final-report errors originating
+at the orchestrator rather than in retrieval \citep{hirsch2026blame}; syntheses that state claims more
+strongly than their sources \citep{singharoy2026smoothing}; and users who prefer answers with more citations
+even when the citations do not support the claims \citep{miroyan2026searcharena}. News audits found more than
+60\% of source identifications wrong across eight AI search tools \citep{jazwinska2025tow}, and at least one
+significant issue in 45\% of assistant answers across 22 public-service media organizations
+\citep{ebu2025newsintegrity}. Verbatim quotation makes support checkable: GopherCite trains models to support
+answers with quotes \citep{menick2022gophercite}, quote tuning aligns models to quote their pre-training data
+\citep{zhang2025verifiable}, and R$^3$A, deployed in Xiaohongshu's search, extracts a verbatim evidence
+fragment or none \citep{yuan2026r3a}. ReadProof's verifier is deterministic and adds what these checks lack on
+social media: a channel and locator for every quote, and the hash of the snapshot it came from.
+
+\paragraph{Fetch failures, walls and compliance.}
+The closest measurement is general-purpose. Across 10{,}307 URLs, \citet{zhang2026silent} finds the 20.9\%
+and 13.1\% rates quoted above and shows that text length, probe comparison and redirect-to-root together
+recover 86\% of unusable responses at about 5\% false alarms; the study names no social platform and does
+not test the answers built downstream. Solver services defeat challenge-based CAPTCHAs every time, and LLM
+browser agents pass mainly when they carry an established account and browser state
+\citep{ousat2026brokengates}, so ``not blocked'' is not evidence of permission; standardizing how failures
+are handled moved one agent's reported web-task success from 87\% to 68.6\% \citep{akkil2026emergence}.
+RFC~9309 scopes robots.txt to ``automatic clients known as crawlers'' \citep{rfc9309}; Content Signals
+\citep{cloudflare2025contentsignals} and the IETF AIPREF drafts \citep{ietf2026aiprefvocab,ietf2026aiprefattach}
+add usage preferences that are not yet standards. Measured compliance is selective: across 130 self-declared
+bots, average robots.txt compliance was 0.42, and 0.307 for disallow-all rules \citep{kim2025scrapers}; within
+one year, robots.txt came to restrict more than a quarter of the most actively maintained critical sources of
+a major training corpus \citep{longpre2024consent}; a study of ten assistants with server logs and planted
+codes found that page access and answer correctness diverge \citep{lopezfonseca2026robots}; Cloudflare reported
+that Perplexity used undeclared crawlers to evade no-crawl directives \citep{cloudflare2025perplexity}; and
+ScrapeBench finds compliance below 5\% for most agents on 1{,}626 sites that prohibit scraping, with 98.5\%
+over-refusal by Claude Opus~4.6 on 269 sites that permit it, without measuring task utility
+\citep{imperial2026scrapebench}. Operators document user-triggered fetchers as outside robots.txt: for
+ChatGPT-User, ``robots.txt rules may not apply'' \citep{openai2026crawlers}, and Google-Agent ``generally
+ignores robots.txt rules'' \citep{tollbit2026googleagent}. ReadProof pairs compliance with utility on social
+platforms, and turns each refusal into a typed, logged data point.
+
+\paragraph{Counting, aggregation and cost.}
+No model exceeds 50\% on Oolong's long-context aggregation tasks at 128K tokens, where the bottleneck is
+finding and adding up items rather than classifying them \citep{bertsch2025oolong}; WebAggregator finds
+current agents retrieval-heavy but reasoning-light and builds aggregation-centred training data
+\citep{wang2025webaggregator}. Quantitative opinion summarization counts how many comments support each key
+point: Key Point Analysis ranks key points by prevalence \citep{friedman2021kpa,tang2024pakpa}, and QQSUM
+reports count errors (mean absolute error 4.24 for its best model) on Amazon reviews, with matches judged by
+an LLM and no quote audit \citep{tang2025qqsum}. Analysts coding user-generated content against a needs
+inventory give the human design we follow for labels \citep{timoshenko2019needs}, and quantification learning
+corrects counts for classifier error \citep{forman2008quantifying,esuli2022lequa}. Cost-of-Pass prices the
+expected dollars per correct answer \citep{erol2025costofpass}; HAL plots accuracy against cost and finds
+that higher reasoning effort lowered accuracy in most runs \citep{kapoor2025hal}; \citet{kapoor2024agents}
+argue for cost-controlled evaluation; agents unaware of their budget stop improving as it grows
+\citep{liu2025bats}; and SlimSearcher trains agents to make fewer calls at equal accuracy
+\citep{xie2026slimsearcher}. These accounts price model tokens, tool calls or API dollars. None prices media
+extraction, which a social-media agent pays before it can read speech or on-screen text.
+
+% =====================================================================================
+\section{The ReadProof harness}\label{sec:harness}
+
+\begin{figure}[t]
+\centering
+\rpfigure{fig_harness}
+\caption{The ReadProof harness. Every request passes the policy gate; every hop of a redirect is gated; a
+read reaches the extractors only when the wall detector says \emph{served}, and otherwise leaves as a typed
+\texttt{not\_served} cause. Violet marks ReadProof components, red marks walls, and dashed lines are writes
+to the append-only log, which records every gate decision, request, wall verdict, extraction, verification,
+model call and budget change.}
+\label{fig:harness}
+\end{figure}
+
+Figure~\ref{fig:harness} shows the harness. Modules exchange only the typed records of
+\texttt{readproof/types.py} through the protocols of \texttt{readproof/interfaces.py}, so each component can
+be replaced and tested alone. Three invariants hold throughout. \emph{A wall never reaches a model as page
+text:} a read returns records only when a wall verdict says the post was served. \emph{Every record is
+content-addressed:} it names the SHA-256 of the snapshot it was extracted from. \emph{Every decision is a log
+line:} the trajectory log is append-only and sufficient to recompute every compliance figure we report.
+
+\subsection{Access profiles are data}\label{sec:profiles}
+An access profile is a frozen record (\texttt{Profile}) that states whether robots.txt and Content-Signal
+bind, whether the read was initiated by a user, whether a headless browser and official-player media are
+allowed, the declared user agent, and the retry policy (at most one retry, after a 2-second back-off).
+Table~\ref{tab:profiles} lists the three profiles. P0 obeys robots.txt for the harness's declared product
+token, or the \texttt{*} group when the file does not name it, with RFC~9309's matching: if no group matches
+and there is no \texttt{*} group, ``no rules apply'' \citep{rfc9309}; an unavailable file (4xx) permits access
+and an unreachable one is treated as complete disallow, as the RFC specifies. P1 covers a single fetch of a
+link that a user supplied. It evaluates and logs robots.txt without treating it as binding, the position
+RFC~9309's scope to crawlers allows and the one operators document for their user-triggered fetchers
+\citep{openai2026crawlers,tollbit2026googleagent}. We never describe P1 as robots.txt-respecting. P2 covers
+content that a person captured or uploaded, so no request is sent. Every result in this paper names its
+profile and its network origin.
+
+\begin{table}[t]
+\centering\small
+\caption{Access profiles. Each is a \texttt{Profile} value; the tests in \texttt{tests/test\_rules.py} pin
+what every field means. All three share the eight rules of Table~\ref{tab:rules}.}
+\label{tab:profiles}
+\begin{tabular}{@{}l p{4.6cm} p{3.5cm} c c@{}}
+\toprule
+Profile & robots.txt and Content-Signal & Who triggers a read & Browser & Player media \\
+\midrule
+P0 strict & binding for the declared token, else the \texttt{*} group (RFC~9309); \texttt{ai-input=no} refuses
+  & anyone & yes & if allowed \\
+P1 user-initiated & evaluated and logged, not binding & a user supplied this link; one fetch & yes & yes \\
+P2 user-assisted & not applicable: nothing is fetched & a person captured or uploaded the content & no & no \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Eight rules, each pinned by a test}\label{sec:rules}
+Table~\ref{tab:rules} lists the rules every profile shares. They encode one principle, \emph{no
+circumvention, declared identity}: the harness reads only what a platform serves to an honestly named client
+that holds no session, and it stops at the first refusal. Each rule is pinned by an offline unit test against
+recorded fixtures. A fake transport asserts that every request carries the declared user agent and none
+carries a \texttt{Cookie} header; scripted responses assert that a 429 is retried exactly once after the
+back-off while a 403, a 412 or a challenge page is never retried; a stub resolver that returns a private
+address asserts a refusal before any connection; and a scan of the source tree asserts that no code computes
+a platform's request-signature parameters. A reader can therefore check the compliance statement of
+Appendix~\ref{app:compliance} by running the test suite rather than by trusting this paper.
+
+\begin{table}[t]
+\centering\small
+\caption{The eight rules shared by every profile and how the harness enforces them.}
+\label{tab:rules}
+\begin{tabular}{@{}r p{5.2cm} p{8.6cm}@{}}
+\toprule
+& Rule & Enforcement \\
+\midrule
+1 & Declared identity & Every request sends \texttt{User-Agent: ReadProof/<version> (+repository URL)}; the
+  browser reader appends the same token to Chromium's string. Never a phone or desktop browser string. \\
+2 & No cookies & The HTTP client sends no \texttt{Cookie} header and keeps no jar; each browser read starts
+  in a fresh context with an empty jar, discarded afterwards; no stored state or logged-in session is ever
+  imported. \\
+3 & No captcha answered, no signature generated, no device identity forged & No code in the repository
+  computes a platform's request signature; a platform's own page or player may compute what it computes
+  inside the browser. \\
+4 & No change of identity or address after a refusal & No proxies (environment proxies are ignored) and no
+  rotation; at most one retry, with the same identity, after a back-off, and only after 429, 5xx or a
+  transport error; never after 403, 412, a challenge or a login wall. \\
+5 & Public addresses only & Private, loopback, link-local, multicast and reserved addresses are refused after
+  DNS resolution, on every hop. \\
+6 & A wall never reaches a model as page text & A read returns records only under a \emph{served} verdict. \\
+7 & robots.txt and Content-Signal are always evaluated and logged & Binding under P0; logged with
+  \texttt{robots\_binding = false} under P1 and P2. \\
+8 & Platform deny list & LinkedIn is refused under every profile, with reason \texttt{terms}: its terms
+  prohibit automated access and its robots.txt disallows all bots. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Policy gate and canonicalizer}
+The policy gate decides every request before it is sent and returns a \texttt{GateDecision}: the profile,
+whether the request is allowed and why (\texttt{allowed}, \texttt{robots\_disallow}, \texttt{content\_signal},
+\texttt{profile}, \texttt{private\_address}, \texttt{scheme}), the robots.txt group and rule that matched,
+whether that rule was binding, and the parsed Content-Signal. robots.txt is cached per origin for 24 hours.
+A refusal returns \wt{not\_served\{policy\}} without sending a request.
+
+People rarely paste canonical URLs. They paste app share text with a URL inside (\zh{复制打开抖音，看看……}),
+short links, links with or without a share token, and alternate domains. The canonicalizer extracts the
+first URL from share text, then expands a short link (\texttt{v.douyin.com}, \texttt{xhslink.com},
+\texttt{b23.tv}, \texttt{vm.tiktok.com}, \texttt{t.co}, \texttt{youtu.be}) one hop at a time with
+\texttt{HEAD} (falling back to \texttt{GET}), never letting the client follow redirects, gating every hop, and
+stopping as soon as a platform parser recognizes the target. An unknown short code that redirects to the home
+page is typed \wt{soft\_404}, not \wt{deleted}: short codes are case-sensitive, and in the author's logs a
+Douyin short code with one letter in the wrong case redirected to the home page exactly as a deleted post
+does. Where a share form is disallowed and a canonical form is
+not, the canonicalizer rewrites the URL without fetching the disallowed hop: Toutiao's robots.txt disallows
+\texttt{/group/} and \texttt{/item/} but not \texttt{/article/} \citep{robots2026toutiao}, so a
+\texttt{/group/<id>} link is read as \texttt{/article/<id>/}.
+
+\subsection{Readers and the official-player principle}
+Each platform module declares, without network access, how to parse a URL into a post reference, which link
+forms exist, and where its oEmbed endpoint and official embed player are. Readers run cheapest first:
+oEmbed, the public page, the official embed player, then a headless browser. Every fetch is judged by the wall
+detector, and the first served reader supplies records; every wall met on the way is recorded with its
+evidence. When a platform serves a post only through its own embed player, ReadProof loads that player in a
+fresh browser context and keeps only the media that the player itself requests. The player may compute
+whatever request parameters it computes in its own page; ReadProof never computes them (rule~3). The browser
+reader asks the gate before navigating and logs every request it observes.
+
+\subsection{Wall detector and typed \texttt{not\_served}}
+The wall detector maps a fetch to a \texttt{WallVerdict}: \emph{served} or one of fourteen wall types, with
+the evidence that decided it (status, final URL, bytes, visible characters, signature). Platform rules run
+first, then generic ones: 429 is \wt{rate\_limited}; 404 or 410 is \wt{deleted}; 401 or a redirect to a login
+path is \wt{login}; a redirect to the site root or a generic listing is \wt{soft\_404}; Cloudflare, Akamai,
+Tencent and ByteDance challenge markers are \wt{challenge}; a 200 response with fewer than 40 visible
+characters and no title is \wt{empty}; and a transport failure is \wt{network}. The platform signatures,
+from Douyin's verification page to WeChat's \zh{环境异常} notice, are listed in
+Appendix~\ref{app:walls}. The types fall into three states of knowledge, which an abstention reports:
+\emph{gone} (\wt{deleted}, \wt{self\_visible}); \emph{not served to this client} (\wt{policy},
+\wt{challenge}, \wt{login}, \wt{token}, \wt{app\_only}, \wt{region}, \wt{rate\_limited}, \wt{unsupported});
+and \emph{unknown} (\wt{soft\_404}, \wt{empty}, \wt{network}, \wt{unknown}). Saying ``the post does not
+exist'' when it was merely not served is a fabrication of its own.
+
+\subsection{Channels, extraction and the evidence store}
+Evidence on social media sits in channels, and each channel has its own locator (Table~\ref{tab:channels}).
+Extraction runs locally where possible: speech with \texttt{whisper.cpp} \citep{radford2022whisper}; on-screen
+and image text with Apple's Vision text recognizer, falling back to Tesseract, on frames chosen by
+\texttt{ffmpeg} scene detection plus uniform sampling and de-duplicated by perceptual hash; frame and image
+descriptions with an optional vision-language model. Comments are read only when the public page itself
+serves them. Every body fetched is stored under its SHA-256, and every record names the snapshot it came
+from, the extractor and the fetch time. A record's identifier hashes its post, channel, locator and text, so
+re-extracting the same text at the same place yields the same identifier and citations stay valid across
+runs. Media is deleted after extraction unless a run explicitly keeps it.
+
+\begin{table}[t]
+\centering\small
+\caption{Channels and their locators (\texttt{Channel} in \texttt{readproof/types.py}).}
+\label{tab:channels}
+\begin{tabular}{@{}l p{5.0cm} l p{4.6cm}@{}}
+\toprule
+Channel & Evidence & Locator & Extractor \\
+\midrule
+\ch{speech} & timed transcript span & $\{t_0, t_1\}$ & \texttt{whisper.cpp}, local \\
+\ch{on\_screen} & text in a video frame, including burned-in captions & $\{t\}$ & Vision OCR on keyframes \\
+\ch{frame} & description of a video frame & $\{t\}$ & optional vision-language model \\
+\ch{image\_text} & text in a carousel image & $\{\mathit{index}\}$ & Vision OCR \\
+\ch{image} & description of a carousel image & $\{\mathit{index}\}$ & optional vision-language model \\
+\ch{caption} & title, caption, description or author & $\{\mathit{field}\}$ & page or oEmbed metadata \\
+\ch{comment} & a comment the public page serves & $\{\mathit{rank}\}$ & page \\
+\ch{page} & other visible page text (fallback) & $\{\mathit{offset}\}$ & page \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Verification, budget, log and interface}
+A citation is a record identifier and a quote. The verifier normalizes both texts with a fixed Unicode and
+whitespace normalization and accepts the citation only if the quote is a substring of the record and is long
+enough to be substantial; the \texttt{verified} flag is set by this code, never by a model. Every tool is
+priced in US dollars and seconds by a budget tracker, which refuses work past a cap. The trajectory log is
+JSONL with one line per gate decision, request, wall verdict, extraction, verification, model call and budget
+change; it is append-only, synchronized to disk on close, and replayable. The compliance checks of
+Table~\ref{tab:compliance} are computed from it alone. Agents call the harness through the Model Context
+Protocol \citep{mcp2026spec} with six tools: \texttt{read}, \texttt{search\_records}, \texttt{verify},
+\texttt{label\_posts}, \texttt{count} and \texttt{budget}. A wall comes back as a typed object, never as text,
+so any agent, whether a ReAct loop, a deep-research framework or a commercial model with tool use, gets the
+same reading, logging and cost accounting.
+
+% =====================================================================================
+\section{ReadProof-Bench}\label{sec:bench}
+
+\begin{figure}[t]
+\centering
+\rpfigure{fig_bench}
+\caption{Building ReadProof-Bench. People capture gold in the official app, so building the benchmark needs
+no automated crawling of pages that robots.txt disallows. The canary panel's gold is exact by construction,
+and its codes are unguessable, so it skips the filters that third-party items need.}
+\label{fig:bench}
+\end{figure}
+
+ReadProof-Bench has four tracks (Figure~\ref{fig:bench}, Table~\ref{tab:tracks}). Every item records the
+collection date, and every result records the profile, the declared user agent and the network origin,
+because posts disappear quickly and selectively \citep{pew2024disappears,zhu2013velocity} and re-collected
+social-media data drift \citep{elmas2023persistence}.
+
+\begin{table}[t]
+\centering\small
+\caption{The four tracks. Sizes are filled from the released data.}
+\label{tab:tracks}
+\begin{tabular}{@{}l p{2.8cm} p{4.3cm} p{3.4cm} l@{}}
+\toprule
+Track & Unit & Gold & Headline metrics & Size \\
+\midrule
+A access & a link form of a public post & served or not, and wall type, as a person sees it in the
+  official app; reference fingerprint & coverage@form, answer-from-wall, wall-type accuracy &
+  \NAForms{} forms \\
+K canaries & one of the author's posts & the planted code and its channel, exact & exact-code accuracy,
+  fabrication rate & \NKPosts{} posts \\
+B evidence & a question about one post & short answer, channel, locator, verbatim quote & accuracy per
+  channel, quote validity & \NBQuestions{} questions \\
+C counting & a set of posts on one topic & per-post labels by two annotators & count error, interval
+  coverage & \NCSets{} sets \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Track A: access across link forms.}
+We sample \NAPosts{} public posts on nine platforms (Douyin, Xiaohongshu and RedNote, Bilibili, YouTube,
+TikTok, Weibo, Toutiao, X and WeChat), stratified by whether a web search engine indexes the post or the
+post was found by browsing the platform by hand, so that discovery bias can be measured. For each post the
+link-form generator emits the forms people actually paste (Appendix~\ref{app:forms}): desktop and mobile
+URLs, app share text, short links taken from the platform's share button, Xiaohongshu links with the share
+token kept, stripped or altered, alternate domains and paths, and Toutiao's share and article forms. A
+person records, on a dated device, what the official app shows for each form: whether the post is served,
+its wall type if not, and a reference fingerprint (title or caption) used to decide whether a system's
+payload contains the post. \NAControls{} control forms have known walls: deleted posts, posts visible only to
+their authors, and short codes with one character's case flipped. The scoring unit is the link form, not the
+post, because the same post can open from one form and fail from another.
+
+\paragraph{Track K: planted canaries.}
+The author publishes genuine posts on Douyin, Bilibili, YouTube, TikTok, RedNote and X. Each carries a
+distinct random code in exactly one channel: spoken only, on screen only, in the caption only, in a pinned
+comment only, or in a carousel image only. The question is always ``what code does this post contain?''. A
+correct code proves that the system read that channel on that platform, without access to its logs; a
+different code is a fabrication; ``not found'' is an abstention. Codes differ across posts, so no code can be
+known in advance. After a first round, the author deletes some posts or makes them visible only to
+themselves, which yields walls whose state is known exactly. The panel extends the planted codes of the
+robots.txt study of ten assistants \citep{lopezfonseca2026robots} to third-party platforms that cannot be
+instrumented from outside, and it is the one slice whose media can be released in full, because the author
+holds the rights.
+
+\paragraph{Track B: channel-located evidence.}
+Each of the \NBQuestions{} questions (\NBZhShare{} in Chinese) is answerable from exactly one channel of one
+third-party post: \ch{speech}, \ch{on\_screen}, \ch{frame}, \ch{image\_text}, \ch{caption} or \ch{comment}.
+An item holds the question, a short answer, the gold channel and locator, and a verbatim gold quote. Gold
+comes from the agreement of two independent extractors: \texttt{whisper.cpp} and an omni model for speech,
+and Vision OCR and a vision-language model for on-screen and image text. The gold quote must appear, after
+normalization, in both extractors' outputs at overlapping locators, and the answer must appear in no other
+channel of the post; disagreements go to the author. Two filters keep the items honest. A
+\emph{closed-book} filter drops any question that a strong model answers from the question and the URL
+string alone, the lesson of benchmarks that turn out to be answerable without their videos
+\citep{lee2026vragbench}; an \emph{answerability} filter drops any question that the same model fails when
+given only the gold record. Both follow BrowseComp's rule that answers be hard to find but easy to verify
+\citep{wei2025browsecomp}. The author audits \NAudit{} items by hand.
+
+\paragraph{Track C: counting (pilot).}
+Each of the \NCSets{} sets holds posts on one topic, such as a product complaint, a destination or a policy
+claim. Following Key Point Analysis \citep{friedman2021kpa} and analyst-coded customer-needs studies
+\citep{timoshenko2019needs}, each set has an inventory of aspects, and two annotators label every post for
+every aspect (yes, no or unclear), with an evidence span and its channel; we report Cohen's $\kappa$
+(\NCKappa{}). The gold count is computed from the labels, as QQSUM derives prevalence from matches on
+individual comments \citep{tang2025qqsum}. Questions take the form ``of these $M$ posts, how many say $A$?'',
+with one verified quote per counted post.
+
+\paragraph{Release and contamination controls.}
+Third-party content is released only as post identifiers, URLs, snapshot hashes, locators and short quotes,
+never as media; Track~K media is released in full. Test answers are withheld for a leaderboard, as GAIA
+withholds 300 of its 466 answers \citep{mialon2023gaia}. Every file carries a canary GUID, and during
+evaluation search results that name the benchmark or contain the GUID are blocked, the control that stopped
+answer-key leakage on BrowseComp \citep{anthropic2026evalawareness}; any trajectory that reaches benchmark
+material is scored as wrong. Benchmark and canary posts are never read through any service that republishes
+what it reads. The frozen track replays stored snapshots offline; the live track lists the links and a
+re-probe schedule, so that the decay of access can be published as a curve. Code is released under
+Apache-2.0 and annotations under CC~BY~4.0. Appendix~\ref{app:datasheet} is the datasheet
+\citep{gebru2021datasheets}.
+
+% =====================================================================================
+\section{Read--verify--count}\label{sec:method}
+
+\begin{figure}[t]
+\centering
+\rpfigure{fig_dataflow}
+\caption{Data flow from a question to an answer. Every stage emits a typed record. Walls leave the pipeline
+as typed causes and never reach the model as page text; quotes are verified and counts computed in code.
+Every arrow writes one line to the trajectory log.}
+\label{fig:dataflow}
+\end{figure}
+
+Read--verify--count is the method the orchestrator runs (Figure~\ref{fig:dataflow}). It needs no training:
+three parts are code and one is a prompted model, and each part can be ablated alone.
+
+\paragraph{M1: typed abstention.}
+When a read is not served, the method abstains with the wall type as its cause, and the model never sees the
+page. When a read is served but no verified citation supports an answer after one re-ask, it abstains with
+cause \texttt{unsupported}. An answer therefore takes one of three forms: a cited answer, an abstention with
+a wall cause, or an abstention for lack of support. We evaluate it as selective prediction: the
+answer-from-wall rate, abstention precision and recall, and abstention with the correct cause.
+
+\paragraph{M2: extraction routed by a priced budget.}
+Extraction dominates the cost of reading video, so the router orders channels by expected value per unit
+cost. For a question $q$ and a served post, let $\pi_k(q)$ be the prior probability that channel $k$ holds
+supporting evidence and $p_k$ its price for this post (US dollars and seconds, from the media duration and
+the budget tracker's rates). The router extracts the next channel in decreasing order of $\pi_k(q)/p_k$,
+retrieves within it with character $n$-gram BM25, fuses channels by reciprocal rank
+\citep{samuel2025mmmorrf}, and asks the model for a cited answer; it stops as soon as a verified quote supports
+the answer or the budget is spent. By default $\pi$ is uniform, which yields the cost order: caption, title
+and served comments, which cost nothing beyond the page; then on-screen text from keyframes; then speech;
+then frame descriptions. A variant predicts $\pi(q)$ with one short model call. The budget is priced in
+dollars and seconds, not in calls, because tools differ in price and a budget that counts calls
+\citep{liu2025bats,xie2026slimsearcher} treats a minute of speech recognition like a text search.
+
+\paragraph{M3a: verified-quote citations with one re-ask.}
+The model must return each claim with a record identifier and a quote copied from that record. Code checks
+every quote. If a quote fails, the model is asked once more, shown which quote failed and the record's
+text; if it fails again, the claim is dropped, and an answer left without a verified citation becomes an
+abstention with cause \texttt{unsupported}. The rule is enforced in code rather than in the prompt: a prompt
+can ask for exact quotes, but only code can refuse an inexact one.
+
+\paragraph{M3b: counting in code.}
+For a set of posts and an aspect $A$, a worker labels each served post separately (yes, no or unclear) with a
+quote, which is verified as in M3a; a label whose quote fails twice becomes \emph{unclear}. Code then counts
+$\hat N = |\{\text{yes}\}|$ among the $M$ served posts and reports the $K$ posts that were not served by
+cause, so the answer reads ``$\hat N$ of $M$ served posts ($K$ not served: \dots)'', with one verified quote per
+counted post. Because labels contain errors, we also report the adjusted classify-and-count estimate
+\citep{forman2008quantifying}
+\begin{equation}\label{eq:acc}
+  N_{\mathrm{adj}} \;=\; \min\!\Bigl(M,\; \max\!\Bigl(0,\; \frac{\hat N - \alpha M}{1-\alpha-\beta}\Bigr)\Bigr),
+\end{equation}
+where $\alpha$ and $\beta$ are the labeller's false-positive and false-negative rates on a calibration set of
+\NCalib{} posts labelled by two people. A 95\% interval comes from a bootstrap that resamples both the posts
+and the calibration items. When $1-\alpha-\beta < 0.1$ the labeller is close to chance, and we report $\hat N$
+with a flag instead. Labelling each post separately and counting in code follows the centrally coordinated
+pattern that contains error amplification \citep{kim2025scaling}, and addresses the failure that in long
+contexts aggregation, not classification, is the bottleneck \citep{bertsch2025oolong}.
+
+% =====================================================================================
+\section{Experimental setup}\label{sec:setup}
+
+\begin{figure}[t]
+\centering
+\rpfigure{fig_eval}
+\caption{Evaluation. Every system runs under a declared access profile and network origin, on a frozen replay
+arm and a live arm; deterministic scorers read the trajectory logs first, and every comparison carries a
+paired bootstrap interval.}
+\label{fig:eval}
+\end{figure}
+
+\paragraph{Systems.}
+Table~\ref{tab:systems} lists the systems (Figure~\ref{fig:eval}). Every system that reads a link does so
+through ReadProof's network layer with the declared identity, no cookies and the same retry rule, so the
+comparison isolates what each system does with what it receives. The exception is \sys{reader\_service}, a
+hosted reader that fetches pages under its own identity; its upstream requests are outside our compliance
+log, and we report it as such. Commercial assistants cannot be instrumented, so we audit them by hand on
+Track~K, where the planted codes reveal what they read without access to their logs. LinkDigest's
+production system is not evaluated.
+
+\begin{table}[t]
+\centering\small
+\caption{Systems. All model-using systems share one backbone and the same tools and budget.}
+\label{tab:systems}
+\begin{tabular}{@{}l p{11.6cm}@{}}
+\toprule
+System & What it does \\
+\midrule
+\sys{closed\_book} & the question and the URL string; no fetch \\
+\sys{naive\_fetch} & one \texttt{GET} as common agent loaders issue it, HTML converted to text, first 20{,}000
+  characters \\
+\sys{reader\_service} & the Markdown that the hosted reader at \url{https://r.jina.ai} returns for the URL \\
+\sys{browser\_text} & the \texttt{innerText} of the page rendered in headless Chromium, fresh context \\
+\sys{readproof} & the harness under P1 with read--verify--count \\
+ablations & \sys{-walls} (verdicts ignored; every payload reaches the model as text), \sys{-canonical} (the
+  URL is read as given), \sys{-speech}, \sys{-on\_screen}, \sys{-verify} (citations unchecked), P0 (strict
+  profile), datacenter origin; for cost only, \sys{extract-all} (every channel, no routing) \\
+commercial & assistants with web access, audited by hand on Track~K \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Backbone.}
+All model-using systems share one open-weights backbone per run, \nolinkurl{google/gemma-4-31b-it} through
+OpenRouter's free tier \citep{openrouter2026gemma4}, with a 262{,}144-token context. Decoding settings are
+fixed per run and logged, and responses are cached by request hash so that a replay is exact. Prompts are in
+Appendix~\ref{app:prompts}.
+
+\paragraph{Profiles, origins and arms.}
+Headline results use P1 from a residential origin (\ParamResidential{}); ablations use P0 and a datacenter
+origin (\ParamDatacenter{}). Every request is labelled with its origin. In the \emph{live arm}, links are
+fetched on \ParamLiveDays{} days from the fixed origin, with requests to any host spaced at least two seconds
+apart; we report the mean over \ParamRuns{} runs and the day-to-day spread. In the \emph{frozen replay arm},
+every system re-runs on the payloads it fetched, served from the evidence store, and on Track~B every
+model-using system also receives the same served records, which isolates reasoning, verification and routing
+from acquisition. Collection dates: \ParamCollection{}.
+
+\paragraph{Metrics.}
+For a system $S$ and a set of link forms $F$, \emph{coverage} is
+\begin{equation}\label{eq:cov}
+  \mathrm{cov}(S,F) \;=\; \frac{1}{|F|}\sum_{f\in F}\mathbf{1}\bigl[\,\mathrm{fp}(f) \subseteq \mathrm{text}_S(f)\,\bigr],
+\end{equation}
+where $\mathrm{fp}(f)$ is the reference fingerprint of the post behind $f$ and $\mathrm{text}_S(f)$ the
+visible text of the payload $S$ received. A read whose payload fails that check is a wall for $S$, whatever
+status code it carried. The \emph{answer-from-wall rate} is the share of walls after which $S$ still answers instead of
+abstaining. \emph{Abstention precision} is the share of abstentions that follow a wall, and \emph{abstention
+recall} the share of walls followed by an abstention. \emph{Wall-type accuracy} compares the predicted type
+with the gold type on control forms; we also report macro-F1 over types. On Track~B, \emph{accuracy} is
+exact match after normalization, reported per gold channel; \emph{locator accuracy} counts a locator as
+correct if a speech span overlaps the gold span with temporal IoU of at least 0.5, a frame timestamp is
+within \ParamFrameTol{} seconds of the gold one, or an image index, field or comment rank matches. On
+Track~K, \emph{exact-code accuracy} is exact string match with the planted code, and the \emph{fabrication
+rate} is the share of answers that give a different code. \emph{Quote validity} is the share of citations
+whose quote is a substring, after normalization, of the stored record it names; for baselines, of the visible
+text of the payload they received. On Track~C we report the absolute and relative error of the count,
+post-set F1, and \emph{interval coverage}, the share of sets whose 95\% interval contains the gold count.
+\emph{Cost per correct answer} divides the total cost of a run by its number of correct answers and is split
+into media extraction and model tokens, in dollars and in seconds. Local extractors cost measured seconds and
+no dollars; model calls are priced at the list price of the paid endpoint of the same model
+(\ParamTokenPrice{}), so that costs do not depend on free-tier quotas. The \emph{compliance log checks}
+count requests without the declared identity, requests carrying cookies, retries after a refusal, and fetches
+of robots-disallowed URLs, all of which should be zero for ReadProof under P0.
+
+\paragraph{Statistics.}
+Every comparison between two systems is paired on the same items and carries a 95\% percentile interval from
+10{,}000 bootstrap resamples. On Track~A we resample posts rather than forms, because the forms of one post
+are correlated; on Track~C we resample sets and calibration items. We claim a difference only when its
+interval excludes zero, and we compare harnesses only on the same backbone and budget.
+
+\paragraph{Hypotheses.}
+We state before running the experiments what each would falsify.
+\textbf{H1}: most end-to-end failures of the baselines occur at acquisition, detection or extraction rather
+than grounding; falsified if at least half occur at grounding. \textbf{H2}: the baselines answer from a
+substantial share of walls, and typed abstention brings the answer-from-wall rate near zero at a small cost
+in answered questions; falsified if the baselines already rarely answer from walls, or if abstention costs
+more correct answers than it removes wrong ones. \textbf{H3}: accuracy is lowest when the evidence exists only
+on screen or in carousel image text; falsified if no channel differs beyond the intervals. \textbf{H4}:
+code counting with verified quotes has lower count error than counts written in prose, with interval coverage
+near 95\%; falsified if the error is not lower or coverage falls below 85\%. \textbf{H5}: routed extraction
+matches extracting every channel at lower cost; falsified if extracting everything dominates on the
+accuracy--cost plane. \textbf{H6} is descriptive: under P0, a strict reading of robots.txt excludes a
+measurable share of the benchmark.
+
+% =====================================================================================
+\section{Results}\label{sec:results}
+
+\noindent\pending{This section is a skeleton. Each paragraph states what its table measures and which
+hypothesis it tests; the interpretation is written once the numbers are filled from \texttt{bench/score.py}.}
+
+\paragraph{Access (Track A).}
+Table~\ref{tab:trackA} reports coverage@form, the answer-from-wall rate and abstention precision and recall
+for every system that reads links, under P1 from the residential origin; Table~\ref{tab:platform} breaks coverage down by platform
+and by link form, and the notes to Table~\ref{tab:trackA} give wall-type accuracy on the control forms. Together they test H2 and quantify $c$ in Equation~\ref{eq:decomp}.
+\pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\begin{threeparttable}
+\caption{Track A under P1, residential origin. Values with 95\% paired bootstrap intervals.}
+\label{tab:trackA}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+System & Coverage@form & Answer-from-wall & Abstention precision & Abstention recall \\
+\midrule
+\sys{naive\_fetch} & \ResACovNaiveFetch & \ResAAFWNaiveFetch & \ResAAbsPNaiveFetch & \ResAAbsRNaiveFetch \\
+\sys{reader\_service}\tnote{a} & \ResACovReaderService & \ResAAFWReaderService & \ResAAbsPReaderService & \ResAAbsRReaderService \\
+\sys{browser\_text} & \ResACovBrowserText & \ResAAFWBrowserText & \ResAAbsPBrowserText & \ResAAbsRBrowserText \\
+\sys{readproof} & \ResACovReadProof & \ResAAFWReadProof & \ResAAbsPReadProof & \ResAAbsRReadProof \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item[a] Fetches upstream under the service's own identity; outside our compliance log.
+\item Wall-type accuracy of \sys{readproof} on the \ResWallN{} control forms: \ResAWallAcc{} (macro-F1
+  \ResAWallMacroF{}). Recall by type: \wt{deleted} \ResWallRecDeleted, \wt{self\_visible} \ResWallRecSelfVisible,
+  \wt{soft\_404} \ResWallRecSoftNotFound, \wt{challenge} \ResWallRecChallenge, \wt{login} \ResWallRecLogin,
+  \wt{token} \ResWallRecToken, \wt{app\_only} \ResWallRecAppOnly.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[t]
+\centering\small
+\caption{Track A coverage by platform (top) and by link form (bottom), P1, residential origin. Token columns
+apply to Xiaohongshu and RedNote.}
+\label{tab:platform}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l ccccccccc@{}}
+\toprule
+System & Douyin & XHS & Bilibili & YouTube & TikTok & Weibo & Toutiao & X & WeChat \\
+\midrule
+\sys{naive\_fetch} & \ResAPlatNaiveFetchDouyin & \ResAPlatNaiveFetchXiaohongshu & \ResAPlatNaiveFetchBilibili & \ResAPlatNaiveFetchYoutube & \ResAPlatNaiveFetchTiktok & \ResAPlatNaiveFetchWeibo & \ResAPlatNaiveFetchToutiao & \ResAPlatNaiveFetchX & \ResAPlatNaiveFetchWechat \\
+\sys{reader\_service} & \ResAPlatReaderServiceDouyin & \ResAPlatReaderServiceXiaohongshu & \ResAPlatReaderServiceBilibili & \ResAPlatReaderServiceYoutube & \ResAPlatReaderServiceTiktok & \ResAPlatReaderServiceWeibo & \ResAPlatReaderServiceToutiao & \ResAPlatReaderServiceX & \ResAPlatReaderServiceWechat \\
+\sys{browser\_text} & \ResAPlatBrowserTextDouyin & \ResAPlatBrowserTextXiaohongshu & \ResAPlatBrowserTextBilibili & \ResAPlatBrowserTextYoutube & \ResAPlatBrowserTextTiktok & \ResAPlatBrowserTextWeibo & \ResAPlatBrowserTextToutiao & \ResAPlatBrowserTextX & \ResAPlatBrowserTextWechat \\
+\sys{readproof} & \ResAPlatReadProofDouyin & \ResAPlatReadProofXiaohongshu & \ResAPlatReadProofBilibili & \ResAPlatReadProofYoutube & \ResAPlatReadProofTiktok & \ResAPlatReadProofWeibo & \ResAPlatReadProofToutiao & \ResAPlatReadProofX & \ResAPlatReadProofWechat \\
+\bottomrule
+\end{tabular}
+\par\medskip
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}l ccccccccc@{}}
+\toprule
+& & & Short & Share & Token & Token & Token & Alt. & Alt. \\
+System & Desktop & Mobile & link & text & kept & stripped & altered & domain & path \\
+\midrule
+\sys{naive\_fetch} & \ResAFormNaiveFetchDesktop & \ResAFormNaiveFetchMobile & \ResAFormNaiveFetchShort & \ResAFormNaiveFetchShareText & \ResAFormNaiveFetchTokenKept & \ResAFormNaiveFetchTokenStripped & \ResAFormNaiveFetchTokenAltered & \ResAFormNaiveFetchAltDomain & \ResAFormNaiveFetchAltPath \\
+\sys{reader\_service} & \ResAFormReaderServiceDesktop & \ResAFormReaderServiceMobile & \ResAFormReaderServiceShort & \ResAFormReaderServiceShareText & \ResAFormReaderServiceTokenKept & \ResAFormReaderServiceTokenStripped & \ResAFormReaderServiceTokenAltered & \ResAFormReaderServiceAltDomain & \ResAFormReaderServiceAltPath \\
+\sys{browser\_text} & \ResAFormBrowserTextDesktop & \ResAFormBrowserTextMobile & \ResAFormBrowserTextShort & \ResAFormBrowserTextShareText & \ResAFormBrowserTextTokenKept & \ResAFormBrowserTextTokenStripped & \ResAFormBrowserTextTokenAltered & \ResAFormBrowserTextAltDomain & \ResAFormBrowserTextAltPath \\
+\sys{readproof} & \ResAFormReadProofDesktop & \ResAFormReadProofMobile & \ResAFormReadProofShort & \ResAFormReadProofShareText & \ResAFormReadProofTokenKept & \ResAFormReadProofTokenStripped & \ResAFormReadProofTokenAltered & \ResAFormReadProofAltDomain & \ResAFormReadProofAltPath \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\paragraph{Planted canaries (Track K).}
+Table~\ref{tab:trackK} reports exact-code accuracy per channel, and the fabrication and abstention rates,
+for the automated systems and, from the manual audit, for the commercial assistants. Because the codes are
+unguessable, a correct code is proof of a read, and a fabricated code is proof of an answer built without
+one; the table tests H2 on content whose state is known exactly. \pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Track K: exact-code accuracy by the channel that carries the code, and fabrication and abstention
+rates over all canary posts.}
+\label{tab:trackK}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l *{5}{>{\centering\arraybackslash}p{2.36cm}}@{}}
+\toprule
+Channel & {\footnotesize\sys{naive\_fetch}} & {\footnotesize\sys{reader\_service}} & {\footnotesize\sys{browser\_text}} & {\footnotesize\sys{readproof}} & commercial (manual audit) \\
+\midrule
+spoken only & \ResKSpeechNaiveFetch & \ResKSpeechReaderService & \ResKSpeechBrowserText & \ResKSpeechReadProof & \ResKSpeechCommercial \\
+on screen only & \ResKOnScreenNaiveFetch & \ResKOnScreenReaderService & \ResKOnScreenBrowserText & \ResKOnScreenReadProof & \ResKOnScreenCommercial \\
+caption only & \ResKCaptionNaiveFetch & \ResKCaptionReaderService & \ResKCaptionBrowserText & \ResKCaptionReadProof & \ResKCaptionCommercial \\
+pinned comment only & \ResKPinnedCommentNaiveFetch & \ResKPinnedCommentReaderService & \ResKPinnedCommentBrowserText & \ResKPinnedCommentReadProof & \ResKPinnedCommentCommercial \\
+carousel image only & \ResKCarouselImageNaiveFetch & \ResKCarouselImageReaderService & \ResKCarouselImageBrowserText & \ResKCarouselImageReadProof & \ResKCarouselImageCommercial \\
+\midrule
+fabricated code & \ResKFabricatedNaiveFetch & \ResKFabricatedReaderService & \ResKFabricatedBrowserText & \ResKFabricatedReadProof & \ResKFabricatedCommercial \\
+abstained & \ResKAbstainedNaiveFetch & \ResKAbstainedReaderService & \ResKAbstainedBrowserText & \ResKAbstainedReadProof & \ResKAbstainedCommercial \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Channel-located evidence (Track B).}
+Table~\ref{tab:trackB} reports accuracy per gold channel, overall accuracy, quote validity and locator
+accuracy. It tests H3: whether accuracy is lowest for evidence that exists only on screen or in carousel
+images. Because per-channel subsets are small, channel claims rest on paired comparisons on the same items.
+\pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Track B: accuracy by gold channel, overall accuracy, quote validity and locator accuracy.}
+\label{tab:trackB}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}l *{9}{>{\centering\arraybackslash}p{1.32cm}}@{}}
+\toprule
+\scriptsize System & \scriptsize Speech & \scriptsize On-screen & \scriptsize Frame & \scriptsize Image text & \scriptsize Caption & \scriptsize Comment & \scriptsize All & \scriptsize Quote valid & \scriptsize Locator \\
+\midrule
+\sys{closed\_book} & \ResBSpeechClosedBook & \ResBOnScreenClosedBook & \ResBFrameClosedBook & \ResBImageTextClosedBook & \ResBCaptionClosedBook & \ResBCommentClosedBook & \ResBAllClosedBook & \ResBQuoteValidClosedBook & \ResBLocatorClosedBook \\
+\sys{naive\_fetch} & \ResBSpeechNaiveFetch & \ResBOnScreenNaiveFetch & \ResBFrameNaiveFetch & \ResBImageTextNaiveFetch & \ResBCaptionNaiveFetch & \ResBCommentNaiveFetch & \ResBAllNaiveFetch & \ResBQuoteValidNaiveFetch & \ResBLocatorNaiveFetch \\
+\sys{reader\_service} & \ResBSpeechReaderService & \ResBOnScreenReaderService & \ResBFrameReaderService & \ResBImageTextReaderService & \ResBCaptionReaderService & \ResBCommentReaderService & \ResBAllReaderService & \ResBQuoteValidReaderService & \ResBLocatorReaderService \\
+\sys{browser\_text} & \ResBSpeechBrowserText & \ResBOnScreenBrowserText & \ResBFrameBrowserText & \ResBImageTextBrowserText & \ResBCaptionBrowserText & \ResBCommentBrowserText & \ResBAllBrowserText & \ResBQuoteValidBrowserText & \ResBLocatorBrowserText \\
+\sys{readproof} & \ResBSpeechReadProof & \ResBOnScreenReadProof & \ResBFrameReadProof & \ResBImageTextReadProof & \ResBCaptionReadProof & \ResBCommentReadProof & \ResBAllReadProof & \ResBQuoteValidReadProof & \ResBLocatorReadProof \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Ablations.}
+Table~\ref{tab:ablation} removes one component at a time on the same items. Removing the wall detector
+measures what typed abstention buys (H2); removing the canonicalizer, what resolving share artefacts buys;
+removing speech or on-screen extraction, what each channel contributes (H3); removing verification, how
+often unverified citations are wrong; and the P0 and datacenter rows measure the honesty penalty and the
+effect of network origin, which Section~\ref{sec:analysis} analyses. \pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Ablations of \sys{readproof} (P1, residential, unless the row says otherwise).}
+\label{tab:ablation}
+\begin{tabular}{@{}l *{6}{>{\centering\arraybackslash}p{1.8cm}}@{}}
+\toprule
+Variant & Track A coverage & Answer-from-wall & Track K exact code & Track B accuracy & Quote validity & USD per correct answer \\
+\midrule
+\sys{readproof} & \ResAblACovReadProof & \ResAblAFWReadProof & \ResAblKAccReadProof & \ResAblBAccReadProof & \ResAblQuoteValidReadProof & \ResAblCostPerCorrectReadProof \\
+\sys{-walls} & \ResAblACovNoWalls & \ResAblAFWNoWalls & \ResAblKAccNoWalls & \ResAblBAccNoWalls & \ResAblQuoteValidNoWalls & \ResAblCostPerCorrectNoWalls \\
+\sys{-canonical} & \ResAblACovNoCanonical & \ResAblAFWNoCanonical & \ResAblKAccNoCanonical & \ResAblBAccNoCanonical & \ResAblQuoteValidNoCanonical & \ResAblCostPerCorrectNoCanonical \\
+\sys{-speech} & \ResAblACovNoSpeech & \ResAblAFWNoSpeech & \ResAblKAccNoSpeech & \ResAblBAccNoSpeech & \ResAblQuoteValidNoSpeech & \ResAblCostPerCorrectNoSpeech \\
+\sys{-on\_screen} & \ResAblACovNoOnScreen & \ResAblAFWNoOnScreen & \ResAblKAccNoOnScreen & \ResAblBAccNoOnScreen & \ResAblQuoteValidNoOnScreen & \ResAblCostPerCorrectNoOnScreen \\
+\sys{-verify} & \ResAblACovNoVerify & \ResAblAFWNoVerify & \ResAblKAccNoVerify & \ResAblBAccNoVerify & \ResAblQuoteValidNoVerify & \ResAblCostPerCorrectNoVerify \\
+P0 strict & \ResAblACovPZero & \ResAblAFWPZero & \ResAblKAccPZero & \ResAblBAccPZero & \ResAblQuoteValidPZero & \ResAblCostPerCorrectPZero \\
+datacenter origin & \ResAblACovDatacenter & \ResAblAFWDatacenter & \ResAblKAccDatacenter & \ResAblBAccDatacenter & \ResAblQuoteValidDatacenter & \ResAblCostPerCorrectDatacenter \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Counting (Track C, pilot).}
+Table~\ref{tab:trackC} compares counts written in prose by the model, code counts $\hat N$, and the adjusted
+estimate of Equation~\ref{eq:acc}. It tests H4: lower count error, and interval coverage near the nominal
+95\%. The estimated labeller error rates are $\alpha=$~\ResCAlpha{} and $\beta=$~\ResCBeta{}.
+\pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Track C pilot: count error, interval coverage and post-set F1.}
+\label{tab:trackC}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+Method & Absolute error & Relative error & Interval coverage & Post-set F1 \\
+\midrule
+count in prose & \ResCMAEProse & \ResCRelErrProse & --- & \ResCPostFProse \\
+code count $\hat N$ & \ResCMAECodeCount & \ResCRelErrCodeCount & \ResCCoverageCodeCount & \ResCPostFCodeCount \\
+adjusted $N_{\mathrm{adj}}$ & \ResCMAEAdjusted & \ResCRelErrAdjusted & \ResCCoverageAdjusted & \ResCPostFAdjusted \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Cost and compliance.}
+Table~\ref{tab:cost} splits cost per correct answer into media extraction and model tokens; together with
+Figure~\ref{fig:pareto} it tests H5. Table~\ref{tab:compliance} summarizes the compliance log.
+\pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Cost per correct answer on Track B, split into media extraction and model tokens.}
+\label{tab:cost}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+System & Extraction (USD) & Tokens (USD) & Total (USD) & Seconds \\
+\midrule
+\sys{naive\_fetch} & \ResCostExtractUSDNaiveFetch & \ResCostTokenUSDNaiveFetch & \ResCostTotalUSDNaiveFetch & \ResCostSecondsNaiveFetch \\
+\sys{reader\_service} & \ResCostExtractUSDReaderService & \ResCostTokenUSDReaderService & \ResCostTotalUSDReaderService & \ResCostSecondsReaderService \\
+\sys{browser\_text} & \ResCostExtractUSDBrowserText & \ResCostTokenUSDBrowserText & \ResCostTotalUSDBrowserText & \ResCostSecondsBrowserText \\
+\sys{readproof} (routed) & \ResCostExtractUSDReadProof & \ResCostTokenUSDReadProof & \ResCostTotalUSDReadProof & \ResCostSecondsReadProof \\
+\sys{readproof} (\sys{extract-all}) & \ResCostExtractUSDExtractAll & \ResCostTokenUSDExtractAll & \ResCostTotalUSDExtractAll & \ResCostSecondsExtractAll \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{semilogxaxis}[width=0.66\textwidth, height=5.4cm, xmin=1e-5, xmax=1, ymin=0, ymax=1,
+  xlabel={USD per correct answer (log scale)}, ylabel={Track B accuracy},
+  tick label style={font=\footnotesize}, label style={font=\small}, legend style={font=\footnotesize},
+  legend pos=outer north east, grid=major, grid style={draw=rpGrey!25}]
+\IfFileExists{results/pareto.dat}{%
+  \addplot[only marks, mark=*, rpViolet] table[x=usd, y=acc] {results/pareto.dat};
+  \addlegendentry{systems}
+}{%
+  \node[font=\small, text=red, align=center] at (rel axis cs:0.5,0.5)
+    {TBD: accuracy--cost points\\written by \texttt{bench/score.py}};
+}
+\end{semilogxaxis}
+\end{tikzpicture}
+\caption{Accuracy against cost per correct answer on Track B, over budget sweeps. Dominance is claimed only
+where one curve lies wholly above another \citep{kapoor2025hal,kapoor2024agents}.}
+\label{fig:pareto}
+\end{figure}
+
+\begin{table}[t]
+\centering\small
+\caption{Compliance log checks. Targets for ReadProof: 100\% declared identity, and zero cookies, retries
+after a refusal and robots-disallowed fetches under P0.}
+\label{tab:compliance}
+\begin{tabular}{@{}l *{6}{>{\centering\arraybackslash}p{1.85cm}}@{}}
+\toprule
+System & Requests & Declared identity & Cookie headers & Retries after a refusal & robots-disallowed fetches & Max requests/s per host \\
+\midrule
+\sys{naive\_fetch} & \ResCompRequestsNaiveFetch & \ResCompDeclaredUANaiveFetch & \ResCompCookiesNaiveFetch & \ResCompRetryAfterRefusalNaiveFetch & \ResCompRobotsDisallowedNaiveFetch & \ResCompMaxRateNaiveFetch \\
+\sys{browser\_text} & \ResCompRequestsBrowserText & \ResCompDeclaredUABrowserText & \ResCompCookiesBrowserText & \ResCompRetryAfterRefusalBrowserText & \ResCompRobotsDisallowedBrowserText & \ResCompMaxRateBrowserText \\
+\sys{readproof} P0 & \ResCompRequestsReadProofPZero & \ResCompDeclaredUAReadProofPZero & \ResCompCookiesReadProofPZero & \ResCompRetryAfterRefusalReadProofPZero & \ResCompRobotsDisallowedReadProofPZero & \ResCompMaxRateReadProofPZero \\
+\sys{readproof} P1 & \ResCompRequestsReadProof & \ResCompDeclaredUAReadProof & \ResCompCookiesReadProof & \ResCompRetryAfterRefusalReadProof & \ResCompRobotsDisallowedReadProof & \ResCompMaxRateReadProof \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================================
+\section{Analysis}\label{sec:analysis}
+
+\paragraph{The honesty penalty.}
+Table~\ref{tab:honesty} reports, per platform, ReadProof's coverage under P0 and P1, their difference (the
+honesty penalty), the share of link forms that a strict reading of robots.txt excludes, and the effect of
+network origin. The static part needs no experiment. Under RFC~9309, a bot that a robots.txt file does not
+name obeys the \texttt{*} group, and if there is none, no rules apply \citep{rfc9309}. Read that way, the
+files fetched on 21 November 2026 exclude an honest new bot from Xiaohongshu and RedNote note pages, Weibo
+posts and WeChat articles altogether: xiaohongshu.com and mp.weixin.qq.com disallow every path for
+\texttt{*}, rednote.com opens its note paths only to a named search crawler, and weibo.com disallows every
+path for \texttt{*} while declaring \texttt{ai-input=yes} in its Content-Signal
+\citep{robots2026xiaohongshu,robots2026rednote,robots2026weixin,robots2026weibo}. Douyin's file has no
+\texttt{*} group, so no rules apply to an unnamed bot, yet its share pages answer every client with a
+verification page \citep{robots2026douyin}: ``allowed'' and ``served'' are separate measurements. TikTok's
+file disallows every path for self-named AI agents, among them ChatGPT-User and Claude-User, while leaving
+video pages open to \texttt{*} \citep{robots2026tiktok}, so a bot that declares itself as an AI agent loses
+access that an anonymous one keeps. The penalty is therefore not one number but a property of each platform's
+file and of how a bot names itself. Overall, the strict reading excludes \ResHeadStrictExcluded{} of the
+benchmark, and the measured penalty is \ResHeadPenalty{}. \pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{The honesty penalty and the effect of network origin, per platform. P0 and P1 are coverage@form of
+\sys{readproof}; penalty $=$ P1 $-$ P0; strict exclusion is the share of forms whose canonical URL robots.txt
+disallows for the declared token; origin $=$ residential $-$ datacenter coverage under P1.}
+\label{tab:honesty}
+\begin{tabular}{@{}l ccccc@{}}
+\toprule
+Platform & P0 & P1 & Penalty & Strict exclusion & Origin effect \\
+\midrule
+Douyin & \ResHPZeroDouyin & \ResHPOneDouyin & \ResHPenDouyin & \ResHStrictDouyin & \ResHOriginDouyin \\
+Xiaohongshu / RedNote & \ResHPZeroXiaohongshu & \ResHPOneXiaohongshu & \ResHPenXiaohongshu & \ResHStrictXiaohongshu & \ResHOriginXiaohongshu \\
+Bilibili & \ResHPZeroBilibili & \ResHPOneBilibili & \ResHPenBilibili & \ResHStrictBilibili & \ResHOriginBilibili \\
+YouTube & \ResHPZeroYoutube & \ResHPOneYoutube & \ResHPenYoutube & \ResHStrictYoutube & \ResHOriginYoutube \\
+TikTok & \ResHPZeroTiktok & \ResHPOneTiktok & \ResHPenTiktok & \ResHStrictTiktok & \ResHOriginTiktok \\
+Weibo & \ResHPZeroWeibo & \ResHPOneWeibo & \ResHPenWeibo & \ResHStrictWeibo & \ResHOriginWeibo \\
+Toutiao & \ResHPZeroToutiao & \ResHPOneToutiao & \ResHPenToutiao & \ResHStrictToutiao & \ResHOriginToutiao \\
+X & \ResHPZeroX & \ResHPOneX & \ResHPenX & \ResHStrictX & \ResHOriginX \\
+WeChat & \ResHPZeroWechat & \ResHPOneWechat & \ResHPenWechat & \ResHStrictWechat & \ResHOriginWechat \\
+\midrule
+All & \ResHPZeroAll & \ResHPOneAll & \ResHPenAll & \ResHStrictAll & \ResHOriginAll \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Network origin.}
+Refusals follow the outgoing address as well as the request. Bilibili's player answers code $-412$ to a
+refused address (Appendix~\ref{app:walls}), and in the author's logs Xiaohongshu refused some addresses while
+serving the same note to others, so the same link can be served at home and refused from a cloud region. We fix the origin per arm and label every request with
+it; the last column of Table~\ref{tab:honesty} and the datacenter row of Table~\ref{tab:ablation} measure the
+effect (\ResHeadOrigin{} overall). Rule~4 forbids the obvious remedy, moving to another address after a
+refusal. \pending{Results text.}
+
+\paragraph{Channel blindness.}
+Text pipelines read captions and page text. The gap between their accuracy on \ch{caption} items and on
+\ch{speech} and \ch{on\_screen} items in Table~\ref{tab:trackB} measures what they cannot see
+(\ResHeadChannelGap{}); the \sys{-speech} and \sys{-on\_screen} ablations measure the same gap inside
+ReadProof. Table~\ref{tab:stages} assigns every failure to the first stage at which it occurred, using the
+trajectory log for acquisition, detection and extraction, and tests H1. \pending{Results text.}
+
+\begin{table}[t]
+\centering\small
+\caption{Share of Track B failures by the first stage at which they occur.}
+\label{tab:stages}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+System & Acquire & Detect & Extract & Ground \\
+\midrule
+\sys{naive\_fetch} & \ResStageAcquireNaiveFetch & \ResStageDetectNaiveFetch & \ResStageExtractNaiveFetch & \ResStageGroundNaiveFetch \\
+\sys{reader\_service} & \ResStageAcquireReaderService & \ResStageDetectReaderService & \ResStageExtractReaderService & \ResStageGroundReaderService \\
+\sys{browser\_text} & \ResStageAcquireBrowserText & \ResStageDetectBrowserText & \ResStageExtractBrowserText & \ResStageGroundBrowserText \\
+\sys{readproof} & \ResStageAcquireReadProof & \ResStageDetectReadProof & \ResStageExtractReadProof & \ResStageGroundReadProof \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Cost.}
+Token-only accounts \citep{erol2025costofpass,kapoor2025hal} miss the cost that social media adds: media
+extraction. Table~\ref{tab:cost} reports it separately (\ResHeadExtractShare{} of ReadProof's cost per correct
+answer), and the routed and \sys{extract-all} rows show what pricing the budget in dollars and seconds
+saves. \pending{Results text.}
+
+% =====================================================================================
+\section{Limitations and ethics}\label{sec:limits}
+
+\paragraph{Compliance scope.}
+The claim we make is \emph{no circumvention, declared identity}, enforced by the eight rules and checkable by
+running the tests. We do not claim that P1 respects robots.txt: it evaluates and logs robots.txt on every
+request, binds it only under P0, and reports the difference as a measured result. A strict reading of
+robots.txt excludes Xiaohongshu and RedNote, Weibo and WeChat articles for an honest bot that the files do not
+name (Section~\ref{sec:analysis}); results on those platforms are P1 results and are labelled as such. We do
+not measure what circumvention would gain, because we never run it, and we compare login- or signature-based
+tools \citep{nanmicoder2026mediacrawler,xpzouying2026xhsmcp,evil0ctal2026douyinapi} only from their
+documentation. Legal analyses in the United States and China concentrate liability on deception and on
+evading technical measures; China's 2025 Anti-Unfair Competition Law, for instance, bars obtaining another
+operator's data by evading or breaking technical management measures \citep{prc2025aucl}, and its network-data
+regulation requires automated collection not to interfere with services \citep{prc2024networkdata}. The rules
+exclude both by construction. This paragraph describes the design; it is not legal advice.
+
+\paragraph{Data release and privacy.}
+Third-party content is released as identifiers, URLs, hashes, locators and short quotes, never as media, and
+items are scrubbed of personal information before release. We do not release commenter identities or user
+profiles, and we use no data from LinkDigest's customers. Posts whose authors ask for removal are dropped from
+the next release. The canary posts are the author's own genuine posts, published under the platforms' rules;
+their codes are random strings shown openly, and the posts contain no misleading content.
+
+\paragraph{Validity.}
+Walls change over time and by address, so Track~A is a dated snapshot from fixed origins; the live track
+publishes the decay. Gold for Track~A is what one person saw in the official app on one device. Track~B gold
+depends on two extractors agreeing, which can drop hard items; the author's audit estimates how often. Track~C
+is a pilot, and its intervals assume the calibration set represents the labeller's errors. Results use one
+open-weights backbone; harness comparisons hold the backbone fixed, but absolute numbers will move with the
+model. The benchmark covers Chinese and English and nine platforms, and its share of each is a design choice.
+
+\paragraph{Competing interest.}
+The author operates LinkDigest, a commercial service that reads social-media links. The harness and benchmark
+are independent of it, and no LinkDigest production route is used in any reported result.
+
+% =====================================================================================
+\section{Conclusion}\label{sec:conclusion}
+
+On social media the hard part of agentic search is not reasoning but establishing what was read, from which
+channel, under which rules and at what cost. ReadProof turns each of those into something a log can show: a
+typed wall instead of a block page, a record with a channel, a locator and a snapshot hash instead of a
+summary, a quote checked by code instead of a citation taken on trust, and a count computed rather than
+written. Because the harness never works around a platform's defences, every wall it meets becomes a
+labelled data point, and reporting results by access profile turns ``is it compliant?'' into ``what does each
+level of honesty cost?''. Acquisition and extraction gains should not shrink as models grow, because a
+larger model still cannot read a verification page; with the released harness, that claim can be tested
+rather than assumed.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+% =====================================================================================
+\appendix
+
+\section{Datasheet}\label{app:datasheet}
+We answer the questions of \citet{gebru2021datasheets} in brief.
+\begin{description}[leftmargin=1em, style=nextline]
+\item[Motivation.] To measure whether agents read social-media posts at all, from which channel, under which
+  access rules and at what cost. Created by the author; funding: \pending{to be stated}.
+\item[Composition.] Track~A: link forms of public posts on nine platforms, with gold served/wall labels and
+  fingerprints, plus control forms. Track~K: the author's own posts, each with one planted code in one
+  channel. Track~B: questions with short answers, gold channel, locator and verbatim quote. Track~C: sets of
+  posts with per-post aspect labels from two annotators. Third-party content appears only as identifiers,
+  URLs, hashes, locators and short quotes.
+\item[Collection.] People recorded gold in the official apps on dated devices; link forms were generated
+  from captured posts; Track~B gold comes from two local or model extractors and an author audit. No gold
+  required automated crawling of pages that robots.txt disallows.
+\item[Preprocessing.] De-duplication, removal of personal information from quotes, and a canary GUID in
+  every file.
+\item[Uses.] Evaluating how agents acquire, detect, extract, ground and count evidence from public social
+  posts. Not intended for profiling individuals or for developing ways around platform defences.
+\item[Distribution.] Code under Apache-2.0, annotations under CC~BY~4.0, Track~K media under CC~BY~4.0 by
+  the author; test answers withheld for a leaderboard.
+\item[Maintenance.] The live track is re-probed on a published schedule; removal requests are honoured in the
+  next release; issues go to the repository.
+\end{description}
+
+\section{Compliance statement per platform}\label{app:compliance}
+Table~\ref{tab:robots} summarizes each platform's robots.txt as fetched on 21 November 2026 and the decision a
+strict reading implies for a declared bot that the file does not name. LinkedIn is refused under every profile
+(rule~8). The statement can be checked by running the test suite and by replaying the trajectory log, which
+records the robots.txt group and rule that matched every request.
+
+\begin{center}\begin{minipage}{\textwidth}\centering\small
+\captionof{table}{robots.txt by platform (fetched 21 November 2026) and the strict (P0) decision for an unnamed, declared bot.}
+\label{tab:robots}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.85cm} >{\raggedright\arraybackslash}p{5.0cm} >{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{2.75cm}@{}}
+\toprule
+Platform & Rule for \texttt{User-agent: *} & Named AI agents & Strict reading \\
+\midrule
+xiaohongshu.com \citep{robots2026xiaohongshu} & \texttt{Disallow: /}; only named search engines may fetch
+  \texttt{/explore} & none named & excluded \\
+rednote.com \citep{robots2026rednote} & \texttt{Disallow: /} except sitemaps, \texttt{/download},
+  \texttt{/login}, \texttt{/user/profile/}; note paths only for Googlebot & none named & excluded \\
+douyin.com \citep{robots2026douyin} & no \texttt{*} group, so no rules apply & a named group (GPTBot,
+  ChatGPT-User and others) is disallowed only \texttt{/follow} and some query patterns & allowed by policy;
+  served only through the official player \\
+weibo.com, m.weibo.cn \citep{robots2026weibo} & disallowed everywhere; \texttt{Content-Signal: search=yes,
+  ai-input=yes, ai-train=no} & named AI agents may fetch \texttt{/2/detail/} and \texttt{/ttarticle/p/show} &
+  excluded \\
+mp.weixin.qq.com \citep{robots2026weixin} & \texttt{Disallow: /}; the allowed paths exclude articles & none
+  named & excluded \\
+toutiao.com \citep{robots2026toutiao} & \texttt{/search}, \texttt{/item/}, \texttt{/group/},
+  \texttt{/trending/} disallowed; \texttt{/article/} open & none named & allowed via \texttt{/article/} \\
+bilibili.com \citep{robots2026bilibili} & only \texttt{/medialist/detail/}, \texttt{/index.html} and locale
+  prefixes disallowed & none named & allowed \\
+youtube.com \citep{robots2026youtube} & \texttt{/watch} open; \texttt{/api/}, \texttt{/youtubei/},
+  \texttt{/comment}, \texttt{/timedtext\_video} disallowed & none named & watch pages allowed; comment and
+  caption endpoints excluded \\
+tiktok.com \citep{robots2026tiktok} & only \texttt{/embed/@}, \texttt{/embed/v2}, \texttt{/search?},
+  \texttt{/link} disallowed & ChatGPT-User, Claude-User and others: \texttt{Disallow: /} & allowed while
+  unnamed \\
+x.com & \pending{to be checked} & \pending{to be checked} & \pending{to be checked} \\
+\bottomrule
+\end{tabular}
+\end{minipage}\end{center}
+
+\section{Prompts}\label{app:prompts}
+All prompts ask for JSON; code parses and verifies the output.
+
+\paragraph{Answer (read--verify--count).}
+\begin{quote}\small\ttfamily\raggedright
+You answer a question about one social-media post using only the records below. Each record has an id, a
+channel and a locator. Answer briefly. Support every claim with one record id and a quote copied from that
+record exactly. If the records do not contain the answer, reply NOT\_FOUND.\\
+Return \{"answer": string or "NOT\_FOUND", "citations": [\{"record\_id": string, "quote": string\}]\}.
+\end{quote}
+
+\paragraph{Re-ask after a failed quote.}
+\begin{quote}\small\ttfamily\raggedright
+Your quote "<quote>" does not occur in record <record\_id>. Its text is: <text>. Copy the supporting words
+exactly, or reply NOT\_FOUND.
+\end{quote}
+
+\paragraph{Per-post label (Track C).}
+\begin{quote}\small\ttfamily\raggedright
+Does this post say <aspect>? Answer yes, no or unclear, and copy one exact quote from the records that shows
+it. Return \{"label": "yes" | "no" | "unclear", "record\_id": string, "quote": string\}.
+\end{quote}
+
+\paragraph{Canary question (Track K).}
+\begin{quote}\small\ttfamily\raggedright
+What code does this post contain? Reply with the code exactly as it appears, or NOT\_FOUND.
+\end{quote}
+
+\paragraph{Baselines.}
+\begin{quote}\small\ttfamily\raggedright
+Here is the text of the page at <url>: <text>. Answer the question. If the page does not contain the answer,
+reply NOT\_FOUND.
+\end{quote}
+\sys{closed\_book} receives the same prompt with the page text replaced by ``(not available)''.
+
+\paragraph{Filters (Track B).}
+The closed-book filter asks the question with the URL string only; the answerability filter asks it with the
+gold record only, using the answer prompt above.
+
+\section{Link forms per platform}\label{app:forms}
+\begin{center}\begin{minipage}{\textwidth}\centering\small
+\captionof{table}{Link forms generated for Track A (only short links that a platform's share button produced).}
+\label{tab:linkforms}
+\begin{tabular}{@{}l p{12.2cm}@{}}
+\toprule
+Platform & Forms \\
+\midrule
+all & desktop URL; mobile URL; app share text with the URL embedded; short link where the platform has one \\
+Douyin & \texttt{v.douyin.com} short link and share text (\zh{复制打开抖音，看看……}); control: one short-code
+  character case-flipped \\
+Xiaohongshu, RedNote & \texttt{xsec\_token} kept, stripped or altered (expired); \texttt{rednote.com} versus
+  \texttt{xiaohongshu.com}; \texttt{/explore/} versus \texttt{/discovery/item/}; \texttt{xhslink} short link \\
+Toutiao & \texttt{/group/} versus \texttt{/article/} versus \texttt{m.toutiao.com} \\
+Bilibili & BV versus av identifiers; \texttt{?p=}; \texttt{b23.tv} \\
+YouTube & \texttt{watch}, \texttt{shorts}, \texttt{youtu.be}, \texttt{?si=} \\
+TikTok & \texttt{/@user/video/} versus \texttt{vm.tiktok.com} \\
+Weibo & \texttt{weibo.com/<uid>/<bid>} versus \texttt{m.weibo.cn/detail/<mid>} \\
+X & \texttt{x.com} versus \texttt{twitter.com} versus \texttt{mobile.} \\
+controls & a deleted post; a post visible only to its author; a case-flipped short code \\
+\bottomrule
+\end{tabular}
+\end{minipage}\end{center}
+
+\section{Wall signatures}\label{app:walls}
+\begin{center}\begin{minipage}{\textwidth}\centering\small
+\captionof{table}{Platform wall signatures (applied before the generic rules of Section~\ref{sec:harness}).}
+\label{tab:signatures}
+\begin{tabular}{@{}l p{8.4cm} l@{}}
+\toprule
+Platform & Signature & Wall type \\
+\midrule
+Douyin, Toutiao & verification page of about 72{,}914 bytes with no visible characters and \texttt{verify}
+  scripts & \wt{challenge} \\
+Douyin player & \texttt{status\_self\_see} & \wt{self\_visible} \\
+Douyin player & declined post (the same answer for a made-up identifier) & \wt{unknown} \\
+Xiaohongshu & redirect chain ending at \texttt{/404/sec\_...} & \wt{app\_only} \\
+Xiaohongshu & code \texttt{300031} (script wall) & \wt{challenge} \\
+Xiaohongshu & \zh{页面不见了} & \wt{deleted} \\
+Xiaohongshu & redirect to \texttt{/login?redirectPath=} & \wt{login} \\
+Bilibili & code $-412$ (refused address) & \wt{challenge} \\
+Bilibili & code $-404$, \zh{啥都木有} & \wt{deleted} \\
+Weibo & Sina Visitor System page; passport redirect & \wt{challenge}; \wt{login} \\
+WeChat & \zh{环境异常} & \wt{challenge} \\
+WeChat & \zh{该内容已被发布者删除} & \wt{deleted} \\
+X & login interstitial & \wt{login} \\
+\bottomrule
+\end{tabular}
+\end{minipage}\end{center}
+
+\end{document}

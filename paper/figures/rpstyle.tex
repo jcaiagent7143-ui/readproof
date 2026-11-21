@@ -1,0 +1,49 @@
+% rpstyle.tex -- the one visual system shared by every ReadProof figure.
+% Loaded by each standalone figure (through rppreamble.tex) and by main.tex.
+% Palette: ink #03080a for text and plain flow; violet #5b4be8 for ReadProof
+% components; red #e2452a for walls and failures; greys for neutral parts.
+% Labels are set at 8--8.5 pt so they stay readable at 100% in the paper.
+\usetikzlibrary{positioning,arrows.meta,calc,shapes.geometric,shapes.misc,fit,backgrounds}
+\definecolor{rpInk}{HTML}{03080A}
+\definecolor{rpViolet}{HTML}{5B4BE8}
+\definecolor{rpRed}{HTML}{E2452A}
+\definecolor{rpGrey}{HTML}{8C929B}
+\definecolor{rpGreyDark}{HTML}{50565E}
+\definecolor{rpGreyFill}{HTML}{F2F3F5}
+\definecolor{rpVioletFill}{HTML}{ECE9FC}
+\definecolor{rpVioletPale}{HTML}{F8F7FE}
+\definecolor{rpRedFill}{HTML}{FCE9E5}
+\providecommand{\rpfont}{\fontsize{8.5}{10}\selectfont\sffamily}
+\providecommand{\rpsmall}{\fontsize{8}{9.4}\selectfont\sffamily}
+\providecommand{\rpmono}{\fontsize{7.8}{9.2}\selectfont\ttfamily}
+\providecommand{\rpdot}{\,\ensuremath{\cdot}\,}
+\providecommand{\rpto}{\ensuremath{\rightarrow}}
+\providecommand{\rpt}[1]{{\fontsize{8.5}{10.2}\selectfont\bfseries #1}}% node title
+\tikzset{
+  rp base/.style={rounded corners=3pt, line width=0.6pt, align=center,
+    inner xsep=4pt, inner ysep=2.6pt, font=\rpsmall, text=rpInk,
+    execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
+  neutral/.style={rp base, draw=rpGrey, fill=rpGreyFill},
+  rp/.style={rp base, draw=rpViolet, fill=rpVioletFill},
+  rp strong/.style={rp base, draw=rpViolet, fill=rpViolet, text=white},
+  rp gate/.style={rp base, draw=rpViolet, fill=rpVioletFill, line width=1.15pt},
+  wall/.style={rp base, draw=rpRed, fill=rpRedFill},
+  wall strong/.style={rp base, draw=rpRed, fill=rpRed, text=white},
+  data/.style={rp base, draw=rpGrey, fill=white, font=\rpmono, align=left},
+  store/.style={cylinder, shape border rotate=90, aspect=0.07, draw=rpViolet,
+    fill=rpVioletFill, line width=0.6pt, align=center, font=\rpsmall,
+    text=rpInk, inner xsep=4pt, inner ysep=1pt,
+    execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}},
+  flow/.style={-{Stealth[length=5pt,width=4pt]}, line width=0.7pt, draw=rpInk},
+  rpflow/.style={flow, draw=rpViolet},
+  wallflow/.style={flow, draw=rpRed},
+  logflow/.style={-{Stealth[length=4pt,width=3.5pt]}, line width=0.55pt,
+    draw=rpGrey, dash pattern=on 2.6pt off 1.8pt},
+  assoc/.style={line width=0.7pt, draw=rpViolet},
+  edge label/.style={font=\rpsmall, text=rpGreyDark, inner sep=1.2pt},% no fill: place clear of lines
+  wall label/.style={edge label, text=rpRed, fill=white},% white patch: may sit across a panel border
+  group/.style={rounded corners=6pt, draw=rpViolet!35, fill=rpVioletPale,
+    line width=0.5pt},
+  group label/.style={font=\rpsmall\bfseries, text=rpViolet},
+  panel title/.style={font=\fontsize{9}{11}\selectfont\sffamily\bfseries, text=rpInk},
+}

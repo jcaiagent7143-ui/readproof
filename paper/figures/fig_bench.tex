@@ -1,0 +1,84 @@
+\documentclass[tikz,border=0pt]{standalone}
+\input{rppreamble}
+\begin{document}
+% How ReadProof-Bench is built: five steps (columns) x track rows.
+% Rows: Track A (y=6.48), Track B (4.29), Track C (2.23), Track K (0).
+% Panels: P1 [0,2.56] P2 [2.86,6.04] P3 [6.24,9.32] P4 [9.62,12.44] P5 [12.74,15.25].
+\begin{tikzpicture}[
+  item/.style={data, font=\rpsmall, align=center},
+]
+\def\yA{6.48}\def\yB{4.29}\def\yC{2.23}\def\yK{0}
+\def\yRun{0.8}% violet canary arrow
+\def\yD{0.2}% dedup centre
+% ---------------- 1 Sample ----------------
+\node[neutral, text width=2.1cm, anchor=north] (TS) at (1.28,7.59)
+  {\rpt{Topic seeds}\\several domains,\\Chinese and English};
+\node[neutral, text width=2.1cm, anchor=north] (PP) at (1.28,4.2)
+  {\rpt{Public posts}\\\rpt{per platform}\\stratified:\\indexed by web\\search or found\\by browsing};
+\node[rp, text width=2.1cm] (CP) at (1.28,0.45)
+  {\rpt{Canary panel}\\author's own\\posts, one\\random code\\in exactly\\one channel};
+% ---------------- 2 Capture gold ----------------
+\node[rp, text width=2.72cm] (LF) at (4.45,\yA)
+  {\rpt{Link-form generator}\\desktop\rpdot mobile\\short link\rpdot share text\\alternate domain\\token kept, stripped,\\altered};
+\node[rp, text width=2.72cm] (DX) at (4.45,\yB)
+  {\rpt{Dual-extractor gold}\\two independent\\extractors must agree\\on the span};
+\node[neutral, text width=2.72cm] (HC) at (4.45,\yC)
+  {\rpt{Human capture in}\\\rpt{the official app}\\visible content,\\date, device};
+\node[rp, text width=2.42cm] (EG) at (4.45,\yK)
+  {\rpt{Exact gold}\\post, channel, code};
+% ---------------- 3 Write items ----------------
+\node[item, text width=2.62cm] (IA) at (7.78,\yA)
+  {\rpt{Track A items}\\link form + gold\\wall label (served\\or not\_served type)};
+\node[item, text width=2.62cm] (IB) at (7.78,\yB)
+  {\rpt{Track B questions}\\one channel each\\short answer\\gold quote + locator};
+\node[item, text width=2.62cm] (IC) at (7.78,\yC)
+  {\rpt{Track C sets}\\$M$ posts\rpdot per-post\\labels by two\\annotators\rpdot $\kappa$};
+\node[item, text width=2.62cm] (IK) at (7.78,\yK)
+  {\rpt{Track K items}\\What code does this\\post contain?};
+% ---------------- 4 Filter ----------------
+\node[rp gate, text width=2.03cm] (CB) at (10.877,\yB)
+  {\rpt{Closed-book}\\\rpt{filter}\\a strong model\\fails without\\the read};
+\node[rp gate, text width=2.03cm, anchor=north] (AN) at ($(CB.south)+(0,-0.3)$)
+  {\rpt{Answerability}\\\rpt{filter}\\the same model\\passes with the\\gold record};
+\node[rp, text width=2.36cm, minimum height=1.1cm] (DD) at (11.03,\yD)
+  {\rpt{Dedup\rpdot PII scrub}\\\rpt{canary GUID}};
+% ---------------- 5 Release ----------------
+\node[store, text width=2.05cm, anchor=north] (FT) at (13.995,7.59)
+  {\rpt{Frozen track}\\record hashes,\\spans,\\short quotes};
+\node[store, text width=2.05cm, anchor=north] (LT) at ($(FT.south)+(0,-0.3)$)
+  {\rpt{Live track}\\links, re-probe\\schedule,\\decay curve};
+\node[store, text width=2.05cm, anchor=north] (HT) at ($(LT.south)+(0,-0.3)$)
+  {\rpt{Hidden test}\\\rpt{answers}\\leaderboard};
+\node[item, text width=2.05cm] (KM) at (13.995,\yK)
+  {\rpt{Track K media}\\released in full;\\the author holds\\the rights};
+% ---------------- flows ----------------
+\draw[flow] (TS) -- (PP);
+\draw[flow] (PP.east) -- (2.71,0|-PP.east) |- (HC.west);
+\draw[flow] (PP.east) -- (2.71,0|-PP.east) |- (LF.west|-0,5.72);
+\draw[flow] (LF.east|-0,\yA) -- (IA.west|-0,\yA);
+\draw[flow] (HC) -- (DX);
+\draw[flow] (DX) -- (IB);
+\draw[flow] (HC) -- (IC);
+\draw[rpflow] (CP.east|-0,\yRun) -| (EG.north);
+\node[edge label, anchor=south west] at (2.92,\yRun+0.05) {gold by construction};
+\draw[flow] (EG) -- (IK);
+\draw[flow] (IB) -- (CB);
+\draw[flow] (CB) -- (AN);
+\draw[flow] (AN.south) -- (AN.south|-DD.north);
+\draw[flow] (IC.east) -- (9.47,\yC) |- (DD.west|-0,0.4);
+\draw[flow] (IK.east) -- (DD.west|-0,\yK);
+\draw[flow] (IA.east) -- (12.21,\yA) -- (12.21,0|-DD.north);
+\foreach \s in {FT,LT,HT}{\draw[flow] (DD.east|-0,0.4) -- (12.59,0.4) |- (\s.west);}
+\draw[flow] (DD.east|-0,\yK) -- (KM.west|-0,\yK);
+% ---------------- panels and headers ----------------
+\path let \p1=(current bounding box.north), \p2=(current bounding box.south) in
+  coordinate (top) at (0,\y1+0.6cm) coordinate (bot) at (0,\y2-0.13cm);
+\begin{scope}[on background layer]
+  \foreach \l/\r in {0/2.56, 2.86/6.04, 6.24/9.32, 9.62/12.44, 12.74/15.25}
+    {\path[group] (\l,0|-bot) rectangle (\r,0|-top);}
+\end{scope}
+\foreach \x/\t in {1.28/1\enspace Sample, 4.45/2\enspace Capture gold, 7.78/3\enspace Write items,
+                   11.03/4\enspace Filter, 13.995/5\enspace Release}
+  {\node[panel title, anchor=north] at ($(\x,0|-top)+(0,-0.1)$) {\t};}
+\end{tikzpicture}
+\end{document}
