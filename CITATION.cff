@@ -35,6 +35,8 @@ keywords:
 preferred-citation:
   type: article
   title: "Did the Agent Read It? ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes for Agentic Search over Social Media"
+  doi: "10.5281/zenodo.24422487"
+  url: "https://doi.org/10.5281/zenodo.24422487"
   authors:
     - family-names: Chew
       given-names: Loong Nian
