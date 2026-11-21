@@ -124,7 +124,10 @@ def test_a_short_page_titled_not_found_is_deleted_not_empty():
 
 
 def test_a_title_that_only_starts_like_a_site_name_is_not_an_app_shell():
-    assert walls.judge(_page("<html><head><title>X-ray results</title></head><body>short</body></html>")).served
+    short = walls.judge(_page("<html><head><title>X-ray results</title></head><body>short</body></html>"))
+    assert short.signal.startswith("generic:no-post-evidence")  # not the site-title rule: "X-ray" is not X
+    named = "<html><head><title>X-ray results</title><meta property='og:title' content='X-ray results'></head><body>short"
+    assert walls.judge(_page(named + "</body></html>")).served
     assert walls.judge(_page("<html><head><title>抖音-记录美好生活</title></head><body></body></html>")).wall is WallType.EMPTY
 
 

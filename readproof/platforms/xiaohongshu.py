@@ -36,12 +36,28 @@ from ..types import FetchResult, PostRef, WallType, WallVerdict
 from ._base import Spec, host_of, landing, on_domain, page_of, param, path_of, raw_param, split, verdict
 
 NOTE_ID = r"[0-9a-fA-F]{24}"
+# rednote.com serves its English site under a locale prefix (www.rednote.com/en/discovery/item/<id>, indexed by
+# search engines with machine-translated titles, 2026-11-21); the note id is the same as on xiaohongshu.com.
+_LOCALE = r"(?:/(?P<locale>[a-z]{2}(?:-[A-Za-z]{2,4})?))?"
 _NOTE_PATHS = (
-    (re.compile(rf"^/explore/({NOTE_ID})(?:/|$)"), "explore"),
-    (re.compile(rf"^/discovery/item/({NOTE_ID})(?:/|$)"), "discovery_item"),
-    (re.compile(rf"^/search_result/({NOTE_ID})(?:/|$)"), "search_result"),
-    (re.compile(rf"^/user/profile/{NOTE_ID}/({NOTE_ID})(?:/|$)"), "profile_note"),
+    (re.compile(rf"^{_LOCALE}/explore/(?P<id>{NOTE_ID})(?:/|$)"), "explore"),
+    (re.compile(rf"^{_LOCALE}/discovery/item/(?P<id>{NOTE_ID})(?:/|$)"), "discovery_item"),
+    (re.compile(rf"^/search_result/(?P<id>{NOTE_ID})(?:/|$)"), "search_result"),
+    (re.compile(rf"^/user/profile/{NOTE_ID}/(?P<id>{NOTE_ID})(?:/|$)"), "profile_note"),
 )
+_LOCALE_PREFIX = re.compile(r"^/[a-z]{2}(?:-[A-Za-z]{2,4})?(?=/(?:explore|discovery)(?:/|$))")
+
+
+def strip_locale(path: str) -> str:
+    """/en/explore -> /explore (the locale prefix rednote.com puts before its own paths)."""
+    return _LOCALE_PREFIX.sub("", path or "", count=1)
+
+
+def tokenless_form(site: str, kind: str) -> str:
+    """The form name of a note address without xsec_token, the same names forms() writes: token_stripped (the
+    canonical explore form), discovery_token_stripped, rednote_token_stripped, rednote_discovery_token_stripped, …"""
+    base = {"explore": "token_stripped", "discovery_item": "discovery_token_stripped"}.get(kind, f"{kind}_token_stripped")
+    return base if site == "xiaohongshu" else f"rednote_{base}"
 _WRAPPERS = ("/login", "/website-login", "/404")
 _XSEC = re.compile(r"(xsec_token=)([^&#]*)")
 _APP_ONLY = ("当前笔记暂时无法浏览", "请打开小红书扫码查看")
@@ -86,15 +102,16 @@ class XiaohongshuSpec(Spec):
         for rx, kind in _NOTE_PATHS:
             m = rx.match(path)
             if m:
-                note_id = m.group(1).lower()
+                note_id = m.group("id").lower()
                 token = raw_param(url, "xsec_token") or None
                 site = "rednote" if on_domain(host, "rednote.com") else "xiaohongshu"
                 if token:
                     form = kind if site == "xiaohongshu" else f"rednote_{kind}"
                 else:
-                    form = "token_stripped"
+                    form = tokenless_form(site, kind)
+                locale = m.groupdict().get("locale")
                 return self.ref(note_id, form, url, xsec_token=token, xsec_source=param(url, "xsec_source"),
-                                site=site, path_kind=kind)
+                                site=site, path_kind=kind, locale=locale)
         return None
 
     def wrapped(self, url: str) -> str | None:
@@ -137,7 +154,7 @@ class XiaohongshuSpec(Spec):
             if inner:
                 return self.page_kind(inner) or ("not_found" if path.startswith("/404") else "login")
             return "not_found" if path.startswith("/404") else "login"
-        p = path.rstrip("/")
+        p = strip_locale(path).rstrip("/")
         if p == "":
             return "home"
         if p in ("/explore", "/discovery", "/discovery/item", "/search_result"):
@@ -223,7 +240,7 @@ class XiaohongshuSpec(Spec):
                 return verdict(WallType.TOKEN, "xhs:page-gone-tokenless", fetch, n, marker=_PAGE_GONE)
             return verdict(WallType.DELETED, "xhs:page-gone", fetch, n, marker=_PAGE_GONE,
                            token="present" if asked else None)
-        if on_site and asked is not None and lpath.rstrip("/") in ("", "/explore", "/discovery"):
+        if on_site and asked is not None and strip_locale(lpath).rstrip("/") in ("", "/explore", "/discovery"):
             return verdict(WallType.SOFT_404, "xhs:feed-redirect", fetch, n, marker=lpath or "/")
         m = _DESKTOP_NOTE.search(page.html)
         if m:

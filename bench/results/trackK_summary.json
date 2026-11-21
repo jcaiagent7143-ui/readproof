@@ -1,7 +1,14 @@
 {
  "generated_by": "bench/trackK_run.py",
  "date": "2026-11-21",
- "readproof_commit": "3788ced",
+ "readproof_commit": "81d1eb8+dirty",
+ "readproof_tree": "f8658185e804",
+ "round": "K2",
+ "backbone": "baidu/ernie-5.5-flash-preview:free",
+ "model_calls": {
+  "answers": 280,
+  "llm_calls": 228
+ },
  "origin": "residential:MY",
  "n_posts": 7,
  "posts": [
@@ -32,38 +39,267 @@
  "controls": 1,
  "systems": [
   "closed_book",
-  "naive_fetch"
+  "naive_fetch",
+  "browser_text",
+  "reader_service",
+  "readproof_p0",
+  "readproof_p1",
+  "readproof_p1_nowalls",
+  "readproof_p1_noverify",
+  "readproof_p1_nospeech",
+  "readproof_p1_noscreen"
  ],
  "counts": {
   "closed_book": {
    "caption": {
+    "abstained": 7
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 6
+   },
+   "speech": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "image": {
     "abstained": 1
    }
   },
   "naive_fetch": {
    "caption": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "comment": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "on_screen": {
+    "abstained": 6
+   },
+   "speech": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "browser_text": {
+   "caption": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 6
+   },
+   "speech": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "reader_service": {
+   "caption": {
+    "abstained": 4,
+    "correct": 3
+   },
+   "comment": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "on_screen": {
+    "abstained": 6
+   },
+   "speech": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p0": {
+   "caption": {
+    "correct": 4,
+    "abstained": 3
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 4,
+    "correct": 2
+   },
+   "speech": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p1": {
+   "caption": {
+    "correct": 5,
+    "abstained": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 4,
+    "correct": 2
+   },
+   "speech": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p1_nowalls": {
+   "caption": {
+    "correct": 5,
+    "abstained": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 4,
+    "correct": 2
+   },
+   "speech": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p1_noverify": {
+   "caption": {
+    "correct": 5,
+    "abstained": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 4,
+    "correct": 2
+   },
+   "speech": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p1_nospeech": {
+   "caption": {
+    "correct": 5,
+    "abstained": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 4,
+    "correct": 2
+   },
+   "speech": {
+    "abstained": 6,
+    "correct": 1
+   },
+   "image": {
+    "abstained": 1
+   }
+  },
+  "readproof_p1_noscreen": {
+   "caption": {
+    "correct": 5,
+    "abstained": 2
+   },
+   "comment": {
+    "abstained": 7
+   },
+   "on_screen": {
+    "abstained": 6
+   },
+   "speech": {
+    "abstained": 5,
+    "correct": 2
+   },
+   "image": {
     "abstained": 1
    }
   }
  },
  "totals": {
   "closed_book": {
-   "abstained": 1
+   "abstained": 27,
+   "correct": 1
   },
   "naive_fetch": {
-   "abstained": 1
+   "abstained": 25,
+   "correct": 3
+  },
+  "browser_text": {
+   "abstained": 25,
+   "correct": 3
+  },
+  "reader_service": {
+   "abstained": 23,
+   "correct": 5
+  },
+  "readproof_p0": {
+   "correct": 8,
+   "abstained": 20
+  },
+  "readproof_p1": {
+   "correct": 9,
+   "abstained": 19
+  },
+  "readproof_p1_nowalls": {
+   "correct": 9,
+   "abstained": 19
+  },
+  "readproof_p1_noverify": {
+   "correct": 9,
+   "abstained": 19
+  },
+  "readproof_p1_nospeech": {
+   "correct": 8,
+   "abstained": 20
+  },
+  "readproof_p1_noscreen": {
+   "correct": 7,
+   "abstained": 21
   }
  },
  "answer_errors": {},
+ "outcomes_changed_by_rescoring": 0,
  "reads": {
   "K01-douyin": {
    "browser_text": {
     "system": "browser_text",
     "status": 200,
     "wall": "soft_404",
-    "bytes": 1454484,
-    "visible_chars": 4884,
-    "seconds": 28.91,
+    "bytes": 1458983,
+    "visible_chars": 4354,
+    "seconds": 28.45,
     "error": "navigation timeout 25s",
     "reader": null,
     "harness_served": null,
@@ -76,7 +312,7 @@
     "wall": "challenge",
     "bytes": 72914,
     "visible_chars": 0,
-    "seconds": 0.18,
+    "seconds": 0.21,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -87,9 +323,9 @@
     "system": "reader_service",
     "status": 200,
     "wall": null,
-    "bytes": 3872,
-    "visible_chars": 3819,
-    "seconds": 18.32,
+    "bytes": 5008,
+    "visible_chars": 4716,
+    "seconds": 11.56,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -100,25 +336,9 @@
     "system": "readproof_p0",
     "status": 200,
     "wall": null,
-    "bytes": 145682,
-    "visible_chars": 157,
-    "seconds": 23.87,
-    "error": "",
-    "reader": "embed",
-    "harness_served": true,
-    "records_per_channel": {
-     "caption": 2,
-     "image_text": 1
-    },
-    "requests": 6
-   },
-   "readproof_p1": {
-    "system": "readproof_p1",
-    "status": 200,
-    "wall": null,
-    "bytes": 937941,
+    "bytes": 938248,
     "visible_chars": 515,
-    "seconds": 31.92,
+    "seconds": 26.66,
     "error": "",
     "reader": "embed",
     "harness_served": true,
@@ -129,6 +349,22 @@
      "image_text": 1
     },
     "requests": 6
+   },
+   "readproof_p1": {
+    "system": "readproof_p1",
+    "status": 200,
+    "wall": null,
+    "bytes": 145923,
+    "visible_chars": 157,
+    "seconds": 30.63,
+    "error": "",
+    "reader": "embed",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 2,
+     "image_text": 1
+    },
+    "requests": 4
    }
   },
   "K02-bilibili": {
@@ -136,9 +372,9 @@
     "system": "browser_text",
     "status": 200,
     "wall": null,
-    "bytes": 1505695,
-    "visible_chars": 2643,
-    "seconds": 4.21,
+    "bytes": 1505104,
+    "visible_chars": 2618,
+    "seconds": 4.1,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -151,7 +387,7 @@
     "wall": "challenge",
     "bytes": 3400,
     "visible_chars": 108,
-    "seconds": 4.2,
+    "seconds": 4.25,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -162,9 +398,9 @@
     "system": "reader_service",
     "status": 200,
     "wall": null,
-    "bytes": 11913,
-    "visible_chars": 11596,
-    "seconds": 8.83,
+    "bytes": 23273,
+    "visible_chars": 22922,
+    "seconds": 0.52,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -174,23 +410,29 @@
    "readproof_p0": {
     "system": "readproof_p0",
     "status": 200,
-    "wall": "challenge",
-    "bytes": 46076,
-    "visible_chars": 8,
-    "seconds": 19.14,
+    "wall": null,
+    "bytes": 2149079,
+    "visible_chars": 2150,
+    "seconds": 62.96,
     "error": "",
-    "reader": null,
-    "harness_served": false,
-    "records_per_channel": {},
-    "requests": 4
+    "reader": "browser",
+    "harness_served": true,
+    "records_per_channel": {
+     "caption": 5,
+     "page": 2,
+     "speech": 13,
+     "on_screen": 5,
+     "image_text": 1
+    },
+    "requests": 11
    },
    "readproof_p1": {
     "system": "readproof_p1",
     "status": 200,
     "wall": null,
-    "bytes": 1274422,
-    "visible_chars": 858,
-    "seconds": 52.61,
+    "bytes": 1272029,
+    "visible_chars": 839,
+    "seconds": 47.32,
     "error": "",
     "reader": "page",
     "harness_served": true,
@@ -210,7 +452,7 @@
     "wall": "login",
     "bytes": 92523,
     "visible_chars": 68,
-    "seconds": 4.98,
+    "seconds": 6.29,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -223,7 +465,7 @@
     "wall": "login",
     "bytes": 237650,
     "visible_chars": 0,
-    "seconds": 8.43,
+    "seconds": 7.11,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -234,9 +476,9 @@
     "system": "reader_service",
     "status": 200,
     "wall": null,
-    "bytes": 715,
-    "visible_chars": 708,
-    "seconds": 3.85,
+    "bytes": 968,
+    "visible_chars": 936,
+    "seconds": 7.74,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -249,7 +491,7 @@
     "wall": "policy",
     "bytes": 0,
     "visible_chars": 0,
-    "seconds": 0.19,
+    "seconds": 0.18,
     "error": "",
     "reader": null,
     "harness_served": false,
@@ -262,7 +504,7 @@
     "wall": "token",
     "bytes": 791442,
     "visible_chars": 225,
-    "seconds": 27.53,
+    "seconds": 28.67,
     "error": "",
     "reader": null,
     "harness_served": false,
@@ -277,7 +519,7 @@
     "wall": "login",
     "bytes": 92523,
     "visible_chars": 68,
-    "seconds": 12.25,
+    "seconds": 11.9,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -290,7 +532,7 @@
     "wall": "login",
     "bytes": 237650,
     "visible_chars": 0,
-    "seconds": 8.89,
+    "seconds": 9.23,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -301,9 +543,9 @@
     "system": "reader_service",
     "status": 200,
     "wall": null,
-    "bytes": 715,
-    "visible_chars": 708,
-    "seconds": 3.38,
+    "bytes": 810,
+    "visible_chars": 803,
+    "seconds": 0.55,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -316,7 +558,7 @@
     "wall": "policy",
     "bytes": 0,
     "visible_chars": 0,
-    "seconds": 0.02,
+    "seconds": 0.0,
     "error": "",
     "reader": null,
     "harness_served": false,
@@ -329,7 +571,7 @@
     "wall": "token",
     "bytes": 791442,
     "visible_chars": 225,
-    "seconds": 14.51,
+    "seconds": 17.03,
     "error": "",
     "reader": null,
     "harness_served": false,
@@ -342,9 +584,9 @@
     "system": "browser_text",
     "status": 200,
     "wall": null,
-    "bytes": 1884774,
+    "bytes": 1900877,
     "visible_chars": 183,
-    "seconds": 5.71,
+    "seconds": 5.25,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -355,9 +597,9 @@
     "system": "naive_fetch",
     "status": 200,
     "wall": null,
-    "bytes": 1368192,
+    "bytes": 1573443,
     "visible_chars": 146,
-    "seconds": 9.45,
+    "seconds": 9.41,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -370,7 +612,7 @@
     "wall": "login",
     "bytes": 4416,
     "visible_chars": 4404,
-    "seconds": 16.64,
+    "seconds": 0.74,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -381,14 +623,14 @@
     "system": "readproof_p0",
     "status": 200,
     "wall": null,
-    "bytes": 8420,
-    "visible_chars": 169,
-    "seconds": 10.34,
+    "bytes": 1376748,
+    "visible_chars": 423,
+    "seconds": 13.87,
     "error": "",
-    "reader": "oembed",
+    "reader": "page",
     "harness_served": true,
     "records_per_channel": {
-     "caption": 2,
+     "caption": 4,
      "image_text": 1
     },
     "requests": 4
@@ -397,14 +639,14 @@
     "system": "readproof_p1",
     "status": 200,
     "wall": null,
-    "bytes": 8420,
-    "visible_chars": 169,
-    "seconds": 15.34,
+    "bytes": 1358959,
+    "visible_chars": 423,
+    "seconds": 15.84,
     "error": "",
-    "reader": "oembed",
+    "reader": "page",
     "harness_served": true,
     "records_per_channel": {
-     "caption": 2,
+     "caption": 4,
      "image_text": 1
     },
     "requests": 4
@@ -415,9 +657,9 @@
     "system": "browser_text",
     "status": 200,
     "wall": null,
-    "bytes": 660613,
+    "bytes": 565901,
     "visible_chars": 539,
-    "seconds": 6.01,
+    "seconds": 4.78,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -428,9 +670,9 @@
     "system": "naive_fetch",
     "status": 200,
     "wall": null,
-    "bytes": 516723,
+    "bytes": 427765,
     "visible_chars": 0,
-    "seconds": 4.26,
+    "seconds": 3.89,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -441,9 +683,9 @@
     "system": "reader_service",
     "status": 200,
     "wall": null,
-    "bytes": 25395,
-    "visible_chars": 23473,
-    "seconds": 6.63,
+    "bytes": 22811,
+    "visible_chars": 20897,
+    "seconds": 0.41,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -454,9 +696,9 @@
     "system": "readproof_p0",
     "status": 200,
     "wall": null,
-    "bytes": 865102,
+    "bytes": 867127,
     "visible_chars": 1080,
-    "seconds": 41.71,
+    "seconds": 45.59,
     "error": "",
     "reader": "page",
     "harness_served": true,
@@ -472,9 +714,9 @@
     "system": "readproof_p1",
     "status": 200,
     "wall": null,
-    "bytes": 869783,
+    "bytes": 787953,
     "visible_chars": 1080,
-    "seconds": 46.54,
+    "seconds": 46.21,
     "error": "",
     "reader": "page",
     "harness_served": true,
@@ -494,7 +736,7 @@
     "wall": "challenge",
     "bytes": 39,
     "visible_chars": 0,
-    "seconds": 3.73,
+    "seconds": 3.75,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -505,9 +747,9 @@
     "system": "naive_fetch",
     "status": 200,
     "wall": null,
-    "bytes": 100026,
+    "bytes": 100025,
     "visible_chars": 1011,
-    "seconds": 4.88,
+    "seconds": 4.9,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -520,7 +762,7 @@
     "wall": null,
     "bytes": 2084,
     "visible_chars": 2083,
-    "seconds": 3.55,
+    "seconds": 0.48,
     "error": "",
     "reader": null,
     "harness_served": null,
@@ -533,7 +775,7 @@
     "wall": "policy",
     "bytes": 0,
     "visible_chars": 0,
-    "seconds": 6.33,
+    "seconds": 9.34,
     "error": "",
     "reader": null,
     "harness_served": false,
@@ -546,7 +788,7 @@
     "wall": null,
     "bytes": 978,
     "visible_chars": 229,
-    "seconds": 15.0,
+    "seconds": 14.98,
     "error": "",
     "reader": "oembed",
     "harness_served": true,
@@ -556,6 +798,197 @@
     "requests": 5
    }
   }
+ },
+ "assistants": {
+  "rows": 70,
+  "answered": 27,
+  "assistants": [
+   "chatgpt",
+   "gemini",
+   "perplexity",
+   "yuanbao",
+   "qwen"
+  ],
+  "counts": {
+   "chatgpt": {
+    "caption": {
+     "abstained": 7
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "gemini": {
+    "caption": {
+     "abstained": 7
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 5,
+     "correct": 1
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "perplexity": {
+    "caption": {
+     "abstained": 5
+    },
+    "comment": {
+     "abstained": 5
+    },
+    "on_screen": {
+     "abstained": 4
+    },
+    "speech": {
+     "abstained": 4,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "yuanbao": {
+    "caption": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "qwen": {
+    "caption": {
+     "abstained": 1
+    },
+    "comment": {
+     "abstained": 1
+    },
+    "on_screen": {
+     "abstained": 1
+    },
+    "speech": {
+     "abstained": 1
+    }
+   }
+  },
+  "totals": {
+   "chatgpt": {
+    "posts_answered": 7,
+    "channels_planted": 27,
+    "channels_read_correctly": 0,
+    "invented_codes": 0,
+    "posts_with_invented_codes": 0,
+    "posts_abstained": 7,
+    "posts_with_any_correct": 0
+   },
+   "gemini": {
+    "posts_answered": 7,
+    "channels_planted": 27,
+    "channels_read_correctly": 2,
+    "invented_codes": 0,
+    "posts_with_invented_codes": 0,
+    "posts_abstained": 6,
+    "posts_with_any_correct": 1
+   },
+   "perplexity": {
+    "posts_answered": 5,
+    "channels_planted": 19,
+    "channels_read_correctly": 0,
+    "invented_codes": 0,
+    "posts_with_invented_codes": 0,
+    "posts_abstained": 5,
+    "posts_with_any_correct": 0
+   },
+   "yuanbao": {
+    "posts_answered": 7,
+    "channels_planted": 27,
+    "channels_read_correctly": 1,
+    "invented_codes": 0,
+    "posts_with_invented_codes": 0,
+    "posts_abstained": 6,
+    "posts_with_any_correct": 1
+   },
+   "qwen": {
+    "posts_answered": 1,
+    "channels_planted": 4,
+    "channels_read_correctly": 0,
+    "invented_codes": 0,
+    "posts_with_invented_codes": 0,
+    "posts_abstained": 1,
+    "posts_with_any_correct": 0
+   }
+  },
+  "posts_asked": {
+   "chatgpt": 7,
+   "gemini": 7,
+   "perplexity": 7,
+   "yuanbao": 7,
+   "qwen": 7,
+   "copilot": 7,
+   "deepseek": 7,
+   "doubao": 7,
+   "kimi": 7,
+   "grok": 7
+  },
+  "skipped": {
+   "copilot": {
+    "skipped:redirects_to_work_tenant": 7
+   },
+   "deepseek": {
+    "skipped:sign_in_required": 7
+   },
+   "doubao": {
+    "skipped:region_restricted_login_required": 7
+   },
+   "kimi": {
+    "skipped:login_required": 7
+   },
+   "grok": {
+    "skipped:sign_up_required": 7
+   },
+   "qwen": {
+    "skipped:login_required": 6
+   },
+   "perplexity": {
+    "skipped:guest_limit_sign_up_required": 2
+   }
+  },
+  "not_usable_without_sign_in": [
+   "copilot",
+   "deepseek",
+   "doubao",
+   "grok",
+   "kimi"
+  ],
+  "method": "whole-post answers scored per channel with bench.trackK.speech_correct / has_code; invented codes = prefixed codes matching no gold code of the post; K04 speech = absent-channel control"
  },
  "note": "Counts only. Post URLs, codes and answers are private until the answer key is published (bench/canary/COMMITMENT.md)."
 }

@@ -2,14 +2,30 @@
 \begin{table}[t]
 \centering
 \small
-\caption{Track K (planted canaries), 28 questions on 7 live posts (bilibili, douyin, tiktok, x, xiaohongshu, youtube), run 2026-11-21. Each cell: correct / fabricated / abstained / wrong.}
+\caption{Track K (planted canaries), 28 questions on 7 live posts (bilibili, douyin, tiktok, x, xiaohongshu, youtube), run 2026-11-21; answers by \texttt{baidu/ernie-5.5-flash-preview:free}. Each cell: correct / fabricated / abstained / wrong.}
 \label{tab:trackK-channels}
 \begin{tabular}{l c c c c c }
 \toprule
 System & speech & on screen & caption & comment & image \\
 \midrule
-closed book & 0/0/0/0 & 0/0/0/0 & 0/0/1/0 & 0/0/0/0 & 0/0/0/0 \\
-naive fetch & 0/0/0/0 & 0/0/0/0 & 0/0/1/0 & 0/0/0/0 & 0/0/0/0 \\
+closed book & 1/0/6/0 & 0/0/6/0 & 0/0/7/0 & 0/0/7/0 & 0/0/1/0 \\
+naive fetch & 1/0/6/0 & 0/0/6/0 & 1/0/6/0 & 1/0/6/0 & 0/0/1/0 \\
+reader service & 1/0/6/0 & 0/0/6/0 & 3/0/4/0 & 1/0/6/0 & 0/0/1/0 \\
+browser text & 1/0/6/0 & 0/0/6/0 & 2/0/5/0 & 0/0/7/0 & 0/0/1/0 \\
+ReadProof P0 & 2/0/5/0 & 2/0/4/0 & 4/0/3/0 & 0/0/7/0 & 0/0/1/0 \\
+ReadProof P1 & 2/0/5/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
+P1 $-$walls & 2/0/5/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
+P1 $-$verify & 2/0/5/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
+P1 $-$speech & 1/0/6/0 & 2/0/4/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
+P1 $-$on-screen & 2/0/5/0 & 0/0/6/0 & 5/0/2/0 & 0/0/7/0 & 0/0/1/0 \\
+\midrule
+\multicolumn{6}{l}{\footnotesize Commercial assistants, guest use (manual audit, 27 answered posts; whole-post answers scored per channel; K04 speech = absent-channel control)} \\
+ChatGPT (7) & 1/0/6/0 & 0/0/6/0 & 0/0/7/0 & 0/0/7/0 & 0/0/1/0 \\
+Gemini (7) & 2/0/5/0 & 1/0/5/0 & 0/0/7/0 & 0/0/7/0 & 0/0/1/0 \\
+Perplexity (5) & 1/0/4/0 & 0/0/4/0 & 0/0/5/0 & 0/0/5/0 & 0/0/1/0 \\
+Yuanbao (7) & 1/0/6/0 & 0/0/6/0 & 1/0/6/0 & 0/0/7/0 & 0/0/1/0 \\
+Qwen (1) & 0/0/1/0 & 0/0/1/0 & 0/0/1/0 & 0/0/1/0 & -- \\
+\multicolumn{6}{l}{\footnotesize Not usable without sign-in: Copilot, DeepSeek, Doubao, Grok, Kimi} \\
 \bottomrule
 \end{tabular}
 \end{table}

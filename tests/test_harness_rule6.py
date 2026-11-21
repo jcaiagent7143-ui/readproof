@@ -24,7 +24,8 @@ from .reading_fakes import (CJK_FONT, P1_NO_BROWSER, FakeResolution, FakeSpec, h
 URL = "https://www.xiaohongshu.com/explore/66aa00000000000000000001"
 WALL_TEXT = "请完成安全验证后继续访问，拖动滑块完成拼图"
 WALL_PAGE = f"<html><head><title>安全验证</title></head><body><div>{WALL_TEXT}</div><p>{'说明文字' * 30}</p></body></html>"
-SERVED_PAGE = ("<html><head><title>上海咖啡探店</title><meta property='og:description' content='三家店的对比'></head>"
+SERVED_PAGE = ("<html><head><title>上海咖啡探店</title><meta property='og:title' content='上海咖啡探店'>"
+               "<meta property='og:description' content='三家店的对比'></head>"
                "<body><p>" + "这是正文内容，足够长。" * 6 + "</p></body></html>")
 
 
@@ -67,7 +68,8 @@ def test_most_specific_wall_wins_and_every_reader_is_named(tmp_path):
     res = h.read(page)
     assert not res.served and res.wall is WallType.DELETED and res.records == []
     assert res.wall_signal.startswith("page:") and "oembed=unknown" in res.wall_signal
-    assert [u for _, u in net.requests] == [oembed, page]
+    # YouTube reads the watch page first; a generic 404 is not a platform rule, so oEmbed is still asked
+    assert [u for _, u in net.requests] == [page, oembed]
 
 
 class _LyingReader:

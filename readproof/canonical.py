@@ -219,7 +219,9 @@ def _hop(ctx: Context, res: Resolution, url: str, hop: int) -> tuple[FetchResult
     assert fetch is not None
     # Even GET sent us nowhere: the shortener answered with a page of its own.
     judged = walls.judge(fetch)
-    if judged.served:
+    # A page that is not a wall, or one that is only "no evidence of a post", is the shortener's own page: the link
+    # opened somewhere that is not the post.
+    if judged.served or judged.signal.startswith("generic:no-post-evidence"):
         judged = _fail(WallType.SOFT_404, "resolve:no-redirect", hop=hop, status=fetch.status,
                        bytes=fetch.bytes, url=url)
     return fetch, None, judged

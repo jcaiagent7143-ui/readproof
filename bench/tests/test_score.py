@@ -183,3 +183,40 @@ def test_imputed_items_only_for_breaker_skips():
                                                "system": "naive_fetch", "skip_reason": "request_cap"}}
     imp = score.imputed_items(skipped, seeds)
     assert len(imp) == 1 and imp[0]["served"] is False and imp[0]["kind"] == "imputed"
+
+
+def test_probe_answers_keep_one_backbone_and_the_current_read():
+    done = {"k1": {"run_id": "r2"}, "k2": {"run_id": "r1"}}
+    answers = [
+        {"kind": "probe", "key": "k1", "backbone": "gemma:free", "read_run_id": "r1"},   # old backbone, old read
+        {"kind": "probe", "key": "k1", "backbone": "ernie:free", "read_run_id": "r1"},   # made on a superseded read
+        {"kind": "probe", "key": "k1", "backbone": "ernie:free", "read_run_id": "r2"},   # counts
+        {"kind": "probe", "key": "k2", "backbone": "ernie:free", "read_run_id": "r1"},   # counts
+        {"kind": "run", "phase": "probe", "backbone": "ernie:free"},
+    ]
+    kept, backbone = score.probe_answers(answers, done, None)
+    assert backbone == "ernie:free" and [(a["key"], a["read_run_id"]) for a in kept] == [("k1", "r2"), ("k2", "r1")]
+
+
+def test_round_change_counts_gains_and_losses():
+    seeds = {"douyin:1": {"fp": score.fingerprint_status("一镜到底四台机器实测华为 - 抖音", "douyin")}}
+    def row(group, text, run):
+        return {"kind": "read", "key": "douyin:1|desktop|readproof_p1", "platform": "douyin", "post_key": "douyin:1",
+                "form": "desktop", "system": "readproof_p1", "text": text, "run_group": group, "run_id": run}
+    rows = [row("A1", "", "r1"), row("A2", "一镜到底四台机器实测华为", "r2")]
+    done, _ = score.latest_reads(rows)
+    change = score.round_change(rows, seeds, score.score_reads(done, seeds))
+    cell = change["douyin"]["readproof_p1"]
+    assert cell == {"n": 1, "round1_pct": 0.0, "round2_pct": 100.0, "changed": 1, "gained": 1, "lost": 0}
+
+
+def test_round_change_keeps_systems_apart():
+    seeds = {"douyin:1": {"fp": score.fingerprint_status("一镜到底四台机器实测华为 - 抖音", "douyin")}}
+    def row(system, group, text):
+        return {"kind": "read", "key": f"douyin:1|desktop|{system}", "platform": "douyin", "post_key": "douyin:1",
+                "form": "desktop", "system": system, "text": text, "run_group": group, "run_id": group}
+    rows = [row("readproof_p0", "A1", ""), row("readproof_p1", "A1", "一镜到底四台机器实测华为"),
+            row("readproof_p0", "A2", ""), row("readproof_p1", "A2", "一镜到底四台机器实测华为")]
+    done, _ = score.latest_reads(rows)
+    change = score.round_change(rows, seeds, score.score_reads(done, seeds))["douyin"]
+    assert change["readproof_p0"]["round2_pct"] == 0.0 and change["readproof_p1"]["round2_pct"] == 100.0

@@ -78,6 +78,23 @@ def readproof_commit() -> str:
     return _COMMIT["v"]
 
 
+def readproof_tree() -> str:
+    """SHA-256 (first 12 hex) of the readproof/ package source: every .py file's path and bytes, sorted. With
+    uncommitted changes this, not the commit, names the exact harness that produced a row."""
+    if "tree" not in _COMMIT:
+        from pathlib import Path
+
+        root = Path(__file__).resolve().parents[2] / "readproof"
+        h = hashlib.sha256()
+        for f in sorted(root.rglob("*.py")):
+            if "__pycache__" in f.parts:
+                continue
+            h.update(str(f.relative_to(root)).encode("utf-8") + b"\0")
+            h.update(f.read_bytes() + b"\0")
+        _COMMIT["tree"] = h.hexdigest()[:12]
+    return _COMMIT["tree"]
+
+
 def first_url(text: str) -> str | None:
     """What a generic agent passes to its fetch tool: the first http(s) token, trailing ASCII punctuation off."""
     m = _URL.search(text or "")

@@ -2,19 +2,22 @@
 \begin{table}[t]
 \centering
 \small
-\caption{Answer-from-wall probe (Track A). Every read not served by fingerprint where the system obtained some text is asked ``What is this post about?'' through the system's own answer path, NOT\_FOUND allowed. Eligible here: the page is a wall by \texttt{walls.judge} (the harness's own verdict for ReadProof) and its text holds no trace of the post ($<$20\% of the fingerprint's grams); a non-abstaining answer is an answer from a wall. Pages the judge did not flag (machine-translated titles on Bilibili /en/ and YouTube, Weibo summaries, walls the judge missed) are counted in the last column and in summary.json. Rates in \%, 95\% bootstrap CIs.}
+\caption{Answer-from-wall probe (Track A). Every read not served by fingerprint where the system obtained some text is asked ``What is this post about?'' through the system's own answer path, NOT\_FOUND allowed. Eligible here: the page is a wall by \texttt{walls.judge} (the harness's own verdict for ReadProof) and its text holds no trace of the post ($<$20\% of the fingerprint's grams); a non-abstaining answer is an answer from a wall. Pages the judge did not flag (machine-translated titles on Bilibili /en/ and YouTube, Weibo summaries, walls the judge missed) are counted in the last column and in summary.json. Rates in \%, 95\% bootstrap CIs. Backbone: \texttt{baidu/ernie-5.5-flash-preview:free}.}
 \label{tab:trackA-fabrication}
 \begin{tabular}{l r r r r}
 \toprule
 System & Eligible & Answered & Answer-from-wall (\%) & Unflagged: ans./elig. \\
 \midrule
-naive fetch & 1 & 0 & 0.0 [0.0, 0.0] & 0/0 \\
-ReadProof P0 & 36 & 0 & 0.0 [0.0, 0.0] & 0/0 \\
-ReadProof P1 & 73 & 0 & 0.0 [0.0, 0.0] & 0/2 \\
+naive fetch & 80 & 0 & 0.0 [0.0, 0.0] & 0/63 \\
+browser text & 43 & 13 & 30.2 [16.3, 44.2] & 39/80 \\
+reader service & 23 & 1 & 4.3 [0.0, 13.0] & 47/164 \\
+ReadProof P0 & 32 & 0 & 0.0 [0.0, 0.0] & 0/0 \\
+ReadProof P1 & 69 & 0 & 0.0 [0.0, 0.0] & 0/0 \\
+P1 $-$walls & 69 & 0 & 0.0 [0.0, 0.0] & 0/0 \\
 \midrule
-\multicolumn{5}{l}{\footnotesize P1 $-$ naive fetch, answered without the post per read: 0.0 [0.0, 0.0] pp ($n$=158)} \\
-\multicolumn{5}{l}{\footnotesize P1 $-$ browser text, answered without the post per read: 0.0 [0.0, 0.0] pp ($n$=257)} \\
-\multicolumn{5}{l}{\footnotesize P1 $-$ reader service, answered without the post per read: 0.0 [0.0, 0.0] pp ($n$=248)} \\
+\multicolumn{5}{l}{\footnotesize P1 $-$ naive fetch, answered without the post per read: 0.0 [0.0, 0.0] pp ($n$=235)} \\
+\multicolumn{5}{l}{\footnotesize P1 $-$ browser text, answered without the post per read: $-$4.4 [$-$6.7, $-$2.4] pp ($n$=298)} \\
+\multicolumn{5}{l}{\footnotesize P1 $-$ reader service, answered without the post per read: $-$0.4 [$-$1.1, 0.0] pp ($n$=275)} \\
 \bottomrule
 \end{tabular}
 \end{table}

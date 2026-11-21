@@ -41,10 +41,30 @@ from .base import SpecFor, default_spec_for, judge, make_record, now_iso, refuse
 
 NAV_TIMEOUT_S = 25.0
 SETTLE_S = 4.0
+# Single-page apps render the post after their scripts fetch it: m.weibo.cn showed an empty shell (title 「微博」, no
+# visible text) after the settle for 4 of 11 live posts on 2026-11-21, while load + 3 s showed the post. Those hosts,
+# and any page with almost no visible text after the settle, get one more look: the load event, then up to
+# SPA_EXTRA_S more for text to appear, then innerText is read again once.
+SPA_HOSTS = ("m.weibo.cn",)
+SPA_EXTRA_S = 6.0
+SPA_MIN_CHARS = 40
 VIEWPORT = {"width": 1280, "height": 900}
 LOCALE = "zh-CN"
 SCREENSHOT_MAX_H = 16_000
 _URL_LOG_CHARS = 2000
+
+
+_LONE_SURROGATE = re.compile("[\ud800-\udfff]")
+
+
+def utf8_safe(text: str) -> str:
+    """The text with every lone UTF-16 surrogate replaced by U+FFFD.
+
+    A rendered DOM can hold half of a surrogate pair (a page script cut an emoji in two; live 2026-11-21 on a Toutiao
+    article): Python keeps it as a lone surrogate, and encoding the page to UTF-8 for the store then raises, which used
+    to turn the whole read into a reader error. Valid pairs are single code points in a Python str, so only the halves
+    are touched."""
+    return _LONE_SURROGATE.sub("\ufffd", text or "")
 
 
 def playwright_available() -> bool:
@@ -280,6 +300,29 @@ class BrowserSession:
     def wait(self, seconds: float) -> None:
         self.page.wait_for_timeout(seconds * 1000)
 
+    def wait_for_content(self, extra_s: float = SPA_EXTRA_S, min_chars: int = SPA_MIN_CHARS) -> None:
+        """The load event (at most extra_s), then up to extra_s more until the body shows min_chars of text and the
+        network has gone quiet. Every wait is a ceiling: a page that never fills is simply read again as it is."""
+        from playwright.sync_api import Error as PlaywrightError
+
+        try:
+            self.page.wait_for_load_state("load", timeout=extra_s * 1000)
+        except PlaywrightError:
+            pass
+        deadline = time.monotonic() + extra_s
+        js = f"() => !!document.body && (document.body.innerText || '').trim().length >= {int(min_chars)}"
+        for step in ("content", "networkidle"):
+            left = deadline - time.monotonic()
+            if left <= 0.05:
+                break
+            try:
+                if step == "content":
+                    self.page.wait_for_function(js, timeout=left * 1000)
+                else:
+                    self.page.wait_for_load_state("networkidle", timeout=left * 1000)
+            except PlaywrightError:
+                pass
+
     def snapshot(self) -> tuple[str, str, str, str]:
         """(rendered html, document.title, visible innerText, final url)."""
         for attempt in range(2):
@@ -287,7 +330,7 @@ class BrowserSession:
                 html = self.page.content()
                 title = self.page.title()
                 text = self.page.evaluate("() => (document.body && document.body.innerText) || ''") or ""
-                return html, title, text, self.page.url
+                return utf8_safe(html), utf8_safe(title), utf8_safe(text), self.page.url
             except Exception:
                 if attempt:
                     return "", "", "", self.page.url if self.page else self.requested_url
@@ -322,7 +365,7 @@ class BrowserSession:
         return chain[1:] if len(chain) > 1 else []
 
     def fetch_result(self, html: str, final_url: str) -> FetchResult:
-        body = html.encode("utf-8")
+        body = utf8_safe(html).encode("utf-8", errors="replace")
         status = None
         headers: dict[str, str] = {}
         if self.main_response is not None:
@@ -347,6 +390,12 @@ class BrowserSession:
             origin=getattr(self.ctx.net, "origin", "unknown"), user_agent=self.user_agent, method="GET",
             redirects=self.redirects(), error=error, body=body,
         )
+
+
+def needs_second_look(url: str, text: str) -> bool:
+    """A single-page-app host, or a page whose visible text is still under SPA_MIN_CHARS after the settle."""
+    host = (urlparse(url or "").hostname or "").lower()
+    return host in SPA_HOSTS or len((text or "").strip()) < SPA_MIN_CHARS
 
 
 def final_url_gate(ctx: Context, requested: str, final: str) -> GateDecision | None:
@@ -378,9 +427,17 @@ class BrowserReader:
         if not decision.allowed:
             return refused(self.name, decision)
         t0 = time.monotonic()
+        second_look: dict[str, Any] | None = None
         with BrowserSession(ctx, reader=self.name, block_media=True) as s:
             s.open(url)
             html, title, text, final_url = s.snapshot()
+            if s.nav_error is None and needs_second_look(final_url or url, text):
+                t1 = time.monotonic()
+                before = len(text.strip())
+                s.wait_for_content()
+                html, title, text, final_url = s.snapshot()
+                second_look = {"waited_ms": int((time.monotonic() - t1) * 1000), "chars_before": before,
+                               "chars_after": len(text.strip())}
             png = s.screenshot()
             fetch = s.fetch_result(html, final_url)
             ua, subrequests, blocked, gates = s.user_agent, s.subrequests, s.blocked, list(s.gate_decisions)
@@ -398,9 +455,10 @@ class BrowserReader:
             "judge": judge_name, "final_url": final_url, "title": title, "user_agent": ua, "screenshot": shot,
             "subrequests": subrequests, "blocked": blocked, "page_url": final_url or url, "snapshot": sha,
             "inner_text": inner, "inner_text_chars": len(text), "snapshots": [x for x in (shot, inner) if x],
+            "second_look": second_look,
         }
         ctx.log.emit("browser_read", url=url, final_url=final_url, status=fetch.status, user_agent=ua,
-                     subrequests=subrequests, blocked=blocked, screenshot=shot, snapshot=sha,
+                     subrequests=subrequests, blocked=blocked, screenshot=shot, snapshot=sha, second_look=second_look,
                      elapsed_ms=int((time.monotonic() - t0) * 1000), served=verdict.served,
                      wall=verdict.wall.value if verdict.wall else None)
         out = ReaderOutput(self.name, verdict, fetches=[fetch], gate=[decision, *gates], meta=meta)

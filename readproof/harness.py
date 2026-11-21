@@ -45,7 +45,9 @@ DEFAULT_OPTIONS: dict[str, Any] = {
 
 # Reader chains, cheapest first (DESIGN §4.5). The browser is the last resort and runs only when the profile allows.
 TEXT_CHAIN: dict[str, list[str]] = {
-    "youtube": ["oembed", "page", "browser"],
+    # YouTube: the watch page first — its ytInitialPlayerResponse carries the title AND the description
+    # (shortDescription); oEmbed carries the title only, so it is the fallback. YouTube has no media route.
+    "youtube": ["page", "oembed", "browser"],
     "tiktok": ["oembed", "page", "browser"],
     "x": ["oembed", "page", "browser"],
     "xiaohongshu": ["page", "browser"],
@@ -61,6 +63,15 @@ TEXT_CHAIN: dict[str, list[str]] = {
 # three addresses), so its official embed player, which plays for anonymous visitors, comes after the page.
 MEDIA_CHAIN: dict[str, list[str]] = {"bilibili": ["embed"], "douyin": ["embed"], "tiktok": ["page", "embed"]}
 REFUSAL_STATUSES = frozenset({401, 403, 412, 451})
+
+# Post-level walls: the platform says the post itself is gone or closed to visitors. When a platform rule (a page
+# judge's rule or the official player's own answer) says so, no later reader may serve the read: Douyin's player
+# answered status_self_see for a post whose www.douyin.com page still rendered a generic placeholder (live
+# 2026-11-21), and the browser's generic verdict used to serve that placeholder as the post. Access-path walls
+# (challenge, login, token, policy, empty, network, rate_limited, unknown) still fall through to the next reader.
+DEFINITIVE_WALLS = frozenset({WallType.DELETED, WallType.SELF_VISIBLE, WallType.REGION, WallType.APP_ONLY})
+_PLATFORM_RULE_PREFIXES = ("douyin", "xhs", "xiaohongshu", "bilibili", "youtube", "tiktok", "weibo", "toutiao", "x",
+                           "wechat", "linkedin")
 
 # Most specific first: the wall reported when no reader is served.
 WALL_PRIORITY = [
@@ -137,6 +148,22 @@ def _remaining(budget: Any) -> float:
     except Exception:
         return float("nan")
     return v
+
+
+def definitive(out: ReaderOutput) -> bool:
+    """True when this reader's verdict is a post-level wall from a platform rule (DEFINITIVE_WALLS).
+
+    A platform rule's signal starts with "<platform>:" (walls.verdict) or, for the official player's own JSON,
+    "<platform> player ". Generic rules ("generic:…"), gate refusals, reader errors and oEmbed's coarse statuses
+    (YouTube answers 401 for "embedding disabled" as well as for private videos) are never definitive."""
+    v = out.verdict
+    if v.served or v.wall not in DEFINITIVE_WALLS or out.reader == "oembed":
+        return False
+    sig = (v.signal or "").lstrip()
+    for prefix in _PLATFORM_RULE_PREFIXES:
+        if sig.startswith(prefix + ":") or sig.startswith(prefix + " player "):
+            return True
+    return False
 
 
 def pick_wall(outputs: list[ReaderOutput]) -> WallVerdict:
@@ -284,6 +311,10 @@ def read_in(ctx: Context, text_or_url: str, *, resolver: Resolver = default_reso
         outputs.append(out)
         if out.verdict.served:
             winner = out
+            break
+        if definitive(out):
+            ctx.log.emit("chain_stopped", reader=name, post_key=ref.key, wall=out.verdict.wall.value,
+                         signal=out.verdict.signal[:300], reason="post-level wall from a platform rule")
             break
     if winner is None:
         return finish(pick_wall(outputs))

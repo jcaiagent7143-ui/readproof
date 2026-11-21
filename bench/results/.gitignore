@@ -2,3 +2,4 @@
 # third-party content only as IDs, URLs, hashes, spans and short quotes. Publish trackA_reads_public.jsonl instead
 # (written by bench/score.py). Remove a line here only after deciding the release question.
 trackA_reads.jsonl
+trackA_answers.jsonl

@@ -69,7 +69,8 @@ class _Handler(http.server.BaseHTTPRequestHandler):
             body = '{"aweme_detail": {"desc": "一起看功能教程 #科普", "author": {"nickname": "科技汇"}, "video": {"duration": 3000}}, "status_code": 0}'
             return self._send(200, "application/json", body.encode())
         if self.path == "/post":
-            body = ("<html><head><title>本地帖子 Local post</title></head><body><h1>本地帖子</h1>"
+            body = ("<html><head><title>本地帖子 Local post</title><meta property='og:title' content='本地帖子'></head>"
+                    "<body><h1>本地帖子</h1>"
                     "<p>这是一段在浏览器里渲染出来的正文，暗号是七三九。</p><img src='/img.png'>"
                     "<script>document.body.insertAdjacentHTML('beforeend','<p>rendered by script</p>')</script>"
                     "</body></html>").encode()
@@ -78,6 +79,18 @@ class _Handler(http.server.BaseHTTPRequestHandler):
             body = ("<html><head><title>文章 - 今日头条</title></head><body><nav>首页 推荐 热点</nav><article>"
                     + "".join(f"<p>第{i}段正文，讲清楚了一件事情的来龙去脉，也给出了数据和出处。</p>" for i in range(8))
                     + "</article><aside>热榜：另一条新闻的标题</aside></body></html>").encode()
+            return self._send(200, "text/html; charset=utf-8", body)
+        if self.path == "/surrogate":
+            # A page script that cuts an emoji in half (live 2026-11-21 on a Toutiao article): a lone surrogate in the DOM.
+            body = ("<html><head><title>半个表情</title><meta property='og:title' content='半个表情'></head><body>"
+                    "<p>正文前半段。</p><script>document.body.insertAdjacentHTML('beforeend', '<p>表情' + "
+                    "String.fromCharCode(0xD83D) + '后半段正文。</p>')</script></body></html>").encode()
+            return self._send(200, "text/html; charset=utf-8", body)
+        if self.path == "/spa":
+            # A single-page app: an empty shell after DOMContentLoaded, the post rendered 1.5 s later by its script.
+            body = ("<html><head><title>微博</title></head><body><div id='app'></div><script>setTimeout(function () {"
+                    "document.getElementById('app').innerHTML = '<p>' + '这是单页应用稍后渲染出来的正文。'.repeat(16) + '</p>';"
+                    "}, 1500)</script></body></html>").encode()
             return self._send(200, "text/html; charset=utf-8", body)
         if self.path == "/wall":
             body = "<html><head><title>安全验证</title></head><body><p>请完成安全验证</p></body></html>".encode()
@@ -236,3 +249,23 @@ def test_browser_reader_keeps_the_article_not_the_chrome(server, tmp_path):
     assert "第4段正文" in " ".join(r.text for r in pages) and not any("热榜" in r.text for r in out.records)
     inner = ctx.store.get(out.meta["inner_text"]).decode("utf-8")
     assert "热榜" in inner and out.meta["inner_text"] in out.meta["snapshots"]  # kept as evidence, not as a Record
+
+
+def test_browser_reader_survives_a_lone_surrogate_in_the_dom(server, tmp_path):
+    base = f"http://127.0.0.1:{server.server_address[1]}"
+    ctx = _ctx(tmp_path)
+    out = BrowserReader(spec_for=lambda r: FakeSpec("web")).read(PostRef("web", "s", "desktop", f"{base}/surrogate"), ctx)
+    assert out.verdict.served, out.verdict
+    text = " ".join(r.text for r in out.records)
+    assert "后半段正文" in text and "\ufffd" in text
+    ctx.store.get(out.meta["inner_text"]).decode("utf-8")  # the stored innerText is valid UTF-8
+    assert not ctx.log.of("reader_error")
+
+
+def test_browser_reader_gives_a_single_page_app_a_second_look(server, tmp_path):
+    base = f"http://127.0.0.1:{server.server_address[1]}"
+    ctx = _ctx(tmp_path)
+    out = BrowserReader(spec_for=lambda r: FakeSpec("web")).read(PostRef("web", "spa", "desktop", f"{base}/spa"), ctx)
+    look = out.meta["second_look"]
+    assert look is not None and look["chars_before"] < 40 and look["chars_after"] >= 100, look
+    assert out.verdict.served and "稍后渲染出来的正文" in " ".join(r.text for r in out.records)

@@ -243,7 +243,8 @@ def test_oembed_x_blockquote_and_walls():
 
 def test_article_body_is_the_post_and_navigation_is_left_out():
     body = "".join(f"<p>正文第{i}段：央行宣布维持利率不变，并解释了通胀与就业的权衡。</p>" for i in range(4))
-    html = ("<html><head><title>央行维持利率 - 今日头条</title></head><body><nav>首页 推荐 财经 科技 热榜</nav>"
+    html = ("<html><head><title>央行维持利率 - 今日头条</title><meta property='og:title' content='央行维持利率'></head>"
+            "<body><nav>首页 推荐 财经 科技 热榜</nav>"
             f"<article class='syl-article-base'>{body}</article><aside>热榜：黄金为啥突然不香了</aside></body></html>")
     spec = FakeSpec("toutiao", post_id="7700000000000000001")
     out, _, _ = _read(spec, "https://www.toutiao.com/article/7700000000000000001/", html)

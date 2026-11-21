@@ -65,11 +65,11 @@ PARSE = [
     ("https://www.xiaohongshu.com/search_result/699d64130000000015039f95?xsec_token=ABnfcGUHvDrBYsYPUQGELsaIY2NRJTQgilpD1WyK3txF0="
      "&xsec_source=pc_search&exSource=null", "xiaohongshu", "699d64130000000015039f95", "search_result",
      {"xsec_token": "ABnfcGUHvDrBYsYPUQGELsaIY2NRJTQgilpD1WyK3txF0="}),
-    (f"https://www.xiaohongshu.com/user/profile/5b691fbe910cf67d445794f6/{NOTE}", "xiaohongshu", NOTE, "token_stripped",
+    (f"https://www.xiaohongshu.com/user/profile/5b691fbe910cf67d445794f6/{NOTE}", "xiaohongshu", NOTE, "profile_note_token_stripped",
      {"path_kind": "profile_note"}),
     ("https://www.rednote.com/discovery/item/6aa3bdd50000000019027723?xsec_token=AB=&xsec_source=pc_feed", "xiaohongshu",
      "6aa3bdd50000000019027723", "rednote_discovery_item", {"site": "rednote", "xsec_token": "AB="}),
-    (f"https://www.rednote.com/explore/{NOTE}", "xiaohongshu", NOTE, "token_stripped", {"site": "rednote"}),
+    (f"https://www.rednote.com/explore/{NOTE}", "xiaohongshu", NOTE, "rednote_token_stripped", {"site": "rednote"}),
     (f"https://www.xiaohongshu.com/explore/{NOTE}", "xiaohongshu", NOTE, "token_stripped", {"site": "xiaohongshu"}),
     (XHS_LOGIN, "xiaohongshu", "6aa180590000000028000dcc", "login_wrapped",
      {"xsec_token": "CBFIPHMRiTVCtDNCWr5D2D-uDjQR-wN4FeadK6hRZ6dFo="}),

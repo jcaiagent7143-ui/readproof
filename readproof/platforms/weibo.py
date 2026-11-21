@@ -9,6 +9,13 @@ Link forms (LinkDigest production, 2026-11):
   video.weibo.com/show?fid=<oid>, h5.video.weibo.com/show/<oid>, weibo.com/tv/show/<oid>
                                      a video page; the post behind it is named only in the page's data
   t.cn/<code>                        Weibo's short-link service
+  weibo.com/ttarticle/p/show?id=<id>, weibo.com/ttarticle/x/m/geoshow/id/<id>
+                                     a Weibo article (头条文章); kind="article"
+  weibo.com/2/detail/comos:<id>      a Sina "comos" article shown on weibo.com; kind="article"
+
+weibo.com/status/<bid> is parsed (people do paste it) but is not offered as a link form: live 2026-11-21 it answered
+Weibo's generic 404 page (「404错误 抱歉，这个页面已经被外星人绑架了」) for every post, live posts included, so it says
+nothing about the post. That page is deliberately not a "deleted" signature.
 
 A post is keyed by its bid; the mid is derived from it (Weibo's base62.js: 7-digit groups from the right,
 each written in base62 and padded to four characters except the leftmost — the padding is the part that is
@@ -37,6 +44,9 @@ _BID = re.compile(r"(?=[0-9A-Za-z]*[A-Za-z])[0-9A-Za-z]{7,10}")
 _OID = re.compile(r"\b(\d{3,5}:\d{12,20})\b")
 _PAGE_WORDS = {"detail", "status", "u", "tv", "show", "p", "profile", "n", "api", "s", "comment", "repost"}
 _GONE = ("该微博不存在", "此微博已被删除", "此微博已被作者删除", "微博不存在")
+_ARTICLE_ID = re.compile(r"\d{10,30}")
+_GEOSHOW = re.compile(r"^/ttarticle/x/m/geoshow/id/(\d{10,30})/?$")
+_COMOS = re.compile(r"^/(?:\d{1,4}/)?detail/comos:([0-9A-Za-z]{6,32})/?$")
 _SELF_ONLY = ("由于作者设置", "没有这条微博的查看权限")
 _LOGIN_TEXT = ("请先登录", "登录查看")
 
@@ -90,9 +100,29 @@ class WeiboSpec(Spec):
                 return m.group(1)
         return None
 
+    def _article(self, url: str) -> PostRef | None:
+        """A Weibo article (ttarticle) or a Sina comos article on weibo.com, else None."""
+        path = path_of(url)
+        if path.startswith("/ttarticle/"):
+            m = _GEOSHOW.match(path)
+            if m:
+                return self.ref(m.group(1), "ttarticle_geoshow", url, kind="article", article="ttarticle_geoshow",
+                                article_id=m.group(1))
+            aid = param(url, "id")
+            if aid and _ARTICLE_ID.fullmatch(aid) and path.rstrip("/") in ("/ttarticle/p/show", "/ttarticle/x/m/show"):
+                return self.ref(aid, "ttarticle", url, kind="article", article="ttarticle", article_id=aid)
+            return None
+        m = _COMOS.match(path)
+        if m:
+            return self.ref(f"comos:{m.group(1)}", "comos", url, kind="article", article="comos", article_id=m.group(1))
+        return None
+
     def parse(self, url: str) -> PostRef | None:
         if not self.match(url) or self.is_short(url):
             return None
+        article = self._article(url)
+        if article is not None:
+            return article
         host, path = host_of(url), path_of(url)
         layer = param(url, "layerid")
         segments = [s for s in path.split("/") if s]
@@ -133,6 +163,13 @@ class WeiboSpec(Spec):
     def canonical(self, ref: PostRef) -> str:
         if ref.extra.get("kind") == "video_page":
             return f"https://h5.video.weibo.com/show/{ref.extra['oid']}"
+        if ref.extra.get("kind") == "article":
+            aid, kind = ref.extra.get("article_id"), ref.extra.get("article")
+            if kind == "comos":
+                return f"https://weibo.com/2/detail/comos:{aid}"
+            if kind == "ttarticle_geoshow":  # read what was pasted: the geo view is not proven to share p/show ids
+                return f"https://weibo.com/ttarticle/x/m/geoshow/id/{aid}"
+            return f"https://weibo.com/ttarticle/p/show?id={aid}"
         return f"https://m.weibo.cn/detail/{ref.extra.get('mid') or bid_to_mid(ref.post_id)}"
 
     def forms(self, ref: PostRef, **known: str) -> list[tuple[str, str]]:
@@ -140,6 +177,8 @@ class WeiboSpec(Spec):
             oid = ref.extra["oid"]
             out = [("video_page", f"https://video.weibo.com/show?fid={oid}"),
                    ("h5_video_page", f"https://h5.video.weibo.com/show/{oid}")]
+        elif ref.extra.get("kind") == "article":
+            out = [(str(ref.extra.get("article") or "article"), self.canonical(ref))]
         else:
             bid = ref.post_id
             mid = ref.extra.get("mid") or bid_to_mid(bid)
@@ -148,7 +187,6 @@ class WeiboSpec(Spec):
             if uid:
                 out.append(("desktop", f"https://weibo.com/{uid}/{bid}"))
             out += [
-                ("desktop_status", f"https://weibo.com/status/{bid}"),
                 ("mobile_detail", f"https://m.weibo.cn/detail/{mid}"),
                 ("mobile_status", f"https://m.weibo.cn/status/{bid}"),
             ]

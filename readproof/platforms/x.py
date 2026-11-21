@@ -25,8 +25,12 @@ _WEB_STATUS = re.compile(r"^/i/(?:web/)?status/(\d{1,20})(?:[/?#]|$)")
 _RESERVED = {"i", "home", "explore", "search", "settings", "notifications", "messages", "hashtag", "intent", "share"}
 _LOGIN_PATHS = ("/i/flow/login", "/login", "/i/flow/signup", "/account/access")
 _SERVED_TITLE = re.compile(r" on (?:X|Twitter): .+ / (?:X|Twitter)\s*$")
+# A post by a suspended account is served as an interstitial titled "Post / X" (og:title "Post"): "This Post is from a
+# suspended account." (live 2026-11-21); the account page says "Account suspended … X suspends accounts which violate
+# the X Rules". The post is not available to anyone, so it is a deletion, not a login wall.
 _DELETED = ("this page doesn’t exist", "this page doesn't exist", "post was deleted", "tweet was deleted",
-            "account that no longer exists", "this post is unavailable")
+            "account that no longer exists", "this post is unavailable", "is from a suspended account",
+            "account suspended", "x suspends accounts")
 _PROTECTED = ("posts are protected", "tweets are protected", "only approved followers", "age-restricted adult content")
 
 

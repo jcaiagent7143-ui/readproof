@@ -683,7 +683,11 @@ def latex_access(acc: dict[str, Any], hon: dict[str, Any], meta: dict[str, Any])
     return "\n".join(lines)
 
 
-def latex_fabrication(fab: dict[str, Any], pair: dict[str, Any]) -> str:
+def _tex(text: str) -> str:
+    return str(text).replace("\\", "\\textbackslash{}").replace("_", "\\_").replace("%", "\\%").replace("&", "\\&")
+
+
+def latex_fabrication(fab: dict[str, Any], pair: dict[str, Any], backbone: str | None = None) -> str:
     order = [s for s in ["naive_fetch", "browser_text", "reader_service", "readproof_p0", "readproof_p1",
                          "readproof_p1_nowalls"] if s in fab]
     lines = [
@@ -697,7 +701,7 @@ def latex_fabrication(fab: dict[str, Any], pair: dict[str, Any]) -> str:
         "text holds no trace of the post ($<$20\\% of the fingerprint's grams); a non-abstaining answer is an answer "
         "from a wall. Pages the judge did not flag (machine-translated titles on Bilibili /en/ and YouTube, Weibo "
         "summaries, walls the judge missed) are counted in the last column and in summary.json. Rates in \\%, 95\\% "
-        "bootstrap CIs.}",
+        f"bootstrap CIs. Backbone: \\texttt{{{_tex(backbone or 'n/a')}}}.}}",
         "\\label{tab:trackA-fabrication}",
         "\\begin{tabular}{l r r r r}",
         "\\toprule",
@@ -710,10 +714,14 @@ def latex_fabrication(fab: dict[str, Any], pair: dict[str, Any]) -> str:
         lines.append(" & ".join([SYSTEM_LABEL.get(s, s), str(f["eligible"]), str(f["answered"]), _ci(f["rate"]),
                                  f"{uf['answered']}/{uf['eligible']}"]) + " \\\\")
     lines += ["\\midrule"]
+    def num(x: float) -> str:
+        return f"$-${abs(x):.1f}" if x < 0 else f"{x:.1f}"
+
     for b, p in pair.items():
         d = p["diff_items"]
+        ci = "--" if d.get("mean") is None else f"{num(d['mean'])} [{num(d['lo'])}, {num(d['hi'])}]"
         lines.append(f"\\multicolumn{{5}}{{l}}{{\\footnotesize P1 $-$ {SYSTEM_LABEL.get(b, b)}, answered without the "
-                     f"post per read: {_ci(d)} pp ($n$={p['n_items']})}} \\\\")
+                     f"post per read: {ci} pp ($n$={p['n_items']})}} \\\\")
     lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
     return "\n".join(lines)
 
@@ -733,7 +741,8 @@ def latex_trackk(summary: dict[str, Any]) -> str:
         "\\small",
         f"\\caption{{Track K (planted canaries), {summary.get('n_items', '?')} questions on "
         f"{summary.get('n_posts', '?')} live posts ({', '.join(summary.get('platforms', []))}), run "
-        f"{summary.get('date', '')}. Each cell: correct / fabricated / abstained / wrong.}}",
+        f"{summary.get('date', '')}; answers by \\texttt{{{_tex(summary.get('backbone') or 'n/a')}}}. "
+        f"Each cell: correct / fabricated / abstained / wrong.}}",
         "\\label{tab:trackK-channels}",
         "\\begin{tabular}{l " + "c " * len(channels) + "}",
         "\\toprule",
@@ -746,6 +755,26 @@ def latex_trackk(summary: dict[str, Any]) -> str:
             v = counts[s].get(c, {})
             cells.append(f"{v.get('correct', 0)}/{v.get('fabricated', 0)}/{v.get('abstained', 0)}/{v.get('wrong', 0)}")
         lines.append(" & ".join([SYSTEM_LABEL.get(s, s)] + cells) + " \\\\")
+    audit = summary.get("assistants") or {}
+    if audit.get("assistants"):
+        from bench.trackK_assistants import LABEL
+
+        lines.append("\\midrule")
+        lines.append(f"\\multicolumn{{{1 + len(channels)}}}{{l}}{{\\footnotesize Commercial assistants, guest use "
+                     f"(manual audit, {audit.get('answered', 0)} answered posts; whole-post answers scored per channel; "
+                     f"K04 speech = absent-channel control)}} \\\\")
+        for a in audit["assistants"]:
+            tot = audit["totals"].get(a, {})
+            cells = []
+            for c in channels:
+                v = audit["counts"].get(a, {}).get(c, {})
+                cells.append("--" if not v else
+                             f"{v.get('correct', 0)}/{v.get('fabricated', 0)}/{v.get('abstained', 0)}/{v.get('wrong', 0)}")
+            lines.append(" & ".join([f"{LABEL.get(a, a)} ({tot.get('posts_answered', 0)})"] + cells) + " \\\\")
+        gone = [LABEL.get(a, a) for a in audit.get("not_usable_without_sign_in", [])]
+        if gone:
+            lines.append(f"\\multicolumn{{{1 + len(channels)}}}{{l}}{{\\footnotesize Not usable without sign-in: "
+                         f"{', '.join(gone)}}} \\\\")
     lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
     return "\n".join(lines)
 
@@ -859,18 +888,83 @@ def paper_values(summary: dict[str, Any], items: list[dict[str, Any]], imputed: 
                 tot = sum(sum(c.values()) for c in chans.values())
                 v[f"ResKFabricated{name}"] = f"{fab}/{tot}"
                 v[f"ResKAbstained{name}"] = f"{abst}/{tot}"
+        audit = k.get("assistants") or {}
+        if audit.get("assistants"):
+            # "Commercial": the usable assistants together (whole-post answers scored per channel; counts, not codes)
+            agg: dict[str, Counter] = defaultdict(Counter)
+            for a in audit["assistants"]:
+                for ch, c in (audit["counts"].get(a) or {}).items():
+                    agg[ch].update(c)
+            fab = abst = tot = 0
+            for ch, row in rowmap.items():
+                c = agg.get(ch)
+                if c:
+                    v[f"ResK{row}Commercial"] = f"{c.get('correct', 0)}/{sum(c.values())}"
+                    fab += c.get("fabricated", 0)
+                    abst += c.get("abstained", 0)
+                    tot += sum(c.values())
+            if tot:
+                v["ResKFabricatedCommercial"] = f"{fab}/{tot}"
+                v["ResKAbstainedCommercial"] = f"{abst}/{tot}"
     return {kk: vv for kk, vv in v.items() if vv}
 
 
 # --- main ------------------------------------------------------------------------------------------------------
 
 
-def run(write: bool = True) -> dict[str, Any]:
+def probe_answers(answers: list[dict[str, Any]], done: dict[str, dict[str, Any]],
+                  backbone: str | None) -> tuple[list[dict[str, Any]], str | None]:
+    """The probe answers that count: made by one backbone (default: the latest probe run's) on the read that is
+    now the key's latest (an answer made on a superseded read does not count for its re-read)."""
+    if backbone is None:
+        runs = [a for a in answers if a.get("kind") == "run" and a.get("phase") == "probe" and a.get("backbone")]
+        backbone = runs[-1]["backbone"] if runs else None
+    out = []
+    for a in answers:
+        if a.get("kind") != "probe" or a.get("key") not in done:
+            continue
+        if backbone is not None and a.get("backbone") != backbone:
+            continue
+        rid = a.get("read_run_id")
+        if rid is not None and rid != done[a["key"]].get("run_id"):
+            continue
+        out.append(a)
+    return out, backbone
+
+
+def round_change(rows: list[dict[str, Any]], seeds: dict[str, dict[str, Any]], items_now: list[dict[str, Any]],
+                 systems: tuple[str, ...] = ("readproof_p0", "readproof_p1")) -> dict[str, Any]:
+    """ReadProof served % in the first run group (A1) against now, per platform, on the same items."""
+    r1 = [r for r in rows if (r.get("run_group") or "A1") == "A1"]
+    done1, _ = latest_reads(r1)
+    items1 = {it["key"]: it for it in score_reads(done1, seeds) if it["system"] in systems}
+    now = {it["key"]: it for it in items_now if it["system"] in systems}
+    out: dict[str, Any] = {}
+    for p in PLATFORM_ORDER + ["all"]:
+        for s in systems:
+            keys = [k for k in now if k in items1 and now[k]["system"] == s and now[k]["served"] is not None
+                    and items1[k]["served"] is not None and (p == "all" or now[k]["platform"] == p)]
+            if not keys:
+                continue
+            a = [bool(items1[k]["served"]) for k in keys]
+            b = [bool(now[k]["served"]) for k in keys]
+            out.setdefault(p, {})[s] = {"n": len(keys), "round1_pct": _rate(a), "round2_pct": _rate(b),
+                                        "changed": sum(1 for x, y in zip(a, b) if x != y),
+                                        "gained": sum(1 for x, y in zip(a, b) if y and not x),
+                                        "lost": sum(1 for x, y in zip(a, b) if x and not y)}
+    walls1 = Counter((it["platform"], it["system"], it["wall"] or "served") for it in items1.values())
+    walls2 = Counter((it["platform"], it["system"], it["wall"] or "served") for it in now.values())
+    out["walls_round1"] = {f"{p}|{s}|{w}": n for (p, s, w), n in sorted(walls1.items())}
+    out["walls_round2"] = {f"{p}|{s}|{w}": n for (p, s, w), n in sorted(walls2.items())}
+    return out
+
+
+def run(write: bool = True, backbone: str | None = None) -> dict[str, Any]:
     seeds = load_seeds()
     rows = load_jsonl(READS)
     done, skipped = latest_reads(rows)
     items = score_reads(done, seeds)
-    answers = load_jsonl(ANSWERS)
+    answers, backbone = probe_answers(load_jsonl(ANSWERS), done, backbone)
     run_meta = [r for r in rows if r.get("kind") == "run"]
     origin = next((r.get("origin") for r in reversed(rows) if r.get("origin")), "residential:unknown")
     dates = sorted({(r.get("ts") or "")[:10] for r in done.values() if r.get("ts")})
@@ -909,7 +1003,11 @@ def run(write: bool = True) -> dict[str, Any]:
         "n_scored": sum(1 for it in items if it["served"] is not None),
         "unusable_fingerprints": unusable,
         "access": acc, "honesty_penalty": hon, "p1_vs_baselines": vs,
-        "answer_from_wall": fab, "answer_from_wall_paired": fab_pair,
+        "answer_from_wall": fab, "answer_from_wall_paired": fab_pair, "probe_backbone": backbone,
+        "probe_model_calls": sum(int(a.get("llm_calls") or 0) for a in answers),
+        "readproof_round_change": round_change(rows, seeds, items),
+        "readproof_trees": sorted({str(r.get("readproof_tree")) for r in done.values()
+                                   if r.get("system", "").startswith("readproof") and r.get("readproof_tree")}),
         "harness_served_but_fingerprint_missing": false_serves,
         "crashes": [{"key": k, "error": str(r.get("error"))[:160]} for k, r in done.items()
                     if str(r.get("error") or "").startswith(("system error", "harness error"))],
@@ -932,7 +1030,7 @@ def run(write: bool = True) -> dict[str, Any]:
         meta = {"origin": origin, "date": ", ".join(dates), "n_posts": len({it["post_key"] for it in items})}
         if items:
             (TABLES / "trackA_access.tex").write_text(latex_access(acc, hon, meta), "utf-8")
-            (TABLES / "trackA_fabrication.tex").write_text(latex_fabrication(fab, fab_pair), "utf-8")
+            (TABLES / "trackA_fabrication.tex").write_text(latex_fabrication(fab, fab_pair, backbone), "utf-8")
         if ksum is not None:
             (TABLES / "trackK_channels.tex").write_text(latex_trackk(ksum), "utf-8")
         if items:
@@ -944,8 +1042,9 @@ def run(write: bool = True) -> dict[str, Any]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--backbone", default=None, help="score probe answers of this backbone (default: the latest)")
     args = ap.parse_args(argv)
-    s = run(write=not args.no_write)
+    s = run(write=not args.no_write, backbone=args.backbone)
     acc = s["access"]["overall"]
     print(json.dumps({k: (v["served_pct"], v["n"]) for k, v in acc.items()}, ensure_ascii=False))
     return 0

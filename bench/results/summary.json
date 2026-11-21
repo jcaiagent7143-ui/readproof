@@ -9,9 +9,9 @@
   "2026-11-21"
  ],
  "n_seed_posts": 145,
- "n_items": 2295,
+ "n_items": 2307,
  "n_forms": 522,
- "n_scored": 2243,
+ "n_scored": 2255,
  "unusable_fingerprints": [
   {
    "post_key": "xiaohongshu:69ccec66000000002202a360",
@@ -207,29 +207,29 @@
     },
     "readproof_p0": {
      "n": 64,
-     "served": 44,
-     "served_pct": 68.75,
+     "served": 52,
+     "served_pct": 81.25,
      "ci": {
       "n": 64,
-      "mean": 68.75,
-      "lo": 57.81,
-      "hi": 79.69
+      "mean": 81.25,
+      "lo": 71.88,
+      "hi": 90.62
      },
      "n_breaker_skipped": 0,
-     "served_pct_skips_as_not_served": 68.75
+     "served_pct_skips_as_not_served": 81.25
     },
     "readproof_p1": {
      "n": 64,
-     "served": 36,
-     "served_pct": 56.25,
+     "served": 40,
+     "served_pct": 62.5,
      "ci": {
       "n": 64,
-      "mean": 56.25,
-      "lo": 43.75,
-      "hi": 68.75
+      "mean": 62.5,
+      "lo": 50.0,
+      "hi": 75.0
      },
      "n_breaker_skipped": 0,
-     "served_pct_skips_as_not_served": 56.25
+     "served_pct_skips_as_not_served": 62.5
     }
    },
    "youtube": {
@@ -421,16 +421,16 @@
     },
     "readproof_p1": {
      "n": 52,
-     "served": 16,
-     "served_pct": 30.76923076923077,
+     "served": 20,
+     "served_pct": 38.46153846153846,
      "ci": {
       "n": 52,
-      "mean": 30.77,
-      "lo": 19.23,
-      "hi": 44.23
+      "mean": 38.46,
+      "lo": 25.0,
+      "hi": 51.92
      },
      "n_breaker_skipped": 0,
-     "served_pct_skips_as_not_served": 30.76923076923077
+     "served_pct_skips_as_not_served": 38.46153846153846
     }
    },
    "toutiao": {
@@ -474,11 +474,11 @@
      "served_pct_skips_as_not_served": 100.0
     },
     "readproof_p0": {
-     "n": 56,
-     "served": 56,
+     "n": 64,
+     "served": 64,
      "served_pct": 100.0,
      "ci": {
-      "n": 56,
+      "n": 64,
       "mean": 100.0,
       "lo": 100.0,
       "hi": 100.0
@@ -487,17 +487,17 @@
      "served_pct_skips_as_not_served": 100.0
     },
     "readproof_p1": {
-     "n": 60,
-     "served": 56,
-     "served_pct": 93.33333333333333,
+     "n": 64,
+     "served": 64,
+     "served_pct": 100.0,
      "ci": {
-      "n": 60,
-      "mean": 93.33,
-      "lo": 86.67,
-      "hi": 98.33
+      "n": 64,
+      "mean": 100.0,
+      "lo": 100.0,
+      "hi": 100.0
      },
      "n_breaker_skipped": 0,
-     "served_pct_skips_as_not_served": 93.33333333333333
+     "served_pct_skips_as_not_served": 100.0
     }
    },
    "x": {
@@ -697,44 +697,44 @@
     "macro_pct": 46.29393958438076
    },
    "readproof_p0": {
-    "n": 502,
-    "served": 265,
-    "served_pct": 52.788844621513945,
+    "n": 510,
+    "served": 281,
+    "served_pct": 55.09803921568628,
     "ci": {
-     "n": 502,
-     "mean": 52.79,
-     "lo": 48.41,
-     "hi": 57.17
+     "n": 510,
+     "mean": 55.1,
+     "lo": 50.78,
+     "hi": 59.41
     },
-    "n_with_skips": 502,
-    "served_pct_skips_as_not_served": 52.788844621513945,
+    "n_with_skips": 510,
+    "served_pct_skips_as_not_served": 55.09803921568628,
     "ci_skips_as_not_served": {
-     "n": 502,
-     "mean": 52.79,
-     "lo": 48.41,
-     "hi": 57.17
+     "n": 510,
+     "mean": 55.1,
+     "lo": 50.78,
+     "hi": 59.41
     },
-    "macro_pct": 48.04398148148148
+    "macro_pct": 49.43287037037037
    },
    "readproof_p1": {
-    "n": 506,
-    "served": 401,
-    "served_pct": 79.24901185770752,
+    "n": 510,
+    "served": 417,
+    "served_pct": 81.76470588235294,
     "ci": {
-     "n": 506,
-     "mean": 79.25,
-     "lo": 75.69,
-     "hi": 82.61
+     "n": 510,
+     "mean": 81.76,
+     "lo": 78.43,
+     "hi": 85.1
     },
-    "n_with_skips": 506,
-    "served_pct_skips_as_not_served": 79.24901185770752,
+    "n_with_skips": 510,
+    "served_pct_skips_as_not_served": 81.76470588235294,
     "ci_skips_as_not_served": {
-     "n": 506,
-     "mean": 79.25,
-     "lo": 75.69,
-     "hi": 82.61
+     "n": 510,
+     "mean": 81.76,
+     "lo": 78.43,
+     "hi": 85.1
     },
-    "macro_pct": 76.18452081687376
+    "macro_pct": 78.4744068567598
    }
   },
   "walls": {
@@ -752,10 +752,12 @@
      "challenge": 6
     },
     "readproof_p0": {
-     "served": 60
+     "served": 56,
+     "self_visible": 4
     },
     "readproof_p1": {
-     "served": 60
+     "served": 56,
+     "self_visible": 4
     }
    },
    "xiaohongshu": {
@@ -772,13 +774,11 @@
      "served": 54
     },
     "readproof_p0": {
-     "policy": 51,
-     "unsupported": 3
+     "policy": 54
     },
     "readproof_p1": {
-     "served": 45,
-     "token": 6,
-     "unsupported": 3
+     "served": 47,
+     "token": 7
     }
    },
    "bilibili": {
@@ -792,12 +792,12 @@
      "served": 64
     },
     "readproof_p0": {
-     "served": 44,
-     "challenge": 20
+     "served": 52,
+     "challenge": 12
     },
     "readproof_p1": {
-     "served": 36,
-     "challenge": 28
+     "served": 40,
+     "challenge": 24
     }
    },
    "youtube": {
@@ -851,14 +851,12 @@
      "deleted": 2
     },
     "readproof_p0": {
-     "policy": 48,
-     "unsupported": 4
+     "policy": 52
     },
     "readproof_p1": {
-     "served": 28,
-     "challenge": 16,
-     "deleted": 4,
-     "unsupported": 4
+     "served": 40,
+     "challenge": 8,
+     "deleted": 4
     }
    },
    "toutiao": {
@@ -873,11 +871,10 @@
      "served": 64
     },
     "readproof_p0": {
-     "served": 56
+     "served": 64
     },
     "readproof_p1": {
-     "served": 56,
-     "challenge": 4
+     "served": 64
     }
    },
    "x": {
@@ -894,7 +891,8 @@
      "policy": 68
     },
     "readproof_p1": {
-     "served": 68
+     "served": 64,
+     "deleted": 4
     }
    },
    "wechat": {
@@ -913,7 +911,8 @@
     },
     "readproof_p1": {
      "challenge": 18,
-     "served": 14
+     "served": 10,
+     "deleted": 4
     }
    }
   },
@@ -952,17 +951,11 @@
     }
    },
    "toutiao": {
-    "readproof_p0": {
-     "request_cap": 8
-    },
     "browser_text": {
      "request_cap": 7
     },
     "naive_fetch": {
      "request_cap": 6
-    },
-    "readproof_p1": {
-     "request_cap": 4
     }
    }
   }
@@ -972,21 +965,21 @@
    "a": "readproof_p1",
    "b": "readproof_p0",
    "platform": null,
-   "n_items": 502,
-   "n_posts": 140,
-   "a_pct": 79.08366533864542,
-   "b_pct": 52.788844621513945,
+   "n_items": 510,
+   "n_posts": 142,
+   "a_pct": 81.76470588235294,
+   "b_pct": 55.09803921568628,
    "diff_items": {
-    "n": 502,
-    "mean": 26.29,
-    "lo": 21.71,
-    "hi": 30.88
+    "n": 510,
+    "mean": 26.67,
+    "lo": 21.96,
+    "hi": 31.37
    },
    "diff_posts": {
-    "n": 502,
-    "mean": 26.29,
-    "lo": 17.83,
-    "hi": 34.81
+    "n": 510,
+    "mean": 26.67,
+    "lo": 18.18,
+    "hi": 35.37
    }
   },
   "douyin": {
@@ -1037,18 +1030,18 @@
    "platform": "bilibili",
    "n_items": 64,
    "n_posts": 16,
-   "a_pct": 56.25,
-   "b_pct": 68.75,
+   "a_pct": 62.5,
+   "b_pct": 81.25,
    "diff_items": {
     "n": 64,
-    "mean": -12.5,
-    "lo": -26.56,
-    "hi": 1.56
+    "mean": -18.75,
+    "lo": -35.94,
+    "hi": -1.56
    },
    "diff_posts": {
     "n": 64,
-    "mean": -12.5,
-    "lo": -43.75,
+    "mean": -18.75,
+    "lo": -50.0,
     "hi": 18.75
    }
   },
@@ -1100,39 +1093,39 @@
    "platform": "weibo",
    "n_items": 52,
    "n_posts": 16,
-   "a_pct": 30.76923076923077,
+   "a_pct": 38.46153846153846,
    "b_pct": 0.0,
    "diff_items": {
     "n": 52,
-    "mean": 30.77,
-    "lo": 19.23,
-    "hi": 44.23
+    "mean": 38.46,
+    "lo": 25.0,
+    "hi": 51.92
    },
    "diff_posts": {
     "n": 52,
-    "mean": 30.77,
-    "lo": 7.69,
-    "hi": 55.81
+    "mean": 38.46,
+    "lo": 15.38,
+    "hi": 65.22
    }
   },
   "toutiao": {
    "a": "readproof_p1",
    "b": "readproof_p0",
    "platform": "toutiao",
-   "n_items": 56,
-   "n_posts": 14,
-   "a_pct": 92.85714285714286,
+   "n_items": 64,
+   "n_posts": 16,
+   "a_pct": 100.0,
    "b_pct": 100.0,
    "diff_items": {
-    "n": 56,
-    "mean": -7.14,
-    "lo": -14.29,
-    "hi": -1.79
+    "n": 64,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
    },
    "diff_posts": {
-    "n": 56,
-    "mean": -7.14,
-    "lo": -21.43,
+    "n": 64,
+    "mean": 0.0,
+    "lo": 0.0,
     "hi": 0.0
    }
   },
@@ -1179,13 +1172,13 @@
    }
   },
   "p0_policy_share": {
-   "overall": 41.82879377431907,
+   "overall": 42.52873563218391,
    "douyin": 0.0,
-   "xiaohongshu": 94.44444444444444,
+   "xiaohongshu": 100.0,
    "bilibili": 0.0,
    "youtube": 0.0,
    "tiktok": 25.0,
-   "weibo": 92.3076923076923,
+   "weibo": 100.0,
    "toutiao": 0.0,
    "x": 100.0,
    "wechat": 100.0
@@ -1199,19 +1192,19 @@
     "platform": null,
     "n_items": 302,
     "n_posts": 80,
-    "a_pct": 90.06622516556291,
+    "a_pct": 88.74172185430463,
     "b_pct": 42.384105960264904,
     "diff_items": {
      "n": 302,
-     "mean": 47.68,
-     "lo": 42.05,
-     "hi": 53.31
+     "mean": 46.36,
+     "lo": 40.73,
+     "hi": 51.99
     },
     "diff_posts": {
      "n": 302,
-     "mean": 47.68,
-     "lo": 36.42,
-     "hi": 58.69
+     "mean": 46.36,
+     "lo": 35.31,
+     "hi": 57.58
     }
    },
    "overall_skips_as_not_served": {
@@ -1220,19 +1213,19 @@
     "platform": null,
     "n_items": 504,
     "n_posts": 141,
-    "a_pct": 79.16666666666667,
+    "a_pct": 81.54761904761905,
     "b_pct": 25.396825396825395,
     "diff_items": {
      "n": 504,
-     "mean": 53.77,
-     "lo": 49.4,
-     "hi": 58.13
+     "mean": 56.15,
+     "lo": 51.79,
+     "hi": 60.52
     },
     "diff_posts": {
      "n": 504,
-     "mean": 53.77,
-     "lo": 45.38,
-     "hi": 62.2
+     "mean": 56.15,
+     "lo": 47.69,
+     "hi": 64.6
     }
    },
    "douyin": {
@@ -1283,19 +1276,19 @@
     "platform": "bilibili",
     "n_items": 8,
     "n_posts": 2,
-    "a_pct": 100.0,
+    "a_pct": 0.0,
     "b_pct": 0.0,
     "diff_items": {
      "n": 8,
-     "mean": 100.0,
-     "lo": 100.0,
-     "hi": 100.0
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
     },
     "diff_posts": {
      "n": 8,
-     "mean": 100.0,
-     "lo": 100.0,
-     "hi": 100.0
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
     }
    },
    "youtube": {
@@ -1367,18 +1360,18 @@
     "platform": "toutiao",
     "n_items": 58,
     "n_posts": 15,
-    "a_pct": 93.10344827586206,
+    "a_pct": 100.0,
     "b_pct": 0.0,
     "diff_items": {
      "n": 58,
-     "mean": 93.1,
-     "lo": 86.21,
-     "hi": 98.28
+     "mean": 100.0,
+     "lo": 100.0,
+     "hi": 100.0
     },
     "diff_posts": {
      "n": 58,
-     "mean": 93.1,
-     "lo": 78.57,
+     "mean": 100.0,
+     "lo": 100.0,
      "hi": 100.0
     }
    },
@@ -1432,19 +1425,19 @@
     "platform": null,
     "n_items": 441,
     "n_posts": 126,
-    "a_pct": 77.55102040816327,
+    "a_pct": 79.81859410430839,
     "b_pct": 58.956916099773245,
     "diff_items": {
      "n": 441,
-     "mean": 18.59,
-     "lo": 14.29,
-     "hi": 22.9
+     "mean": 20.86,
+     "lo": 16.78,
+     "hi": 24.94
     },
     "diff_posts": {
      "n": 441,
-     "mean": 18.59,
-     "lo": 11.37,
-     "hi": 25.85
+     "mean": 20.86,
+     "lo": 14.06,
+     "hi": 28.04
     }
    },
    "overall_skips_as_not_served": {
@@ -1453,19 +1446,19 @@
     "platform": null,
     "n_items": 501,
     "n_posts": 141,
-    "a_pct": 79.44111776447106,
+    "a_pct": 81.437125748503,
     "b_pct": 51.89620758483034,
     "diff_items": {
      "n": 501,
-     "mean": 27.54,
-     "lo": 23.15,
-     "hi": 31.94
+     "mean": 29.54,
+     "lo": 25.35,
+     "hi": 33.73
     },
     "diff_posts": {
      "n": 501,
-     "mean": 27.54,
-     "lo": 19.92,
-     "hi": 35.36
+     "mean": 29.54,
+     "lo": 22.13,
+     "hi": 37.14
     }
    },
    "douyin": {
@@ -1516,19 +1509,19 @@
     "platform": "bilibili",
     "n_items": 64,
     "n_posts": 16,
-    "a_pct": 56.25,
+    "a_pct": 62.5,
     "b_pct": 17.1875,
     "diff_items": {
      "n": 64,
-     "mean": 39.06,
-     "lo": 23.44,
-     "hi": 53.12
+     "mean": 45.31,
+     "lo": 32.81,
+     "hi": 57.81
     },
     "diff_posts": {
      "n": 64,
-     "mean": 39.06,
-     "lo": 9.38,
-     "hi": 68.75
+     "mean": 45.31,
+     "lo": 21.88,
+     "hi": 70.31
     }
    },
    "youtube": {
@@ -1579,19 +1572,19 @@
     "platform": "weibo",
     "n_items": 52,
     "n_posts": 16,
-    "a_pct": 30.76923076923077,
+    "a_pct": 38.46153846153846,
     "b_pct": 28.846153846153847,
     "diff_items": {
      "n": 52,
-     "mean": 1.92,
-     "lo": -13.46,
-     "hi": 15.38
+     "mean": 9.62,
+     "lo": -3.85,
+     "hi": 23.08
     },
     "diff_posts": {
      "n": 52,
-     "mean": 1.92,
-     "lo": -18.6,
-     "hi": 19.67
+     "mean": 9.62,
+     "lo": -9.84,
+     "hi": 28.85
     }
    },
    "toutiao": {
@@ -1600,18 +1593,18 @@
     "platform": "toutiao",
     "n_items": 55,
     "n_posts": 15,
-    "a_pct": 96.36363636363636,
+    "a_pct": 100.0,
     "b_pct": 100.0,
     "diff_items": {
      "n": 55,
-     "mean": -3.64,
-     "lo": -9.09,
+     "mean": 0.0,
+     "lo": 0.0,
      "hi": 0.0
     },
     "diff_posts": {
      "n": 55,
-     "mean": -3.64,
-     "lo": -12.5,
+     "mean": 0.0,
+     "lo": 0.0,
      "hi": 0.0
     }
    },
@@ -1663,42 +1656,42 @@
     "a": "readproof_p1",
     "b": "reader_service",
     "platform": null,
-    "n_items": 488,
-    "n_posts": 132,
-    "a_pct": 80.94262295081967,
-    "b_pct": 53.278688524590166,
+    "n_items": 492,
+    "n_posts": 133,
+    "a_pct": 83.53658536585365,
+    "b_pct": 53.65853658536585,
     "diff_items": {
-     "n": 488,
-     "mean": 27.66,
-     "lo": 23.16,
-     "hi": 32.17
+     "n": 492,
+     "mean": 29.88,
+     "lo": 25.61,
+     "hi": 34.15
     },
     "diff_posts": {
-     "n": 488,
-     "mean": 27.66,
-     "lo": 19.84,
-     "hi": 35.71
+     "n": 492,
+     "mean": 29.88,
+     "lo": 22.49,
+     "hi": 37.78
     }
    },
    "overall_skips_as_not_served": {
     "a": "readproof_p1",
     "b": "reader_service",
     "platform": null,
-    "n_items": 506,
-    "n_posts": 141,
-    "a_pct": 79.24901185770752,
-    "b_pct": 51.383399209486164,
+    "n_items": 510,
+    "n_posts": 142,
+    "a_pct": 81.76470588235294,
+    "b_pct": 51.76470588235294,
     "diff_items": {
-     "n": 506,
-     "mean": 27.87,
-     "lo": 23.32,
-     "hi": 32.41
+     "n": 510,
+     "mean": 30.0,
+     "lo": 25.88,
+     "hi": 34.31
     },
     "diff_posts": {
-     "n": 506,
-     "mean": 27.87,
-     "lo": 20.28,
-     "hi": 35.86
+     "n": 510,
+     "mean": 30.0,
+     "lo": 22.86,
+     "hi": 37.4
     }
    },
    "douyin": {
@@ -1749,19 +1742,19 @@
     "platform": "bilibili",
     "n_items": 64,
     "n_posts": 16,
-    "a_pct": 56.25,
+    "a_pct": 62.5,
     "b_pct": 7.8125,
     "diff_items": {
      "n": 64,
-     "mean": 48.44,
-     "lo": 34.38,
-     "hi": 62.5
+     "mean": 54.69,
+     "lo": 40.62,
+     "hi": 67.19
     },
     "diff_posts": {
      "n": 64,
-     "mean": 48.44,
-     "lo": 21.88,
-     "hi": 75.0
+     "mean": 54.69,
+     "lo": 28.12,
+     "hi": 81.25
     }
    },
    "youtube": {
@@ -1812,39 +1805,39 @@
     "platform": "weibo",
     "n_items": 52,
     "n_posts": 16,
-    "a_pct": 30.76923076923077,
+    "a_pct": 38.46153846153846,
     "b_pct": 30.76923076923077,
     "diff_items": {
      "n": 52,
-     "mean": 0.0,
-     "lo": -15.38,
-     "hi": 15.38
+     "mean": 7.69,
+     "lo": -5.77,
+     "hi": 21.15
     },
     "diff_posts": {
      "n": 52,
-     "mean": 0.0,
-     "lo": -21.74,
-     "hi": 18.75
+     "mean": 7.69,
+     "lo": -10.91,
+     "hi": 25.45
     }
    },
    "toutiao": {
     "a": "readproof_p1",
     "b": "reader_service",
     "platform": "toutiao",
-    "n_items": 60,
-    "n_posts": 15,
-    "a_pct": 93.33333333333333,
+    "n_items": 64,
+    "n_posts": 16,
+    "a_pct": 100.0,
     "b_pct": 100.0,
     "diff_items": {
-     "n": 60,
-     "mean": -6.67,
-     "lo": -13.33,
-     "hi": -1.67
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
     },
     "diff_posts": {
-     "n": 60,
-     "mean": -6.67,
-     "lo": -20.0,
+     "n": 64,
+     "mean": 0.0,
+     "lo": 0.0,
      "hi": 0.0
     }
    },
@@ -1893,78 +1886,23 @@
   }
  },
  "answer_from_wall": {
-  "naive_fetch": {
-   "eligible": 1,
-   "answered": 0,
-   "rate": {
-    "n": 1,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
-   },
-   "rate_posts": {
-    "n": 1,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
-   },
-   "observer_wall": {
-    "eligible": 1,
-    "answered": 0
-   },
-   "observer_served": {
-    "eligible": 0,
-    "answered": 0
-   },
-   "llm_calls": 1,
-   "by_platform": {
-    "xiaohongshu": {
-     "eligible": 1,
-     "answered": 0
-    }
-   },
-   "how": {
-    "token": 1
-   },
-   "partial_coverage": {
-    "eligible": 0,
-    "answered": 0
-   },
-   "unflagged_no_trace": {
-    "eligible": 0,
-    "answered": 0,
-    "translated_hint": {
-     "eligible": 0,
-     "answered": 0
-    },
-    "no_translation_hint": {
-     "eligible": 0,
-     "answered": 0
-    },
-    "by_platform": {}
-   },
-   "all_unserved": {
-    "eligible": 1,
-    "answered": 0
-   }
-  },
   "readproof_p1": {
-   "eligible": 73,
+   "eligible": 69,
    "answered": 0,
    "rate": {
-    "n": 73,
+    "n": 69,
     "mean": 0.0,
     "lo": 0.0,
     "hi": 0.0
    },
    "rate_posts": {
-    "n": 73,
+    "n": 69,
     "mean": 0.0,
     "lo": 0.0,
     "hi": 0.0
    },
    "observer_wall": {
-    "eligible": 73,
+    "eligible": 69,
     "answered": 0
    },
    "observer_served": {
@@ -1973,107 +1911,39 @@
    },
    "llm_calls": 0,
    "by_platform": {
+    "bilibili": {
+     "eligible": 24,
+     "answered": 0
+    },
     "wechat": {
-     "eligible": 18,
+     "eligible": 22,
      "answered": 0
     },
     "weibo": {
-     "eligible": 20,
+     "eligible": 12,
      "answered": 0
     },
-    "bilibili": {
-     "eligible": 28,
+    "x": {
+     "eligible": 4,
+     "answered": 0
+    },
+    "douyin": {
+     "eligible": 4,
      "answered": 0
     },
     "xiaohongshu": {
      "eligible": 3,
      "answered": 0
-    },
-    "toutiao": {
-     "eligible": 4,
-     "answered": 0
     }
    },
    "how": {
-    "challenge": 66,
-    "deleted": 4,
+    "challenge": 50,
+    "deleted": 12,
+    "self_visible": 4,
     "token": 3
    },
    "partial_coverage": {
-    "eligible": 0,
-    "answered": 0
-   },
-   "unflagged_no_trace": {
-    "eligible": 2,
-    "answered": 0,
-    "translated_hint": {
-     "eligible": 0,
-     "answered": 0
-    },
-    "no_translation_hint": {
-     "eligible": 2,
-     "answered": 0
-    },
-    "by_platform": {
-     "wechat": {
-      "eligible": 2,
-      "answered": 0
-     }
-    }
-   },
-   "all_unserved": {
-    "eligible": 75,
-    "answered": 0
-   },
-   "typed_abstention_check": {
-    "harness_not_served": 73,
-    "abstained": 73,
-    "abstained_without_model_call": 73,
-    "cause_equals_wall": 73,
-    "harness_served_not_fingerprint": 2,
-    "harness_served_not_fingerprint_answered": 0
-   }
-  },
-  "readproof_p0": {
-   "eligible": 36,
-   "answered": 0,
-   "rate": {
-    "n": 36,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
-   },
-   "rate_posts": {
-    "n": 36,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
-   },
-   "observer_wall": {
-    "eligible": 36,
-    "answered": 0
-   },
-   "observer_served": {
-    "eligible": 0,
-    "answered": 0
-   },
-   "llm_calls": 0,
-   "by_platform": {
-    "bilibili": {
-     "eligible": 20,
-     "answered": 0
-    },
-    "tiktok": {
-     "eligible": 16,
-     "answered": 0
-    }
-   },
-   "how": {
-    "challenge": 20,
-    "policy": 16
-   },
-   "partial_coverage": {
-    "eligible": 0,
+    "eligible": 4,
     "answered": 0
    },
    "unflagged_no_trace": {
@@ -2090,16 +1960,428 @@
     "by_platform": {}
    },
    "all_unserved": {
-    "eligible": 36,
+    "eligible": 73,
     "answered": 0
    },
    "typed_abstention_check": {
-    "harness_not_served": 36,
-    "abstained": 36,
-    "abstained_without_model_call": 36,
-    "cause_equals_wall": 36,
-    "harness_served_not_fingerprint": 0,
+    "harness_not_served": 69,
+    "abstained": 69,
+    "abstained_without_model_call": 69,
+    "cause_equals_wall": 69,
+    "harness_served_not_fingerprint": 4,
     "harness_served_not_fingerprint_answered": 0
+   }
+  },
+  "readproof_p0": {
+   "eligible": 32,
+   "answered": 0,
+   "rate": {
+    "n": 32,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 32,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 32,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 0,
+   "by_platform": {
+    "tiktok": {
+     "eligible": 16,
+     "answered": 0
+    },
+    "bilibili": {
+     "eligible": 12,
+     "answered": 0
+    },
+    "douyin": {
+     "eligible": 4,
+     "answered": 0
+    }
+   },
+   "how": {
+    "policy": 16,
+    "challenge": 12,
+    "self_visible": 4
+   },
+   "partial_coverage": {
+    "eligible": 3,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 0,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "by_platform": {}
+   },
+   "all_unserved": {
+    "eligible": 35,
+    "answered": 0
+   },
+   "typed_abstention_check": {
+    "harness_not_served": 32,
+    "abstained": 32,
+    "abstained_without_model_call": 32,
+    "cause_equals_wall": 32,
+    "harness_served_not_fingerprint": 3,
+    "harness_served_not_fingerprint_answered": 0
+   }
+  },
+  "naive_fetch": {
+   "eligible": 80,
+   "answered": 0,
+   "rate": {
+    "n": 80,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 80,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 80,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 80,
+   "by_platform": {
+    "xiaohongshu": {
+     "eligible": 8,
+     "answered": 0
+    },
+    "bilibili": {
+     "eligible": 8,
+     "answered": 0
+    },
+    "wechat": {
+     "eligible": 12,
+     "answered": 0
+    },
+    "weibo": {
+     "eligible": 4,
+     "answered": 0
+    },
+    "toutiao": {
+     "eligible": 43,
+     "answered": 0
+    },
+    "tiktok": {
+     "eligible": 5,
+     "answered": 0
+    }
+   },
+   "how": {
+    "token": 80
+   },
+   "partial_coverage": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 63,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 63,
+     "answered": 0
+    },
+    "by_platform": {
+     "tiktok": {
+      "eligible": 59,
+      "answered": 0
+     },
+     "x": {
+      "eligible": 4,
+      "answered": 0
+     }
+    }
+   },
+   "all_unserved": {
+    "eligible": 143,
+    "answered": 0
+   }
+  },
+  "reader_service": {
+   "eligible": 23,
+   "answered": 1,
+   "rate": {
+    "n": 23,
+    "mean": 4.35,
+    "lo": 0.0,
+    "hi": 13.04
+   },
+   "rate_posts": {
+    "n": 23,
+    "mean": 4.35,
+    "lo": 0.0,
+    "hi": 14.29
+   },
+   "observer_wall": {
+    "eligible": 23,
+    "answered": 1
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 23,
+   "by_platform": {
+    "douyin": {
+     "eligible": 6,
+     "answered": 0
+    },
+    "wechat": {
+     "eligible": 14,
+     "answered": 0
+    },
+    "weibo": {
+     "eligible": 2,
+     "answered": 0
+    },
+    "youtube": {
+     "eligible": 1,
+     "answered": 1
+    }
+   },
+   "how": {
+    "token": 22,
+    "answered": 1
+   },
+   "partial_coverage": {
+    "eligible": 31,
+    "answered": 25
+   },
+   "unflagged_no_trace": {
+    "eligible": 164,
+    "answered": 47,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 164,
+     "answered": 47
+    },
+    "by_platform": {
+     "douyin": {
+      "eligible": 29,
+      "answered": 0
+     },
+     "xiaohongshu": {
+      "eligible": 42,
+      "answered": 0
+     },
+     "x": {
+      "eligible": 22,
+      "answered": 0
+     },
+     "bilibili": {
+      "eligible": 47,
+      "answered": 47
+     },
+     "weibo": {
+      "eligible": 24,
+      "answered": 0
+     }
+    }
+   },
+   "all_unserved": {
+    "eligible": 218,
+    "answered": 73
+   }
+  },
+  "browser_text": {
+   "eligible": 43,
+   "answered": 13,
+   "rate": {
+    "n": 43,
+    "mean": 30.23,
+    "lo": 16.28,
+    "hi": 44.19
+   },
+   "rate_posts": {
+    "n": 43,
+    "mean": 30.23,
+    "lo": 12.82,
+    "hi": 48.89
+   },
+   "observer_wall": {
+    "eligible": 43,
+    "answered": 13
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 43,
+   "by_platform": {
+    "wechat": {
+     "eligible": 18,
+     "answered": 0
+    },
+    "douyin": {
+     "eligible": 18,
+     "answered": 13
+    },
+    "weibo": {
+     "eligible": 4,
+     "answered": 0
+    },
+    "xiaohongshu": {
+     "eligible": 3,
+     "answered": 0
+    }
+   },
+   "how": {
+    "token": 28,
+    "answered": 13,
+    "empty": 2
+   },
+   "partial_coverage": {
+    "eligible": 41,
+    "answered": 39
+   },
+   "unflagged_no_trace": {
+    "eligible": 80,
+    "answered": 39,
+    "translated_hint": {
+     "eligible": 35,
+     "answered": 35
+    },
+    "no_translation_hint": {
+     "eligible": 45,
+     "answered": 4
+    },
+    "by_platform": {
+     "bilibili": {
+      "eligible": 35,
+      "answered": 35
+     },
+     "weibo": {
+      "eligible": 24,
+      "answered": 0
+     },
+     "wechat": {
+      "eligible": 4,
+      "answered": 0
+     },
+     "douyin": {
+      "eligible": 13,
+      "answered": 0
+     },
+     "youtube": {
+      "eligible": 4,
+      "answered": 4
+     }
+    }
+   },
+   "all_unserved": {
+    "eligible": 164,
+    "answered": 91
+   }
+  },
+  "readproof_p1_nowalls": {
+   "eligible": 69,
+   "answered": 0,
+   "rate": {
+    "n": 69,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "rate_posts": {
+    "n": 69,
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "observer_wall": {
+    "eligible": 69,
+    "answered": 0
+   },
+   "observer_served": {
+    "eligible": 0,
+    "answered": 0
+   },
+   "llm_calls": 69,
+   "by_platform": {
+    "bilibili": {
+     "eligible": 24,
+     "answered": 0
+    },
+    "wechat": {
+     "eligible": 22,
+     "answered": 0
+    },
+    "weibo": {
+     "eligible": 12,
+     "answered": 0
+    },
+    "x": {
+     "eligible": 4,
+     "answered": 0
+    },
+    "douyin": {
+     "eligible": 4,
+     "answered": 0
+    },
+    "xiaohongshu": {
+     "eligible": 3,
+     "answered": 0
+    }
+   },
+   "how": {
+    "token": 65,
+    "empty": 4
+   },
+   "partial_coverage": {
+    "eligible": 4,
+    "answered": 0
+   },
+   "unflagged_no_trace": {
+    "eligible": 0,
+    "answered": 0,
+    "translated_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "no_translation_hint": {
+     "eligible": 0,
+     "answered": 0
+    },
+    "by_platform": {}
+   },
+   "all_unserved": {
+    "eligible": 73,
+    "answered": 0
    }
   }
  },
@@ -2108,18 +2390,18 @@
    "a": "readproof_p1",
    "b": "naive_fetch",
    "platform": null,
-   "n_items": 158,
-   "n_posts": 52,
+   "n_items": 235,
+   "n_posts": 65,
    "a_pct": 0.0,
    "b_pct": 0.0,
    "diff_items": {
-    "n": 158,
+    "n": 235,
     "mean": 0.0,
     "lo": 0.0,
     "hi": 0.0
    },
    "diff_posts": {
-    "n": 158,
+    "n": 235,
     "mean": 0.0,
     "lo": 0.0,
     "hi": 0.0
@@ -2129,45 +2411,295 @@
    "a": "readproof_p1",
    "b": "browser_text",
    "platform": null,
-   "n_items": 257,
-   "n_posts": 85,
+   "n_items": 298,
+   "n_posts": 96,
    "a_pct": 0.0,
-   "b_pct": 0.0,
+   "b_pct": 4.3624161073825505,
    "diff_items": {
-    "n": 257,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
+    "n": 298,
+    "mean": -4.36,
+    "lo": -6.71,
+    "hi": -2.35
    },
    "diff_posts": {
-    "n": 257,
-    "mean": 0.0,
-    "lo": 0.0,
-    "hi": 0.0
+    "n": 298,
+    "mean": -4.36,
+    "lo": -7.97,
+    "hi": -1.42
    }
   },
   "reader_service": {
    "a": "readproof_p1",
    "b": "reader_service",
    "platform": null,
-   "n_items": 248,
-   "n_posts": 71,
+   "n_items": 275,
+   "n_posts": 85,
    "a_pct": 0.0,
-   "b_pct": 0.0,
+   "b_pct": 0.36363636363636365,
    "diff_items": {
-    "n": 248,
-    "mean": 0.0,
-    "lo": 0.0,
+    "n": 275,
+    "mean": -0.36,
+    "lo": -1.09,
     "hi": 0.0
    },
    "diff_posts": {
-    "n": 248,
-    "mean": 0.0,
-    "lo": 0.0,
+    "n": 275,
+    "mean": -0.36,
+    "lo": -1.15,
     "hi": 0.0
    }
   }
  },
+ "probe_backbone": "baidu/ernie-5.5-flash-preview:free",
+ "probe_model_calls": 605,
+ "readproof_round_change": {
+  "douyin": {
+   "readproof_p0": {
+    "n": 60,
+    "round1_pct": 93.33333333333333,
+    "round2_pct": 93.33333333333333,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 60,
+    "round1_pct": 93.33333333333333,
+    "round2_pct": 93.33333333333333,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "xiaohongshu": {
+   "readproof_p0": {
+    "n": 42,
+    "round1_pct": 0.0,
+    "round2_pct": 0.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 42,
+    "round1_pct": 92.85714285714286,
+    "round2_pct": 92.85714285714286,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "bilibili": {
+   "readproof_p0": {
+    "n": 64,
+    "round1_pct": 68.75,
+    "round2_pct": 81.25,
+    "changed": 32,
+    "gained": 20,
+    "lost": 12
+   },
+   "readproof_p1": {
+    "n": 64,
+    "round1_pct": 56.25,
+    "round2_pct": 62.5,
+    "changed": 28,
+    "gained": 16,
+    "lost": 12
+   }
+  },
+  "youtube": {
+   "readproof_p0": {
+    "n": 64,
+    "round1_pct": 100.0,
+    "round2_pct": 100.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 64,
+    "round1_pct": 100.0,
+    "round2_pct": 100.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "tiktok": {
+   "readproof_p0": {
+    "n": 64,
+    "round1_pct": 70.3125,
+    "round2_pct": 70.3125,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 64,
+    "round1_pct": 93.75,
+    "round2_pct": 93.75,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "weibo": {
+   "readproof_p0": {
+    "n": 52,
+    "round1_pct": 0.0,
+    "round2_pct": 0.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 52,
+    "round1_pct": 30.76923076923077,
+    "round2_pct": 38.46153846153846,
+    "changed": 20,
+    "gained": 12,
+    "lost": 8
+   }
+  },
+  "toutiao": {
+   "readproof_p0": {
+    "n": 56,
+    "round1_pct": 100.0,
+    "round2_pct": 100.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 60,
+    "round1_pct": 93.33333333333333,
+    "round2_pct": 100.0,
+    "changed": 4,
+    "gained": 4,
+    "lost": 0
+   }
+  },
+  "x": {
+   "readproof_p0": {
+    "n": 68,
+    "round1_pct": 0.0,
+    "round2_pct": 0.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 68,
+    "round1_pct": 94.11764705882354,
+    "round2_pct": 94.11764705882354,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "wechat": {
+   "readproof_p0": {
+    "n": 32,
+    "round1_pct": 0.0,
+    "round2_pct": 0.0,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   },
+   "readproof_p1": {
+    "n": 32,
+    "round1_pct": 31.25,
+    "round2_pct": 31.25,
+    "changed": 0,
+    "gained": 0,
+    "lost": 0
+   }
+  },
+  "all": {
+   "readproof_p0": {
+    "n": 502,
+    "round1_pct": 52.788844621513945,
+    "round2_pct": 54.38247011952191,
+    "changed": 32,
+    "gained": 20,
+    "lost": 12
+   },
+   "readproof_p1": {
+    "n": 506,
+    "round1_pct": 79.24901185770752,
+    "round2_pct": 81.6205533596838,
+    "changed": 52,
+    "gained": 32,
+    "lost": 20
+   }
+  },
+  "walls_round1": {
+   "bilibili|readproof_p0|challenge": 20,
+   "bilibili|readproof_p0|served": 44,
+   "bilibili|readproof_p1|challenge": 28,
+   "bilibili|readproof_p1|served": 36,
+   "douyin|readproof_p0|served": 60,
+   "douyin|readproof_p1|served": 60,
+   "tiktok|readproof_p0|policy": 16,
+   "tiktok|readproof_p0|served": 48,
+   "tiktok|readproof_p1|served": 64,
+   "toutiao|readproof_p0|served": 56,
+   "toutiao|readproof_p1|challenge": 4,
+   "toutiao|readproof_p1|served": 56,
+   "wechat|readproof_p0|policy": 32,
+   "wechat|readproof_p1|challenge": 18,
+   "wechat|readproof_p1|served": 14,
+   "weibo|readproof_p0|policy": 48,
+   "weibo|readproof_p0|unsupported": 4,
+   "weibo|readproof_p1|challenge": 16,
+   "weibo|readproof_p1|deleted": 4,
+   "weibo|readproof_p1|served": 28,
+   "weibo|readproof_p1|unsupported": 4,
+   "x|readproof_p0|policy": 68,
+   "x|readproof_p1|served": 68,
+   "xiaohongshu|readproof_p0|policy": 51,
+   "xiaohongshu|readproof_p0|unsupported": 3,
+   "xiaohongshu|readproof_p1|served": 45,
+   "xiaohongshu|readproof_p1|token": 6,
+   "xiaohongshu|readproof_p1|unsupported": 3,
+   "youtube|readproof_p0|served": 64,
+   "youtube|readproof_p1|served": 64
+  },
+  "walls_round2": {
+   "bilibili|readproof_p0|challenge": 12,
+   "bilibili|readproof_p0|served": 52,
+   "bilibili|readproof_p1|challenge": 24,
+   "bilibili|readproof_p1|served": 40,
+   "douyin|readproof_p0|self_visible": 4,
+   "douyin|readproof_p0|served": 56,
+   "douyin|readproof_p1|self_visible": 4,
+   "douyin|readproof_p1|served": 56,
+   "tiktok|readproof_p0|policy": 16,
+   "tiktok|readproof_p0|served": 48,
+   "tiktok|readproof_p1|served": 64,
+   "toutiao|readproof_p0|served": 64,
+   "toutiao|readproof_p1|served": 64,
+   "wechat|readproof_p0|policy": 32,
+   "wechat|readproof_p1|challenge": 18,
+   "wechat|readproof_p1|deleted": 4,
+   "wechat|readproof_p1|served": 10,
+   "weibo|readproof_p0|policy": 52,
+   "weibo|readproof_p1|challenge": 8,
+   "weibo|readproof_p1|deleted": 4,
+   "weibo|readproof_p1|served": 40,
+   "x|readproof_p0|policy": 68,
+   "x|readproof_p1|deleted": 4,
+   "x|readproof_p1|served": 64,
+   "xiaohongshu|readproof_p0|policy": 54,
+   "xiaohongshu|readproof_p1|served": 47,
+   "xiaohongshu|readproof_p1|token": 7,
+   "youtube|readproof_p0|served": 64,
+   "youtube|readproof_p1|served": 64
+  }
+ },
+ "readproof_trees": [
+  "f8658185e804"
+ ],
  "harness_served_but_fingerprint_missing": [
   {
    "key": "weibo:5353573301094921|desktop_status|readproof_p1",
@@ -2200,18 +2732,6 @@
    "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
   },
   {
-   "key": "wechat:OQ1HxnAuWkzgI4H_7CykSw|s_path|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
-  },
-  {
-   "key": "wechat:OQ1HxnAuWkzgI4H_7CykSw|share_text|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
-  },
-  {
    "key": "weibo:5350602851750379|mobile_status|readproof_p1",
    "coverage": 0.385,
    "class": "post_in_other_words",
@@ -2230,88 +2750,28 @@
    "text_head": "这个假期没赶行程，周边边走走。\n草地、湖水、落日，\n没有拥挤人潮，\n只有湖水、远山、漫天云霞。\n慢下来，和自然碰个面，\n看云卷云舒，听晚风轻响，\n这是我想的假期"
   },
   {
-   "key": "x:1992989895850430908|x|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+   "key": "weibo:5365154603862782|desktop_status|readproof_p1",
+   "coverage": 0.588,
+   "class": "post_in_other_words",
+   "text_head": "秋冬还需要防晒吗？\n\n降温啦[雪花]\n进入秋冬之后\n大家是不是都不怎么涂防晒了？\n\n其实 紫外线分为UVB和UVA2️⃣种\n分别为中波紫外线&长波紫外线\n秋冬U"
   },
   {
-   "key": "x:1992989895850430908|mobile|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+   "key": "weibo:5365154603862782|mobile_status|readproof_p1",
+   "coverage": 0.588,
+   "class": "post_in_other_words",
+   "text_head": "秋冬还需要防晒吗？\n\n降温啦[雪花]\n进入秋冬之后\n大家是不是都不怎么涂防晒了？\n\n其实 紫外线分为UVB和UVA2️⃣种\n分别为中波紫外线&长波紫外线\n秋冬U"
   },
   {
-   "key": "x:1992989895850430908|share_text|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
+   "key": "weibo:5365154603862782|share_text|readproof_p1",
+   "coverage": 0.588,
+   "class": "post_in_other_words",
+   "text_head": "秋冬还需要防晒吗？\n\n降温啦[雪花]\n进入秋冬之后\n大家是不是都不怎么涂防晒了？\n\n其实 紫外线分为UVB和UVA2️⃣种\n分别为中波紫外线&长波紫外线\n秋冬U"
   },
   {
-   "key": "x:1992989895850430908|share_param|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "Post\nThis post is from a suspended account.\nPost / X\nPost Log inSign up Post Log"
-  },
-  {
-   "key": "douyin:7597416406057280753|desktop|readproof_p1",
-   "coverage": 0.077,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "wechat:-XVHkbYihe_gPo0G71aW-A|s_path|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
-  },
-  {
-   "key": "wechat:-XVHkbYihe_gPo0G71aW-A|share_text|readproof_p1",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "账号已迁移\n该公众号已迁移\n\n原账号迁移时未将文章素材同步至新账号，该链接已不可访问。\n\n公众号迁移说明"
-  },
-  {
-   "key": "douyin:7597416406057280753|desktop|readproof_p0",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|share_page|readproof_p1",
-   "coverage": 0.077,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|share_page|readproof_p0",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|share_text|readproof_p1",
-   "coverage": 0.077,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|share_text|readproof_p0",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|modal|readproof_p0",
-   "coverage": 0.0,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
-  },
-  {
-   "key": "douyin:7597416406057280753|modal|readproof_p1",
-   "coverage": 0.077,
-   "class": "wall_served_as_content",
-   "text_head": "于20261121发布在抖音，已经收获了0个喜欢，来抖音，记录美好生活！\n在抖音记录美好生活20261121 - 抖音\n开启读屏标签\n读屏标签已关闭\n精选\n推荐"
+   "key": "weibo:5365154603862782|mobile_detail|readproof_p1",
+   "coverage": 0.588,
+   "class": "post_in_other_words",
+   "text_head": "秋冬还需要防晒吗？\n\n降温啦[雪花]\n进入秋冬之后\n大家是不是都不怎么涂防晒了？\n\n其实 紫外线分为UVB和UVA2️⃣种\n分别为中波紫外线&长波紫外线\n秋冬U"
   },
   {
    "key": "weibo:5356026885050384|desktop_status|readproof_p1",
@@ -2336,6 +2796,30 @@
    "coverage": 0.381,
    "class": "post_in_other_words",
    "text_head": "#爸爸当家#\n宝宝生出来就是治愈爸妈的！ 喜剧贼好看的微博视频\n喜剧贼好看\n随时随地发现新鲜事！微博带你欣赏世界上每一个精彩瞬间，了解每一个幕后故事。分享你想表"
+  },
+  {
+   "key": "weibo:5360038119997618|desktop_status|readproof_p1",
+   "coverage": 0.391,
+   "class": "post_in_other_words",
+   "text_head": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来，整个人直接累趴。听完妻子那一连串灵魂拷问，爸爸火速改口“明"
+  },
+  {
+   "key": "weibo:5360038119997618|mobile_status|readproof_p1",
+   "coverage": 0.391,
+   "class": "post_in_other_words",
+   "text_head": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来，整个人直接累趴。听完妻子那一连串灵魂拷问，爸爸火速改口“明"
+  },
+  {
+   "key": "weibo:5360038119997618|share_text|readproof_p1",
+   "coverage": 0.391,
+   "class": "post_in_other_words",
+   "text_head": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来，整个人直接累趴。听完妻子那一连串灵魂拷问，爸爸火速改口“明"
+  },
+  {
+   "key": "weibo:5360038119997618|mobile_detail|readproof_p1",
+   "coverage": 0.391,
+   "class": "post_in_other_words",
+   "text_head": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来，整个人直接累趴。听完妻子那一连串灵魂拷问，爸爸火速改口“明"
   },
   {
    "key": "tiktok:7523212467208539447|desktop|readproof_p1",
@@ -2421,9 +2905,9 @@
    },
    "readproof_p1": {
     "n": 52,
-    "served_title_pct": 30.76923076923077,
-    "served_title_or_capture_pct": 53.84615384615385,
-    "served_title_or_capture_pct_skips_as_not_served": 53.84615384615385
+    "served_title_pct": 38.46153846153846,
+    "served_title_or_capture_pct": 76.92307692307692,
+    "served_title_or_capture_pct_skips_as_not_served": 76.92307692307692
    }
   }
  },
@@ -2466,14 +2950,14 @@
   "bilibili|readproof_p0": {
    "actual": 16,
    "reused": 48,
-   "requests": 30,
-   "seconds": 164.3
+   "requests": 27,
+   "seconds": 111.1
   },
   "bilibili|readproof_p1": {
    "actual": 16,
    "reused": 48,
-   "requests": 29,
-   "seconds": 125.0
+   "requests": 27,
+   "seconds": 128.5
   },
   "douyin|browser_text": {
    "actual": 45,
@@ -2496,14 +2980,14 @@
   "douyin|readproof_p0": {
    "actual": 15,
    "reused": 45,
-   "requests": 20,
-   "seconds": 199.2
+   "requests": 16,
+   "seconds": 129.7
   },
   "douyin|readproof_p1": {
    "actual": 15,
    "reused": 45,
-   "requests": 20,
-   "seconds": 154.4
+   "requests": 16,
+   "seconds": 132.5
   },
   "tiktok|browser_text": {
    "actual": 48,
@@ -2526,14 +3010,14 @@
   "tiktok|readproof_p0": {
    "actual": 32,
    "reused": 32,
-   "requests": 56,
-   "seconds": 255.6
+   "requests": 53,
+   "seconds": 217.1
   },
   "tiktok|readproof_p1": {
    "actual": 32,
    "reused": 32,
-   "requests": 88,
-   "seconds": 356.7
+   "requests": 85,
+   "seconds": 376.3
   },
   "toutiao|browser_text": {
    "actual": 43,
@@ -2554,16 +3038,16 @@
    "seconds": 1115.7
   },
   "toutiao|readproof_p0": {
-   "actual": 14,
-   "reused": 42,
-   "requests": 44,
-   "seconds": 287.2
+   "actual": 16,
+   "reused": 48,
+   "requests": 49,
+   "seconds": 340.8
   },
   "toutiao|readproof_p1": {
-   "actual": 15,
-   "reused": 45,
-   "requests": 47,
-   "seconds": 287.8
+   "actual": 16,
+   "reused": 48,
+   "requests": 49,
+   "seconds": 318.0
   },
   "wechat|browser_text": {
    "actual": 16,
@@ -2586,14 +3070,14 @@
   "wechat|readproof_p0": {
    "actual": 16,
    "reused": 16,
-   "requests": 2,
-   "seconds": 1.4
+   "requests": 1,
+   "seconds": 0.3
   },
   "wechat|readproof_p1": {
    "actual": 16,
    "reused": 16,
-   "requests": 50,
-   "seconds": 250.6
+   "requests": 49,
+   "seconds": 275.0
   },
   "weibo|browser_text": {
    "actual": 40,
@@ -2617,13 +3101,13 @@
    "actual": 16,
    "reused": 36,
    "requests": 2,
-   "seconds": 1.2
+   "seconds": 0.7
   },
   "weibo|readproof_p1": {
    "actual": 16,
    "reused": 36,
-   "requests": 40,
-   "seconds": 318.0
+   "requests": 43,
+   "seconds": 300.3
   },
   "x|browser_text": {
    "actual": 6,
@@ -2646,14 +3130,14 @@
   "x|readproof_p0": {
    "actual": 17,
    "reused": 51,
-   "requests": 6,
-   "seconds": 14.1
+   "requests": 3,
+   "seconds": 5.6
   },
   "x|readproof_p1": {
    "actual": 17,
    "reused": 51,
-   "requests": 42,
-   "seconds": 58.0
+   "requests": 39,
+   "seconds": 33.3
   },
   "xiaohongshu|browser_text": {
    "actual": 37,
@@ -2674,16 +3158,16 @@
    "seconds": 696.3
   },
   "xiaohongshu|readproof_p0": {
-   "actual": 20,
-   "reused": 34,
-   "requests": 3,
-   "seconds": 5.9
+   "actual": 17,
+   "reused": 37,
+   "requests": 1,
+   "seconds": 2.9
   },
   "xiaohongshu|readproof_p1": {
-   "actual": 20,
-   "reused": 34,
-   "requests": 91,
-   "seconds": 303.8
+   "actual": 17,
+   "reused": 37,
+   "requests": 87,
+   "seconds": 244.8
   },
   "youtube|browser_text": {
    "actual": 48,
@@ -2706,14 +3190,14 @@
   "youtube|readproof_p0": {
    "actual": 16,
    "reused": 48,
-   "requests": 19,
-   "seconds": 53.1
+   "requests": 17,
+   "seconds": 18.0
   },
   "youtube|readproof_p1": {
    "actual": 16,
    "reused": 48,
-   "requests": 19,
-   "seconds": 32.5
+   "requests": 17,
+   "seconds": 21.5
   }
  },
  "runs": [
@@ -2964,12 +3448,80 @@
     "wechat/reader_service:challenge"
    ],
    "stopped": {}
+  },
+  {
+   "kind": "run",
+   "phase": "reads",
+   "run_id": "20261121T183431-4e19c5",
+   "started": "2026-11-21T10:34:31+00:00",
+   "readproof_commit": "ed732c5+dirty",
+   "readproof_tree": "f8658185e804",
+   "run_group": "A2",
+   "ended": "2026-11-21T10:48:27+00:00",
+   "seconds": 836.8,
+   "origin": "residential:MY",
+   "gap_s": 5.0,
+   "cap_per_platform": 300,
+   "systems": [
+    "readproof_p0",
+    "readproof_p1"
+   ],
+   "platform_requests": {
+    "x": 42,
+    "youtube": 34,
+    "weibo": 45,
+    "bilibili": 54,
+    "wechat": 50,
+    "toutiao": 98,
+    "douyin": 32,
+    "tiktok": 138,
+    "xiaohongshu": 88
+   },
+   "precharged_from_earlier_runs_today": {},
+   "domain_requests": {
+    "twitter.com": 19,
+    "youtube.com": 34,
+    "weibo.cn": 39,
+    "bilibili.com": 54,
+    "x.com": 23,
+    "qq.com": 50,
+    "toutiao.com": 98,
+    "douyin.com": 32,
+    "tiktok.com": 138,
+    "xiaohongshu.com": 36,
+    "rednote.com": 52,
+    "weibo.com": 6
+   },
+   "waited_s": 1161,
+   "stats": {
+    "read": 322,
+    "requests:youtube": 34,
+    "requests:x": 42,
+    "requests:bilibili": 54,
+    "requests:weibo": 45,
+    "requests:wechat": 50,
+    "requests:toutiao": 98,
+    "reused": 722,
+    "requests:douyin": 32,
+    "requests:tiktok": 138,
+    "requests:xiaohongshu": 88
+   },
+   "events": [],
+   "breaker_open": [],
+   "stopped": {}
   }
  ],
  "trackK": {
   "generated_by": "bench/trackK_run.py",
   "date": "2026-11-21",
-  "readproof_commit": "3788ced",
+  "readproof_commit": "81d1eb8+dirty",
+  "readproof_tree": "f8658185e804",
+  "round": "K2",
+  "backbone": "baidu/ernie-5.5-flash-preview:free",
+  "model_calls": {
+   "answers": 280,
+   "llm_calls": 228
+  },
   "origin": "residential:MY",
   "n_posts": 7,
   "posts": [
@@ -3000,38 +3552,267 @@
   "controls": 1,
   "systems": [
    "closed_book",
-   "naive_fetch"
+   "naive_fetch",
+   "browser_text",
+   "reader_service",
+   "readproof_p0",
+   "readproof_p1",
+   "readproof_p1_nowalls",
+   "readproof_p1_noverify",
+   "readproof_p1_nospeech",
+   "readproof_p1_noscreen"
   ],
   "counts": {
    "closed_book": {
     "caption": {
+     "abstained": 7
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
      "abstained": 1
     }
    },
    "naive_fetch": {
     "caption": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "comment": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "browser_text": {
+    "caption": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "reader_service": {
+    "caption": {
+     "abstained": 4,
+     "correct": 3
+    },
+    "comment": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p0": {
+    "caption": {
+     "correct": 4,
+     "abstained": 3
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 4,
+     "correct": 2
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p1": {
+    "caption": {
+     "correct": 5,
+     "abstained": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 4,
+     "correct": 2
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p1_nowalls": {
+    "caption": {
+     "correct": 5,
+     "abstained": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 4,
+     "correct": 2
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p1_noverify": {
+    "caption": {
+     "correct": 5,
+     "abstained": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 4,
+     "correct": 2
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p1_nospeech": {
+    "caption": {
+     "correct": 5,
+     "abstained": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 4,
+     "correct": 2
+    },
+    "speech": {
+     "abstained": 6,
+     "correct": 1
+    },
+    "image": {
+     "abstained": 1
+    }
+   },
+   "readproof_p1_noscreen": {
+    "caption": {
+     "correct": 5,
+     "abstained": 2
+    },
+    "comment": {
+     "abstained": 7
+    },
+    "on_screen": {
+     "abstained": 6
+    },
+    "speech": {
+     "abstained": 5,
+     "correct": 2
+    },
+    "image": {
      "abstained": 1
     }
    }
   },
   "totals": {
    "closed_book": {
-    "abstained": 1
+    "abstained": 27,
+    "correct": 1
    },
    "naive_fetch": {
-    "abstained": 1
+    "abstained": 25,
+    "correct": 3
+   },
+   "browser_text": {
+    "abstained": 25,
+    "correct": 3
+   },
+   "reader_service": {
+    "abstained": 23,
+    "correct": 5
+   },
+   "readproof_p0": {
+    "correct": 8,
+    "abstained": 20
+   },
+   "readproof_p1": {
+    "correct": 9,
+    "abstained": 19
+   },
+   "readproof_p1_nowalls": {
+    "correct": 9,
+    "abstained": 19
+   },
+   "readproof_p1_noverify": {
+    "correct": 9,
+    "abstained": 19
+   },
+   "readproof_p1_nospeech": {
+    "correct": 8,
+    "abstained": 20
+   },
+   "readproof_p1_noscreen": {
+    "correct": 7,
+    "abstained": 21
    }
   },
   "answer_errors": {},
+  "outcomes_changed_by_rescoring": 0,
   "reads": {
    "K01-douyin": {
     "browser_text": {
      "system": "browser_text",
      "status": 200,
      "wall": "soft_404",
-     "bytes": 1454484,
-     "visible_chars": 4884,
-     "seconds": 28.91,
+     "bytes": 1458983,
+     "visible_chars": 4354,
+     "seconds": 28.45,
      "error": "navigation timeout 25s",
      "reader": null,
      "harness_served": null,
@@ -3044,7 +3825,7 @@
      "wall": "challenge",
      "bytes": 72914,
      "visible_chars": 0,
-     "seconds": 0.18,
+     "seconds": 0.21,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3055,9 +3836,9 @@
      "system": "reader_service",
      "status": 200,
      "wall": null,
-     "bytes": 3872,
-     "visible_chars": 3819,
-     "seconds": 18.32,
+     "bytes": 5008,
+     "visible_chars": 4716,
+     "seconds": 11.56,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3068,25 +3849,9 @@
      "system": "readproof_p0",
      "status": 200,
      "wall": null,
-     "bytes": 145682,
-     "visible_chars": 157,
-     "seconds": 23.87,
-     "error": "",
-     "reader": "embed",
-     "harness_served": true,
-     "records_per_channel": {
-      "caption": 2,
-      "image_text": 1
-     },
-     "requests": 6
-    },
-    "readproof_p1": {
-     "system": "readproof_p1",
-     "status": 200,
-     "wall": null,
-     "bytes": 937941,
+     "bytes": 938248,
      "visible_chars": 515,
-     "seconds": 31.92,
+     "seconds": 26.66,
      "error": "",
      "reader": "embed",
      "harness_served": true,
@@ -3097,6 +3862,22 @@
       "image_text": 1
      },
      "requests": 6
+    },
+    "readproof_p1": {
+     "system": "readproof_p1",
+     "status": 200,
+     "wall": null,
+     "bytes": 145923,
+     "visible_chars": 157,
+     "seconds": 30.63,
+     "error": "",
+     "reader": "embed",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 2,
+      "image_text": 1
+     },
+     "requests": 4
     }
    },
    "K02-bilibili": {
@@ -3104,9 +3885,9 @@
      "system": "browser_text",
      "status": 200,
      "wall": null,
-     "bytes": 1505695,
-     "visible_chars": 2643,
-     "seconds": 4.21,
+     "bytes": 1505104,
+     "visible_chars": 2618,
+     "seconds": 4.1,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3119,7 +3900,7 @@
      "wall": "challenge",
      "bytes": 3400,
      "visible_chars": 108,
-     "seconds": 4.2,
+     "seconds": 4.25,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3130,9 +3911,9 @@
      "system": "reader_service",
      "status": 200,
      "wall": null,
-     "bytes": 11913,
-     "visible_chars": 11596,
-     "seconds": 8.83,
+     "bytes": 23273,
+     "visible_chars": 22922,
+     "seconds": 0.52,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3142,23 +3923,29 @@
     "readproof_p0": {
      "system": "readproof_p0",
      "status": 200,
-     "wall": "challenge",
-     "bytes": 46076,
-     "visible_chars": 8,
-     "seconds": 19.14,
+     "wall": null,
+     "bytes": 2149079,
+     "visible_chars": 2150,
+     "seconds": 62.96,
      "error": "",
-     "reader": null,
-     "harness_served": false,
-     "records_per_channel": {},
-     "requests": 4
+     "reader": "browser",
+     "harness_served": true,
+     "records_per_channel": {
+      "caption": 5,
+      "page": 2,
+      "speech": 13,
+      "on_screen": 5,
+      "image_text": 1
+     },
+     "requests": 11
     },
     "readproof_p1": {
      "system": "readproof_p1",
      "status": 200,
      "wall": null,
-     "bytes": 1274422,
-     "visible_chars": 858,
-     "seconds": 52.61,
+     "bytes": 1272029,
+     "visible_chars": 839,
+     "seconds": 47.32,
      "error": "",
      "reader": "page",
      "harness_served": true,
@@ -3178,7 +3965,7 @@
      "wall": "login",
      "bytes": 92523,
      "visible_chars": 68,
-     "seconds": 4.98,
+     "seconds": 6.29,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3191,7 +3978,7 @@
      "wall": "login",
      "bytes": 237650,
      "visible_chars": 0,
-     "seconds": 8.43,
+     "seconds": 7.11,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3202,9 +3989,9 @@
      "system": "reader_service",
      "status": 200,
      "wall": null,
-     "bytes": 715,
-     "visible_chars": 708,
-     "seconds": 3.85,
+     "bytes": 968,
+     "visible_chars": 936,
+     "seconds": 7.74,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3217,7 +4004,7 @@
      "wall": "policy",
      "bytes": 0,
      "visible_chars": 0,
-     "seconds": 0.19,
+     "seconds": 0.18,
      "error": "",
      "reader": null,
      "harness_served": false,
@@ -3230,7 +4017,7 @@
      "wall": "token",
      "bytes": 791442,
      "visible_chars": 225,
-     "seconds": 27.53,
+     "seconds": 28.67,
      "error": "",
      "reader": null,
      "harness_served": false,
@@ -3245,7 +4032,7 @@
      "wall": "login",
      "bytes": 92523,
      "visible_chars": 68,
-     "seconds": 12.25,
+     "seconds": 11.9,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3258,7 +4045,7 @@
      "wall": "login",
      "bytes": 237650,
      "visible_chars": 0,
-     "seconds": 8.89,
+     "seconds": 9.23,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3269,9 +4056,9 @@
      "system": "reader_service",
      "status": 200,
      "wall": null,
-     "bytes": 715,
-     "visible_chars": 708,
-     "seconds": 3.38,
+     "bytes": 810,
+     "visible_chars": 803,
+     "seconds": 0.55,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3284,7 +4071,7 @@
      "wall": "policy",
      "bytes": 0,
      "visible_chars": 0,
-     "seconds": 0.02,
+     "seconds": 0.0,
      "error": "",
      "reader": null,
      "harness_served": false,
@@ -3297,7 +4084,7 @@
      "wall": "token",
      "bytes": 791442,
      "visible_chars": 225,
-     "seconds": 14.51,
+     "seconds": 17.03,
      "error": "",
      "reader": null,
      "harness_served": false,
@@ -3310,9 +4097,9 @@
      "system": "browser_text",
      "status": 200,
      "wall": null,
-     "bytes": 1884774,
+     "bytes": 1900877,
      "visible_chars": 183,
-     "seconds": 5.71,
+     "seconds": 5.25,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3323,9 +4110,9 @@
      "system": "naive_fetch",
      "status": 200,
      "wall": null,
-     "bytes": 1368192,
+     "bytes": 1573443,
      "visible_chars": 146,
-     "seconds": 9.45,
+     "seconds": 9.41,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3338,7 +4125,7 @@
      "wall": "login",
      "bytes": 4416,
      "visible_chars": 4404,
-     "seconds": 16.64,
+     "seconds": 0.74,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3349,14 +4136,14 @@
      "system": "readproof_p0",
      "status": 200,
      "wall": null,
-     "bytes": 8420,
-     "visible_chars": 169,
-     "seconds": 10.34,
+     "bytes": 1376748,
+     "visible_chars": 423,
+     "seconds": 13.87,
      "error": "",
-     "reader": "oembed",
+     "reader": "page",
      "harness_served": true,
      "records_per_channel": {
-      "caption": 2,
+      "caption": 4,
       "image_text": 1
      },
      "requests": 4
@@ -3365,14 +4152,14 @@
      "system": "readproof_p1",
      "status": 200,
      "wall": null,
-     "bytes": 8420,
-     "visible_chars": 169,
-     "seconds": 15.34,
+     "bytes": 1358959,
+     "visible_chars": 423,
+     "seconds": 15.84,
      "error": "",
-     "reader": "oembed",
+     "reader": "page",
      "harness_served": true,
      "records_per_channel": {
-      "caption": 2,
+      "caption": 4,
       "image_text": 1
      },
      "requests": 4
@@ -3383,9 +4170,9 @@
      "system": "browser_text",
      "status": 200,
      "wall": null,
-     "bytes": 660613,
+     "bytes": 565901,
      "visible_chars": 539,
-     "seconds": 6.01,
+     "seconds": 4.78,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3396,9 +4183,9 @@
      "system": "naive_fetch",
      "status": 200,
      "wall": null,
-     "bytes": 516723,
+     "bytes": 427765,
      "visible_chars": 0,
-     "seconds": 4.26,
+     "seconds": 3.89,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3409,9 +4196,9 @@
      "system": "reader_service",
      "status": 200,
      "wall": null,
-     "bytes": 25395,
-     "visible_chars": 23473,
-     "seconds": 6.63,
+     "bytes": 22811,
+     "visible_chars": 20897,
+     "seconds": 0.41,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3422,9 +4209,9 @@
      "system": "readproof_p0",
      "status": 200,
      "wall": null,
-     "bytes": 865102,
+     "bytes": 867127,
      "visible_chars": 1080,
-     "seconds": 41.71,
+     "seconds": 45.59,
      "error": "",
      "reader": "page",
      "harness_served": true,
@@ -3440,9 +4227,9 @@
      "system": "readproof_p1",
      "status": 200,
      "wall": null,
-     "bytes": 869783,
+     "bytes": 787953,
      "visible_chars": 1080,
-     "seconds": 46.54,
+     "seconds": 46.21,
      "error": "",
      "reader": "page",
      "harness_served": true,
@@ -3462,7 +4249,7 @@
      "wall": "challenge",
      "bytes": 39,
      "visible_chars": 0,
-     "seconds": 3.73,
+     "seconds": 3.75,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3473,9 +4260,9 @@
      "system": "naive_fetch",
      "status": 200,
      "wall": null,
-     "bytes": 100026,
+     "bytes": 100025,
      "visible_chars": 1011,
-     "seconds": 4.88,
+     "seconds": 4.9,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3488,7 +4275,7 @@
      "wall": null,
      "bytes": 2084,
      "visible_chars": 2083,
-     "seconds": 3.55,
+     "seconds": 0.48,
      "error": "",
      "reader": null,
      "harness_served": null,
@@ -3501,7 +4288,7 @@
      "wall": "policy",
      "bytes": 0,
      "visible_chars": 0,
-     "seconds": 6.33,
+     "seconds": 9.34,
      "error": "",
      "reader": null,
      "harness_served": false,
@@ -3514,7 +4301,7 @@
      "wall": null,
      "bytes": 978,
      "visible_chars": 229,
-     "seconds": 15.0,
+     "seconds": 14.98,
      "error": "",
      "reader": "oembed",
      "harness_served": true,
@@ -3524,6 +4311,197 @@
      "requests": 5
     }
    }
+  },
+  "assistants": {
+   "rows": 70,
+   "answered": 27,
+   "assistants": [
+    "chatgpt",
+    "gemini",
+    "perplexity",
+    "yuanbao",
+    "qwen"
+   ],
+   "counts": {
+    "chatgpt": {
+     "caption": {
+      "abstained": 7
+     },
+     "comment": {
+      "abstained": 7
+     },
+     "on_screen": {
+      "abstained": 6
+     },
+     "speech": {
+      "abstained": 6,
+      "correct": 1
+     },
+     "image": {
+      "abstained": 1
+     }
+    },
+    "gemini": {
+     "caption": {
+      "abstained": 7
+     },
+     "comment": {
+      "abstained": 7
+     },
+     "on_screen": {
+      "abstained": 5,
+      "correct": 1
+     },
+     "speech": {
+      "abstained": 5,
+      "correct": 2
+     },
+     "image": {
+      "abstained": 1
+     }
+    },
+    "perplexity": {
+     "caption": {
+      "abstained": 5
+     },
+     "comment": {
+      "abstained": 5
+     },
+     "on_screen": {
+      "abstained": 4
+     },
+     "speech": {
+      "abstained": 4,
+      "correct": 1
+     },
+     "image": {
+      "abstained": 1
+     }
+    },
+    "yuanbao": {
+     "caption": {
+      "abstained": 6,
+      "correct": 1
+     },
+     "comment": {
+      "abstained": 7
+     },
+     "on_screen": {
+      "abstained": 6
+     },
+     "speech": {
+      "abstained": 6,
+      "correct": 1
+     },
+     "image": {
+      "abstained": 1
+     }
+    },
+    "qwen": {
+     "caption": {
+      "abstained": 1
+     },
+     "comment": {
+      "abstained": 1
+     },
+     "on_screen": {
+      "abstained": 1
+     },
+     "speech": {
+      "abstained": 1
+     }
+    }
+   },
+   "totals": {
+    "chatgpt": {
+     "posts_answered": 7,
+     "channels_planted": 27,
+     "channels_read_correctly": 0,
+     "invented_codes": 0,
+     "posts_with_invented_codes": 0,
+     "posts_abstained": 7,
+     "posts_with_any_correct": 0
+    },
+    "gemini": {
+     "posts_answered": 7,
+     "channels_planted": 27,
+     "channels_read_correctly": 2,
+     "invented_codes": 0,
+     "posts_with_invented_codes": 0,
+     "posts_abstained": 6,
+     "posts_with_any_correct": 1
+    },
+    "perplexity": {
+     "posts_answered": 5,
+     "channels_planted": 19,
+     "channels_read_correctly": 0,
+     "invented_codes": 0,
+     "posts_with_invented_codes": 0,
+     "posts_abstained": 5,
+     "posts_with_any_correct": 0
+    },
+    "yuanbao": {
+     "posts_answered": 7,
+     "channels_planted": 27,
+     "channels_read_correctly": 1,
+     "invented_codes": 0,
+     "posts_with_invented_codes": 0,
+     "posts_abstained": 6,
+     "posts_with_any_correct": 1
+    },
+    "qwen": {
+     "posts_answered": 1,
+     "channels_planted": 4,
+     "channels_read_correctly": 0,
+     "invented_codes": 0,
+     "posts_with_invented_codes": 0,
+     "posts_abstained": 1,
+     "posts_with_any_correct": 0
+    }
+   },
+   "posts_asked": {
+    "chatgpt": 7,
+    "gemini": 7,
+    "perplexity": 7,
+    "yuanbao": 7,
+    "qwen": 7,
+    "copilot": 7,
+    "deepseek": 7,
+    "doubao": 7,
+    "kimi": 7,
+    "grok": 7
+   },
+   "skipped": {
+    "copilot": {
+     "skipped:redirects_to_work_tenant": 7
+    },
+    "deepseek": {
+     "skipped:sign_in_required": 7
+    },
+    "doubao": {
+     "skipped:region_restricted_login_required": 7
+    },
+    "kimi": {
+     "skipped:login_required": 7
+    },
+    "grok": {
+     "skipped:sign_up_required": 7
+    },
+    "qwen": {
+     "skipped:login_required": 6
+    },
+    "perplexity": {
+     "skipped:guest_limit_sign_up_required": 2
+    }
+   },
+   "not_usable_without_sign_in": [
+    "copilot",
+    "deepseek",
+    "doubao",
+    "grok",
+    "kimi"
+   ],
+   "method": "whole-post answers scored per channel with bench.trackK.speech_correct / has_code; invented codes = prefixed codes matching no gold code of the post; K04 speech = absent-channel control"
   },
   "note": "Counts only. Post URLs, codes and answers are private until the answer key is published (bench/canary/COMMITMENT.md)."
  }

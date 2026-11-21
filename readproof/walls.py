@@ -12,7 +12,9 @@ Order of rules, and why:
    ``-412`` arrives inside an HTTP 200.
 3. Generic rules (DESIGN §5): status codes, login and home redirects read from ``final_url``, challenge
    markers of Cloudflare / Akamai / Tencent / ByteDance, then "visible text under 40 characters and no
-   meaningful title" as ``empty``.
+   meaningful title" as ``empty``. A page is served by the generic rules only with positive evidence that it is a
+   post (POST_EVIDENCE_CHARS of visible text, JSON-LD, or an og:title that names something); otherwise it is
+   ``empty`` ("generic:no-post-evidence"), so a short notice page never becomes Records.
 
 Every signal carries its evidence: the rule that fired, status, bytes, visible characters and the marker
 or address that matched, so a wall in a result table can be traced to the page that caused it.
@@ -26,7 +28,7 @@ from urllib.parse import urljoin, urlsplit
 
 from .types import FetchResult, WallType, WallVerdict
 
-__all__ = ["visible_text", "judge", "EMPTY_BELOW"]
+__all__ = ["visible_text", "judge", "EMPTY_BELOW", "POST_EVIDENCE_CHARS", "post_evidence", "og_title"]
 
 # DESIGN §5: a 200 page with fewer visible characters than this, and no title that names anything, is empty.
 EMPTY_BELOW = 40
@@ -162,6 +164,19 @@ _CHALLENGE_TEXT = (
     "人机验证", "安全验证", "访问验证",
 )
 _SHORT_PAGE = 1000  # visible characters; challenge text and titles count only on pages shorter than this
+# The generic "served" verdict needs positive evidence that the page is a post, not just "some text": notice pages
+# (an account-migration notice, a suspended-account interstitial, a placeholder) carry 100–400 visible characters and
+# nothing else (live 2026-11-21). Evidence: this many visible characters, or JSON-LD, or a real og:title.
+POST_EVIDENCE_CHARS = 200
+_JSON_LD = re.compile(r"""<script[^>]+type\s*=\s*["']application/ld\+json["']""", re.I)
+_OG_TITLE_TAG = re.compile(r"""<meta\s[^>]*(?:property|name)\s*=\s*["']og:title["'][^>]*>""", re.I)
+_CONTENT_ATTR = re.compile(r"""content\s*=\s*(["'])(.*?)\1""", re.I | re.S)
+# The inline state the page reader parses into a post (readers/page.py): its presence is evidence of a post.
+_STATE_MARKERS = re.compile(
+    r"""__INITIAL_STATE__|__UNIVERSAL_DATA_FOR_REHYDRATION__|\$render_data|ytInitialPlayerResponse|RENDER_DATA|"""
+    r"""\bid\s*=\s*["']js_content["']|\bvar\s+msg_title\b""")
+# og:title values that name a page type, not a post (X's suspended-account interstitial says og:title="Post").
+_PLACEHOLDER_TITLES = frozenset({"post", "video", "photo", "image", "untitled", "home", "page", "status", "tweet"})
 _REFUSAL = frozenset({403, 412, 429, 503})
 _MEDIA_TYPES = ("image/", "video/", "audio/", "font/", "application/octet-stream", "application/vnd.apple.mpegurl",
                 "application/x-mpegurl", "application/dash+xml")
@@ -250,6 +265,33 @@ def verdict(wall: WallType | None, rule: str, fetch: FetchResult, visible_chars:
     )
 
 
+def og_title(html: str) -> str:
+    """The page's og:title, entities decoded ("" when absent)."""
+    import html as html_lib
+
+    m = _OG_TITLE_TAG.search(html or "")
+    if not m:
+        return ""
+    c = _CONTENT_ATTR.search(m.group(0))
+    return html_lib.unescape(c.group(2)).strip() if c else ""
+
+
+def post_evidence(html: str, title: str, text: str) -> str | None:
+    """What says this page is a post: enough visible text, a platform's inline state, JSON-LD, or an og:title that
+    names something; None if nothing does (then the generic rules do not serve it)."""
+    if len(text) >= POST_EVIDENCE_CHARS:
+        return f"visible_chars>={POST_EVIDENCE_CHARS}"
+    state = _STATE_MARKERS.search(html or "")
+    if state:
+        return "state:" + re.sub(r"\W+", "", state.group(0))[:30]
+    if _JSON_LD.search(html or ""):
+        return "json-ld"
+    og = og_title(html)
+    if len(og) >= 2 and not _site_title(og) and og.strip().lower() not in _PLACEHOLDER_TITLES:
+        return "og:title"
+    return None
+
+
 def _challenge_marker(fetch: FetchResult, html: str, title: str, text: str) -> str | None:
     if _header(fetch, "cf-mitigated").lower() == "challenge":
         return "cloudflare:cf-mitigated"
@@ -302,7 +344,10 @@ def _generic(fetch: FetchResult, html: str, title: str, text: str) -> WallVerdic
         return verdict(WallType.DELETED, "generic:not-found-title", fetch, n, marker=title[:60])
     if n < EMPTY_BELOW and _site_title(title):
         return verdict(WallType.EMPTY, "generic:empty", fetch, n, title=title or None)
-    return verdict(None, "served", fetch, n)
+    proof = post_evidence(html, title, text)
+    if proof is None:
+        return verdict(WallType.EMPTY, "generic:no-post-evidence", fetch, n, title=title or None)
+    return verdict(None, "served", fetch, n, evidence=proof)
 
 
 def _spec_for(fetch: FetchResult):

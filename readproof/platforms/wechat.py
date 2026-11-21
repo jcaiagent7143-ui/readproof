@@ -27,7 +27,10 @@ from ._base import Spec, landing, page_of, param, path_of, raw_param, unquote_on
 
 _S_ID = re.compile(r"^/s/([A-Za-z0-9_-]{6,})/?$")
 _CHALLENGE = ("环境异常", "完成验证后即可继续访问")
-_DELETED = ("该内容已被发布者删除", "此内容因违规无法查看", "此内容被投诉且经审核涉嫌侵权", "此内容发送失败无法查看")
+# The account-migration notice (live 2026-11-21, two Track A articles): 「账号已迁移 该公众号已迁移 原账号迁移时未将文章素材
+# 同步至新账号，该链接已不可访问。」 — the article is gone from this link for good.
+_DELETED = ("该内容已被发布者删除", "此内容因违规无法查看", "此内容被投诉且经审核涉嫌侵权", "此内容发送失败无法查看",
+            "该公众号已迁移", "该链接已不可访问")
 _ERROR_BOX = re.compile(r'class="weui-msg__title[^"]*"[^>]*>\s*([^<]{1,40}?)\s*<')
 
 

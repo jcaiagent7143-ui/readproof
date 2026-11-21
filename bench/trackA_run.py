@@ -46,7 +46,7 @@ if str(ROOT) not in sys.path:
 from bench import score  # noqa: E402
 from bench.systems import PROBE_QUESTION, TRACK_A_SYSTEMS  # noqa: E402
 from bench.systems.base import (BASELINE_SYSTEM, CallBudgetExceeded, CountingLLM, SysRead, ask_text,  # noqa: E402
-                                first_url, now_iso, readproof_commit, sha)
+                                first_url, now_iso, readproof_commit, readproof_tree, sha)
 from bench.systems.pacing import JINA_GAP_S, Breaker, DomainScheduler, PlatformWatch, registrable_domain  # noqa: E402
 
 READS = ROOT / "bench" / "results" / "trackA_reads.jsonl"
@@ -73,7 +73,9 @@ FORM_PLAN: dict[str, list[str]] = {
     "youtube": ["desktop", "mobile", "share_text", "youtu_be"],
     "tiktok": ["desktop", "mobile", "share_text", "share_param"],
     "x": ["x", "mobile", "share_text", "share_param"],
-    "weibo": ["desktop_status", "mobile_status", "share_text", "mobile_detail"],
+    # weibo.forms() no longer offers weibo.com/status/<bid> (Weibo's 404 page for every post); round 1 read it, and a
+    # re-run with --plan-from-rows keeps round 1's inputs so every system is compared on the same forms.
+    "weibo": ["mobile_detail", "mobile_status", "share_text"],
     "toutiao": ["article", "mobile_i", "share_text", "group"],
     "wechat": ["long_query", "s_path", "share_text"],
 }
@@ -167,6 +169,29 @@ def build_tasks(seeds: list[dict[str, Any]], platforms: set[str] | None, max_pos
     return {"by_platform": by_platform, "notes": notes}
 
 
+def build_tasks_from_rows(seeds: list[dict[str, Any]], rows: list[dict[str, Any]], platforms: set[str] | None,
+                          max_posts: int | None) -> dict[str, Any]:
+    """The plan an earlier run read: every (post, form, input) already recorded, in seed order and first-seen form
+    order. A re-run of some systems uses it, so they read exactly the inputs the other systems were read with, even
+    when today's platform modules would build the link forms differently."""
+    forms_of: dict[str, list[tuple[str, str]]] = {}
+    for r in rows:
+        if r.get("kind") not in ("read", "reused", "skipped") or "post_key" not in r:
+            continue
+        lst = forms_of.setdefault(r["post_key"], [])
+        if all(f != r["form"] for f, _ in lst):
+            lst.append((r["form"], r["input"]))
+    by_platform: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for seed in seeds:
+        key = f"{seed['platform']}:{seed['post_id']}"
+        if (platforms and seed["platform"] not in platforms) or key not in forms_of:
+            continue
+        if max_posts is not None and len(by_platform[seed["platform"]]) >= max_posts:
+            continue
+        by_platform[seed["platform"]].append({"seed": seed, "post_key": key, "forms": forms_of[key]})
+    return {"by_platform": by_platform, "notes": {}}
+
+
 def row_key(post_key: str, form: str, system: str) -> str:
     return f"{post_key}|{form}|{system}"
 
@@ -249,20 +274,29 @@ class Runner:
         self.lock = threading.Lock()
         self.done: dict[str, dict[str, Any]] = {}
         self.reuse: dict[tuple[str, str], dict[str, Any]] = {}
+        # A run group is one counted run (cap, breaker, reuse); a restart continues its group. Rows of the systems
+        # being run that belong to another group are re-read, never reused (round 2 re-reads ReadProof on new code).
+        self.run_group = getattr(args, "run_group", "A1") or "A1"
+        rerun = set(args.systems)
         redo = bool(getattr(args, "redo_errors", False))
         for r in score.load_jsonl(READS):
             if r.get("kind") in ("read", "reused"):
+                if r.get("system") in rerun and (r.get("run_group") or "A1") != self.run_group:
+                    continue
                 if redo and str(r.get("error") or "").startswith("system error"):
                     self.done.pop(r["key"], None)  # a crash of our own code: read again with the fixed code
                     continue
                 self.done[r["key"]] = r
                 if r.get("kind") == "read":
                     self.reuse[(r["system"], r["target"])] = r
-        # Requests already sent to a platform today by earlier runs of this experiment count toward this run's cap.
+        # Requests already sent to a platform today by earlier runs of this group count toward this run's cap.
         today = time.strftime("%Y-%m-%d", time.gmtime())
         self.precharged: Counter[str] = Counter()
-        superseded = score.load_jsonl(ROOT / "bench" / "results" / "raw" / "trackA_superseded.jsonl")
+        superseded = (score.load_jsonl(ROOT / "bench" / "results" / "raw" / "trackA_superseded.jsonl")
+                      if self.run_group == "A1" else [])
         for r in list(self.done.values()) + superseded:
+            if (r.get("run_group") or "A1") != self.run_group:
+                continue
             if r.get("kind") == "read" and str(r.get("ts", "")).startswith(today) and r.get("system") != "reader_service":
                 self.precharged[r["platform"]] += int(r.get("requests") or 0)
         for p, n in self.precharged.items():
@@ -272,6 +306,8 @@ class Runner:
         self.replayed = 0
         for r in score.load_jsonl(READS):
             if r.get("kind") != "read" or not str(r.get("ts", "")).startswith(today):
+                continue
+            if (r.get("run_group") or "A1") != self.run_group:
                 continue
             served, _ = self._served_fp(r["post_key"], r.get("text") or "")
             outcome = None if served else (r.get("wall") or ("empty" if not r.get("text") else "unknown"))
@@ -293,7 +329,7 @@ class Runner:
                 "seed_url": seed["url"], "language": seed.get("language"), "domain": seed.get("domain"),
                 "form": form, "form_role": FORM_ROLE.get(seed["platform"], {}).get(form), "input": text,
                 "system": system, "target": target_for(system, text), "origin": ORIGIN,
-                "readproof_commit": readproof_commit()}
+                "readproof_commit": readproof_commit(), "readproof_tree": readproof_tree(), "run_group": self.run_group}
 
     def _served_fp(self, post_key: str, text: str) -> tuple[bool | None, float]:
         seed = self.seeds_fp.get(post_key)
@@ -467,7 +503,8 @@ class Runner:
             for th in threads:
                 th.join(timeout=120)
         self.out.write({"kind": "run", "phase": "reads", "run_id": self.run_id, "started": self.started,
-                        "readproof_commit": readproof_commit(),
+                        "readproof_commit": readproof_commit(), "readproof_tree": readproof_tree(),
+                        "run_group": self.run_group,
                         "ended": now_iso(), "seconds": round(time.monotonic() - t0, 1), "origin": ORIGIN,
                         "gap_s": self.args.gap, "cap_per_platform": self.cap, "systems": list(self.args.systems),
                         "platform_requests": dict(self.scheduler.platform_requests),
@@ -481,10 +518,10 @@ class Runner:
 # --- the probe phase -----------------------------------------------------------------------------------------
 
 
-def make_llm() -> CountingLLM:
+def make_llm(backbone: str | None = None) -> CountingLLM:
     from readproof.llm import ChatClient
 
-    llm = CountingLLM(ChatClient(cache_dir=LLM_CACHE, max_retries=3),
+    llm = CountingLLM(ChatClient(model=backbone, cache_dir=LLM_CACHE, max_retries=3),
                       max_uncached=int(os.environ.get("BENCH_MAX_CALLS", "700")), ledger=str(LLM_LEDGER))
     llm.patience_s = float(os.environ.get("BENCH_LLM_PATIENCE_S", "10800"))
     return llm
@@ -496,9 +533,13 @@ def probe(args: argparse.Namespace) -> None:
     seeds = score.load_seeds()
     done, _ = score.latest_reads(score.load_jsonl(READS))
     cap_keys = score.capture_served_keys(score.score_reads(done, seeds), done)  # Weibo reads that hold the post
-    have = {(a["key"], a["answer_system"]) for a in score.load_jsonl(ANSWERS) if not a.get("error")}
     out = JsonlOut(ANSWERS)
-    llm = make_llm()
+    llm = make_llm(getattr(args, "backbone", None))
+    backbone = llm.client.model
+    # An answer counts as done only for this backbone and for the read it was made on (a re-read needs a new one).
+    have = {(a["key"], a["answer_system"]) for a in score.load_jsonl(ANSWERS)
+            if not a.get("error") and a.get("backbone") == backbone and a["key"] in done
+            and a.get("read_run_id") == done[a["key"]].get("run_id")}
     agent = ReadVerifyAgent(None, llm)
     jobs = []
     for key, r in done.items():
@@ -555,6 +596,8 @@ def probe(args: argparse.Namespace) -> None:
         base = {"kind": "probe", "key": key, "answer_system": answer_system, "system": r["system"],
                 "platform": r["platform"], "post_key": r["post_key"], "form": r["form"], "ts": now_iso(),
                 "question": PROBE_QUESTION, "read_wall": r.get("wall"), "readproof_commit": readproof_commit(),
+                "readproof_tree": readproof_tree(), "backbone": backbone, "read_run_id": r.get("run_id"),
+                "read_run_group": r.get("run_group") or "A1",
                 "read_commit": r.get("readproof_commit"),
                 "harness_served": (r.get("meta") or {}).get("harness_served"), "reused_from": r.get("reused_from")}
         try:
@@ -604,6 +647,7 @@ def probe(args: argparse.Namespace) -> None:
     with ThreadPoolExecutor(max_workers=args.llm_workers) as pool:
         list(pool.map(one, jobs))
     out.write({"kind": "run", "phase": "probe", "ts": now_iso(), "readproof_commit": readproof_commit(),
+               "readproof_tree": readproof_tree(), "backbone": backbone,
                "answers": n_done[0], "uncached_calls": llm.uncached,
                "cached_calls": llm.cached, "today": llm.today, "stopped_by_budget": stop.is_set()})
     print(f"probe done: {n_done[0]} answers, {llm.uncached} uncached / {llm.cached} cached calls", flush=True)
@@ -626,12 +670,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--slots", type=int, default=4, help="Chromium instances at once, all workers together")
     ap.add_argument("--redo-errors", action="store_true", help="re-read rows our own code crashed on")
     ap.add_argument("--nowalls", action="store_true", help="also probe the readproof_p1 -walls ablation")
+    ap.add_argument("--run-group", default="A1", help="a counted run: its own request cap, breaker and reuse")
+    ap.add_argument("--plan-from-rows", action="store_true",
+                    help="read the (post, form, input) already recorded instead of planning link forms again")
+    ap.add_argument("--backbone", default=None, help="model id for every answer (free models only)")
     args = ap.parse_args(argv)
     args.systems = tuple(s for s in args.systems.split(",") if s)
     if args.gap < 5.0:
         ap.error("the study's politeness rule is at least 5 s between requests to one registrable domain")
     platforms = {p for p in args.platforms.split(",") if p} or None
-    plan = build_tasks(load_seeds(), platforms, args.max_posts)
+    if args.plan_from_rows:
+        plan = build_tasks_from_rows(load_seeds(), score.load_jsonl(READS), platforms, args.max_posts)
+    else:
+        plan = build_tasks(load_seeds(), platforms, args.max_posts)
     if args.phase == "plan":
         rows = 0
         for p, posts in plan["by_platform"].items():

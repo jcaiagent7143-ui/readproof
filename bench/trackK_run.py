@@ -32,7 +32,7 @@ if str(ROOT) not in sys.path:
 
 from bench import trackK  # noqa: E402
 from bench.systems import TRACK_K_SYSTEMS  # noqa: E402
-from bench.systems.base import CallBudgetExceeded, CountingLLM, now_iso, readproof_commit  # noqa: E402
+from bench.systems.base import CallBudgetExceeded, CountingLLM, now_iso, readproof_commit, readproof_tree  # noqa: E402
 from bench.systems.pacing import JINA_GAP_S, DomainScheduler  # noqa: E402
 
 PRIVATE = ROOT / "bench" / "data" / "private"
@@ -102,20 +102,41 @@ def read_summary(read: Any) -> dict[str, Any]:
             "records_per_channel": meta.get("records_per_channel")}
 
 
-def summarise(rows: list[dict[str, Any]], reads: dict[str, dict[str, Any]], items: list[dict[str, Any]]) -> dict[str, Any]:
+def in_round(r: dict[str, Any], round_: str, backbone: str | None) -> bool:
+    """A row of this round (rows before rounds existed are round K1) answered by this backbone."""
+    if (r.get("round") or "K1") != round_:
+        return False
+    return r.get("kind") != "answer" or backbone is None or r.get("backbone") == backbone
+
+
+def summarise(rows: list[dict[str, Any]], reads: dict[str, dict[str, Any]], items: list[dict[str, Any]],
+              round_: str = "K1", backbone: str | None = None) -> dict[str, Any]:
     latest: dict[tuple[str, str], dict[str, Any]] = {}
+    rows = [r for r in rows if in_round(r, round_, backbone)]
     for r in rows:
         if r.get("kind") == "answer" and not r.get("error"):
             latest[(r["item"], r["system"])] = r
+    # Outcomes are recomputed here with bench.trackK.score as it is now (the scorer can be corrected after a run;
+    # the stored outcome is the one the run saw).
+    key = trackK.load_key()
     counts: dict[str, dict[str, Counter]] = defaultdict(lambda: defaultdict(Counter))
     totals: dict[str, Counter] = defaultdict(Counter)
+    rescored = 0
     for (_item, system), r in latest.items():
-        counts[system][r["channel"]][r["outcome"]] += 1
-        totals[system][r["outcome"]] += 1
+        item = {"id": r["item"], "post": r["post"], "channel": r["channel"], "control": r.get("control")}
+        outcome = trackK.score(item, r.get("answer"), bool(r.get("abstained")), key)
+        rescored += int(outcome != r.get("outcome"))
+        counts[system][r["channel"]][outcome] += 1
+        totals[system][outcome] += 1
+    from bench.trackK_assistants import score_audit
+
+    assistants = score_audit()
     errors = Counter(r["system"] for r in rows if r.get("kind") == "answer" and r.get("error"))
     channels = [c for c in ("speech", "on_screen", "caption", "comment", "image") if any(it["channel"] == c for it in items)]
     return {
         "generated_by": "bench/trackK_run.py", "date": time.strftime("%Y-%m-%d"), "readproof_commit": readproof_commit(),
+        "readproof_tree": readproof_tree(), "round": round_, "backbone": backbone,
+        "model_calls": {"answers": len(latest), "llm_calls": sum(int(r.get("llm_calls") or 0) for r in latest.values())},
         "origin": ORIGIN, "n_posts": len({it["post"] for it in items}), "posts": sorted({it["post"] for it in items}),
         "platforms": sorted({it["platform"] for it in items}), "n_items": len(items), "channels": channels,
         "controls": sum(1 for it in items if it.get("control")),
@@ -123,7 +144,9 @@ def summarise(rows: list[dict[str, Any]], reads: dict[str, dict[str, Any]], item
         "counts": {s: {c: dict(v) for c, v in chans.items()} for s, chans in counts.items()},
         "totals": {s: dict(v) for s, v in totals.items()},
         "answer_errors": dict(errors),
+        "outcomes_changed_by_rescoring": rescored,
         "reads": reads,
+        "assistants": assistants,
         "note": "Counts only. Post URLs, codes and answers are private until the answer key is published "
                 "(bench/canary/COMMITMENT.md).",
     }
@@ -134,25 +157,32 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--systems", default=",".join(TRACK_K_SYSTEMS))
     ap.add_argument("--fresh", action="store_true", help="re-read and re-answer everything")
     ap.add_argument("--summary-only", action="store_true")
+    ap.add_argument("--round", default="K1", help="a run of every system on the live posts; summaries count one round")
+    ap.add_argument("--backbone", default=None, help="model id for every answer (free models only)")
     args = ap.parse_args(argv)
     systems_wanted = [s for s in args.systems.split(",") if s]
     items = trackK.items(only_live=True)
     key = trackK.load_key()
     rows = load_rows(ANSWERS)
+    from readproof.llm import DEFAULT_MODEL
+
+    backbone = args.backbone or os.environ.get("READPROOF_LLM_MODEL") or DEFAULT_MODEL
     if args.summary_only:
         reads = {}
         for r in rows:
-            if r.get("kind") == "read":
+            if r.get("kind") == "read" and in_round(r, args.round, backbone):
                 reads.setdefault(r["post"], {})[r["system"]] = r["summary"]
-        SUMMARY.write_text(json.dumps(summarise(rows, reads, items), ensure_ascii=False, indent=1), "utf-8")
+        SUMMARY.write_text(json.dumps(summarise(rows, reads, items, args.round, backbone), ensure_ascii=False, indent=1),
+                           "utf-8")
         return 0
-    have = set() if args.fresh else {(r["item"], r["system"]) for r in rows if r.get("kind") == "answer" and not r.get("error")}
+    have = set() if args.fresh else {(r["item"], r["system"]) for r in rows if r.get("kind") == "answer"
+                                     and not r.get("error") and in_round(r, args.round, backbone)}
     todo = [(it, s) for it in items for s in systems_wanted if (it["id"], s) not in have]
     print(f"Track K: {len(items)} live items on {len({it['post'] for it in items})} posts; {len(todo)} answers to get",
           flush=True)
     from readproof.llm import ChatClient
 
-    llm = CountingLLM(ChatClient(cache_dir=LLM_CACHE, max_retries=3),
+    llm = CountingLLM(ChatClient(model=backbone, cache_dir=LLM_CACHE, max_retries=3),
                       max_uncached=int(os.environ.get("BENCH_MAX_CALLS", "700")), ledger=str(LLM_LEDGER))
     llm.patience_s = float(os.environ.get("BENCH_LLM_PATIENCE_S", "10800"))
     scheduler = DomainScheduler(5.0, gaps={"jina.ai": JINA_GAP_S})
@@ -176,7 +206,8 @@ def main(argv: list[str] | None = None) -> int:
         summ["requests"] = frame["requests"]
         read_rows.setdefault(post, {})[rs] = summ
         append(ANSWERS, {"kind": "read", "run_id": run_id, "ts": now_iso(), "post": post, "system": rs,
-                         "readproof_commit": readproof_commit(), "summary": summ,
+                         "round": args.round, "readproof_commit": readproof_commit(),
+                         "readproof_tree": readproof_tree(), "summary": summ,
                          "text_chars": len(read.text or ""), "channels": sorted((read.meta or {}).get(
                              "records_per_channel", {}) or {})})
         print(f"read {post} {rs}: wall={read.wall} chars={read.visible_chars} {time.monotonic() - t0:.1f}s", flush=True)
@@ -197,14 +228,16 @@ def main(argv: list[str] | None = None) -> int:
             break
         except Exception as exc:
             append(ANSWERS, {"kind": "answer", "run_id": run_id, "ts": now_iso(), "item": it["id"], "post": it["post"],
-                             "platform": it["platform"], "channel": it["channel"], "system": s,
-                             "readproof_commit": readproof_commit(), "error": f"{type(exc).__name__}: {exc}"[:300]})
+                             "platform": it["platform"], "channel": it["channel"], "system": s, "round": args.round,
+                             "backbone": backbone, "readproof_commit": readproof_commit(),
+                             "readproof_tree": readproof_tree(), "error": f"{type(exc).__name__}: {exc}"[:300]})
             continue
         err = ans.error if (ans.answer is None and ans.cause == "error") else None
         outcome = None if err else trackK.score(it, ans.answer, ans.abstained, key)
         append(ANSWERS, {"kind": "answer", "run_id": run_id, "ts": now_iso(), "item": it["id"], "post": it["post"],
                          "platform": it["platform"], "channel": it["channel"], "control": it.get("control"),
-                         "system": s, "readproof_commit": readproof_commit(), "question": it["question"],
+                         "system": s, "round": args.round, "backbone": backbone, "readproof_commit": readproof_commit(),
+                         "readproof_tree": readproof_tree(), "question": it["question"],
                          "answer": ans.answer, "abstained": ans.abstained, "cause": ans.cause,
                          "evidence_channel": ans.evidence_channel, "llm_calls": ans.llm_calls,
                          "seconds": round(time.monotonic() - t0, 2), "outcome": outcome, "error": err,
@@ -220,10 +253,11 @@ def main(argv: list[str] | None = None) -> int:
     rows = load_rows(ANSWERS)
     reads_pub: dict[str, dict[str, Any]] = {}
     for r in rows:
-        if r.get("kind") == "read":
+        if r.get("kind") == "read" and in_round(r, args.round, backbone):
             reads_pub.setdefault(r["post"], {})[r["system"]] = r["summary"]
     SUMMARY.parent.mkdir(parents=True, exist_ok=True)
-    SUMMARY.write_text(json.dumps(summarise(rows, reads_pub, items), ensure_ascii=False, indent=1), "utf-8")
+    SUMMARY.write_text(json.dumps(summarise(rows, reads_pub, items, args.round, backbone), ensure_ascii=False, indent=1),
+                       "utf-8")
     print(f"summary -> {SUMMARY}; model calls uncached {llm.uncached}, cached {llm.cached}, today {llm.today}", flush=True)
     return 0
 
