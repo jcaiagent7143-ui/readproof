@@ -124,10 +124,10 @@ def post_copy(post: dict, codes: dict) -> dict:
     """Title, caption and pinned comment. The caption code appears only here; the comment code only in the comment."""
     zh = post["lang"] == "zh"
     if post["kind"] == "images":
-        title = "AI 阅读测试：这组图藏了 4 个暗号"
-        caption = (f"这是一条 AI 阅读测试笔记。图里、文案里、置顶评论里一共藏了 4 个暗号。文案暗号：{codes['caption']}。"
+        title = "AI 阅读测试：这组图藏了 3 个暗号"
+        caption = (f"这是一条 AI 阅读测试笔记。图里、文案里、置顶评论里一共藏了 3 个暗号。文案暗号：{codes['caption']}。"
                    "把这条笔记丢给你的 AI，问它找到了哪几个。")
-        return {"title": title, "caption": caption, "pinned_comment": f"置顶暗号：{codes['comment']}（第 4 个暗号）",
+        return {"title": title, "caption": caption, "pinned_comment": f"置顶暗号：{codes['comment']}（第 3 个暗号）",
                 "topics": ["AI", "人工智能", "AI测试"]}
     if zh:
         title = "AI 阅读测试：这条视频藏了 4 个暗号"
