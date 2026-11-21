@@ -148,3 +148,56 @@ Paired bootstrap 95% CIs (10,000 resamples) for every comparison.
 - Unit tests run offline with fixtures. `uv run pytest -q` must pass.
 - Python ≥ 3.12. Core deps: httpx. Extras: `browser` (playwright), `mcp` (mcp). Typed, small functions, docstrings that say why.
 - Never modify `readproof/types.py` or `readproof/interfaces.py`; propose changes in your report instead.
+
+## 3.1 Function names every builder relies on (fixed)
+
+```python
+# readproof/profiles.py
+P0: Profile; P1: Profile; P2: Profile
+def get(name: str) -> Profile
+# readproof/robots.py
+class RobotsTxt:                      # parsed file
+    @classmethod
+    def parse(cls, text: str) -> "RobotsTxt"
+    def decide(self, user_agent_token: str, path_and_query: str) -> tuple[bool, str | None, str | None]  # allowed, group, rule
+    content_signal: dict[str, str]    # e.g. {"search": "yes", "ai-input": "yes", "ai-train": "no"}
+class RobotsCache:
+    def __init__(self, fetch: Callable[[str], FetchResult], ttl_s: int = 86400)
+    def for_url(self, url: str) -> tuple[RobotsTxt | None, str]   # parsed file or None, and status "ok"|"unavailable"|"unreachable"
+# readproof/policy.py
+DEFAULT_DENY: dict[str, str]          # {"linkedin.com": "terms"}
+class PolicyGate:
+    def __init__(self, profile: Profile, robots: RobotsCache | None = None, deny: dict[str, str] = DEFAULT_DENY,
+                 resolve: Callable[[str], list[str]] | None = None, log: Log | None = None)
+    def check(self, url: str, *, purpose: str = "read") -> GateDecision
+# readproof/net.py
+class HttpNet:
+    def __init__(self, profile: Profile, *, origin: str = "residential:unknown", gate: Gate | None = None,
+                 timeout: float = 20.0, transport: httpx.BaseTransport | None = None, log: Log | None = None)
+    def fetch(self, url, *, method="GET", headers=None, follow_redirects=False, max_bytes=50_000_000, purpose="read") -> FetchResult
+# readproof/log.py
+class JsonlLog: def __init__(self, path: str, run_id: str | None = None); def emit(self, event, **fields) -> str; def close(self)
+def read_log(path: str) -> Iterator[dict]
+# readproof/evidence.py
+class FileStore: def __init__(self, root: str)   # put/get/add_records/records_for as in interfaces.Store
+# readproof/budget.py
+class BudgetExceeded(Exception); class PricedBudget: def __init__(self, cap_usd: float = 1.0, log: Log | None = None)
+# readproof/platforms/__init__.py
+REGISTRY: list[PlatformSpec]; def for_url(url: str) -> PlatformSpec | None; def by_name(name: str) -> PlatformSpec
+# readproof/canonical.py
+def extract_url(text: str) -> str | None
+@dataclass class Resolution: input: str; url: str | None; ref: PostRef | None; spec: PlatformSpec | None;
+                             fetches: list[FetchResult]; gate: list[GateDecision]; verdict: WallVerdict | None
+def resolve(text_or_url: str, ctx: Context) -> Resolution
+# readproof/walls.py
+def visible_text(html: str) -> tuple[str, str]           # (title, visible text)
+def judge(fetch: FetchResult, spec: PlatformSpec | None = None) -> WallVerdict
+# readproof/verify.py
+def norm(text: str) -> str; def locate(quote, passages, *, across=False) -> int | None
+def verify_quote(quote: str, record: Record) -> bool; def substantial(quote: str) -> bool
+# readproof/harness.py
+class Harness:
+    def __init__(self, profile: Profile, *, root: str = "runs", origin: str = "residential:unknown", options: dict | None = None)
+    def read(self, text_or_url: str) -> ReadResult
+```
+Test doubles: `readproof/testing.py` (MemoryLog, MemoryStore, NullBudget, AllowGate, FakeNet/Scripted, make_context).
