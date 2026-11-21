@@ -257,3 +257,18 @@ def test_other_words_needs_the_posts_own_id_no_wall_and_a_described_post():
     answers.append({"key": "k3", "answer_system": "browser_text", "abstained": True, "answer": "NOT_FOUND"})
     ow = other_words_keys(items, done, answers)
     assert ow == {"k1": "translated"}  # k2: no own id; k3: abstained; k4: a wall; k5: already served
+
+
+# --- no third-party page text in the public results (owner rule; 2026-11-22) -------------------------------------
+
+
+def test_public_results_carry_no_page_text():
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[2] / "bench" / "results"
+    summary = json.loads((root / "summary.json").read_text("utf-8"))
+    for row in summary.get("harness_served_but_fingerprint_missing", []):
+        assert "text_head" not in row and set(row) <= {"key", "coverage", "class", "text_sha256"}
+    audit = json.loads((root / "trackA_weibo_audit.json").read_text("utf-8"))
+    for post in audit["posts"].values():
+        assert "capture" not in post and set(post) <= {"status", "note", "capture_sha256", "capture_chars"}

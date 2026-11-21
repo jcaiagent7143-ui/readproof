@@ -1,22 +1,81 @@
 {
- "what": "Reference captures for Track A Weibo posts (DESIGN.md §7: a reference capture next to the discovery-source fingerprint). Weibo's indexed titles are generated summaries, not the post's words, so the title fingerprint undercounts served Weibo reads; these short quotes of each post's own opening words are a second fingerprint. A read is served by capture when >= 60% of the capture's grams occur in its text (bench/score.py, same normalisation).",
+ "what": "Reference captures for Track A Weibo posts, hashed: the captures are the posts' own opening words (third-party text), kept in bench/data/private/. Scoring by capture needs that file; the hashes let a holder check it is the one used.",
  "audited_by": "Track A bench builder, 2026-11-21, by reading the m.weibo.cn renderings of each post (author line, date and body) obtained during the run and checking them against the search-result title's topic.",
  "posts": {
-  "weibo:5344861387493267": {"status": "deleted", "note": "m.weibo.cn answers 该微博不存在 for every system"},
-  "weibo:5353573301094921": {"status": "live", "capture": "生活里的幸福感，往往藏在一餐餐热气腾腾的美食之中。翻看这些照片，我总能想起那些和美食相伴的治愈时刻"},
-  "weibo:5350602851750379": {"status": "live", "capture": "这个假期没赶行程，周边边走走。草地、湖水、落日，没有拥挤人潮，只有湖水、远山、漫天云霞"},
-  "weibo:5346259729909871": {"status": "live", "capture": "阿里云栖大会：Qwen4 已在训练，Qwen5 将冲 5-10T 参数 9 月 22 日，2026 云栖大会现场"},
-  "weibo:5361878491988467": {"status": "live", "capture": "#GPTImages2.6发布#OpenAI Images 2.6 正式上线！支持ChatGPT直接生成GIF，生图提速50%"},
-  "weibo:5367285284079865": {"status": "live", "capture": "#小鹏将发布图灵AI共驾# 小鹏汽车 2026 年小鹏科技日（AI DAY）已经官宣定档 11 月 25 日在广州举行"},
-  "weibo:5365154603862782": {"status": "live", "capture": "秋冬还需要防晒吗？降温啦 进入秋冬之后 大家是不是都不怎么涂防晒了？其实 紫外线分为UVB和UVA"},
-  "weibo:5367355355694734": {"status": "live", "capture": "任选2件24.3亓，赠眼线液笔1支，共3件 Colorkey珂拉琪唇釉口红腮红"},
-  "weibo:5356026885050384": {"status": "live", "capture": "#爸爸当家# 宝宝生出来就是治愈爸妈的！喜剧贼好看的微博视频"},
-  "weibo:5360038119997618": {"status": "live", "capture": "“你怎么每天这么累？”爸爸以为不用收拾厨房是享福，结果改作业、打卡、带下楼跳绳、洗澡哄睡一套流程下来"},
-  "weibo:5356767946736245": {"status": "live", "capture": "#走走停停# 当代年轻人这么会省，一定攒了不少钱吧？！星在囧途的微博视频"},
-  "weibo:5367298832728279": {"status": "live", "capture": "#湖里头条#由湖里企业厦门光影鹭岛影视有限公司出品的短剧《鹭岛1981》正式上线红果、抖音，正在热播"},
-  "weibo:comos:nizmwas9943793": {"status": "article", "note": "Sina comos article; its title is its own headline, the title fingerprint applies"},
-  "weibo:comos:nivawnc8079295": {"status": "article", "note": "as above"},
-  "weibo:2309405366244819206168": {"status": "article", "note": "ttarticle; title is the headline"},
-  "weibo:2309405187215650586882": {"status": "article", "note": "ttarticle; title is the headline"}
+  "weibo:5344861387493267": {
+   "status": "deleted",
+   "note": "m.weibo.cn answers 该微博不存在 for every system"
+  },
+  "weibo:5353573301094921": {
+   "status": "live",
+   "capture_sha256": "5d5e00dda6ac2915e40324db33a4d1b30e50a2305812a9c6e0c034d629e1a9db",
+   "capture_chars": 49
+  },
+  "weibo:5350602851750379": {
+   "status": "live",
+   "capture_sha256": "aecfb183d8217fc8706b5b65c3fdfe4e5e49973b183696b51800ff1de0975c11",
+   "capture_chars": 43
+  },
+  "weibo:5346259729909871": {
+   "status": "live",
+   "capture_sha256": "df2a721fe3075726cc10ed3cf68e24b364679c09b1247127292e12b12f835d86",
+   "capture_chars": 56
+  },
+  "weibo:5361878491988467": {
+   "status": "live",
+   "capture_sha256": "ce1e70a34ef820af61fbf45205498af8bf8795e8279fb0c7adf60af9e55bb19f",
+   "capture_chars": 63
+  },
+  "weibo:5367285284079865": {
+   "status": "live",
+   "capture_sha256": "1d6125cb8c3536ee12126d85e1d3687033cf58e80820b71d7ca74105f2d71ef9",
+   "capture_chars": 59
+  },
+  "weibo:5365154603862782": {
+   "status": "live",
+   "capture_sha256": "ab02deae881d38845ff2cd513762b27c7913f3e576699c4088d2830326856cb1",
+   "capture_chars": 49
+  },
+  "weibo:5367355355694734": {
+   "status": "live",
+   "capture_sha256": "93d8feda833964b5fb868de1623ce4b8643e3724dcbb5b3117008e6f90ed9e19",
+   "capture_chars": 39
+  },
+  "weibo:5356026885050384": {
+   "status": "live",
+   "capture_sha256": "82b1178b2fb87805135c52c4ab691e61c6e7552150064a6f9c4cbddd0f05e0c1",
+   "capture_chars": 30
+  },
+  "weibo:5360038119997618": {
+   "status": "live",
+   "capture_sha256": "c6590a64cc20c1cffa7bfa588a17c58f491d781afa5565d90452f49f83c4a43d",
+   "capture_chars": 50
+  },
+  "weibo:5356767946736245": {
+   "status": "live",
+   "capture_sha256": "7082f68d9dde36e1aaad3d5b31d73e586c4cc84b0d562c8bdbb85a3e67025340",
+   "capture_chars": 36
+  },
+  "weibo:5367298832728279": {
+   "status": "live",
+   "capture_sha256": "08f07ed3b04b8324b07d6ef1e31e22491a9cbee87adbb077f0de1b18b207e858",
+   "capture_chars": 50
+  },
+  "weibo:comos:nizmwas9943793": {
+   "status": "article",
+   "note": "Sina comos article; its title is its own headline, the title fingerprint applies"
+  },
+  "weibo:comos:nivawnc8079295": {
+   "status": "article",
+   "note": "as above"
+  },
+  "weibo:2309405366244819206168": {
+   "status": "article",
+   "note": "ttarticle; title is the headline"
+  },
+  "weibo:2309405187215650586882": {
+   "status": "article",
+   "note": "ttarticle; title is the headline"
+  }
  }
 }

@@ -21,6 +21,7 @@ Usage: python -m bench.score   (reads bench/results/*.jsonl and the private Trac
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import random
@@ -37,6 +38,10 @@ READS = RESULTS / "trackA_reads.jsonl"
 ANSWERS = RESULTS / "trackA_answers.jsonl"
 K_SUMMARY = RESULTS / "trackK_summary.json"
 K_PRIVATE = ROOT / "bench" / "data" / "private" / "results" / "trackK_answers.jsonl"
+# The Weibo reference captures are the posts' own opening words: third-party text, so they live in the private folder
+# and the public results carry only their SHA-256 and length (2026-11-22). Scoring by capture needs the private file.
+WEIBO_AUDIT_PRIVATE = ROOT / "bench" / "data" / "private" / "trackA_weibo_audit.json"
+WEIBO_AUDIT_PUBLIC = RESULTS / "trackA_weibo_audit.json"
 TABLES = ROOT / "paper" / "tables"
 
 THRESHOLD = 0.60
@@ -462,12 +467,36 @@ def honesty(items: list[dict[str, Any]], platforms: list[str]) -> dict[str, Any]
     return out
 
 
+def _weibo_audit_posts() -> dict[str, Any] | None:
+    """The audited Weibo captures (private file), or None when this checkout has only the public hashes."""
+    if not WEIBO_AUDIT_PRIVATE.exists():
+        return None
+    return json.loads(WEIBO_AUDIT_PRIVATE.read_text("utf-8"))["posts"]
+
+
+def public_weibo_audit() -> dict[str, Any] | None:
+    """What may be published about the captures: status, note, and each capture's SHA-256 and length — no text."""
+    if not WEIBO_AUDIT_PRIVATE.exists():
+        return None
+    full = json.loads(WEIBO_AUDIT_PRIVATE.read_text("utf-8"))
+    posts = {}
+    for k, v in full["posts"].items():
+        row = {x: v[x] for x in ("status", "note") if x in v}
+        if v.get("capture"):
+            row["capture_sha256"] = hashlib.sha256(v["capture"].encode("utf-8")).hexdigest()
+            row["capture_chars"] = len(v["capture"])
+        posts[k] = row
+    return {"what": "Reference captures for Track A Weibo posts, hashed: the captures are the posts' own opening words "
+                    "(third-party text), kept in bench/data/private/. Scoring by capture needs that file; the hashes let a "
+                    "holder check it is the one used.",
+            "audited_by": full.get("audited_by"), "posts": posts}
+
+
 def capture_served_keys(items: list[dict[str, Any]], done: dict[str, dict[str, Any]]) -> set[str]:
     """Reads whose text holds the audited reference capture of the post (Weibo): the post, not a wall."""
-    path = RESULTS / "trackA_weibo_audit.json"
-    if not path.exists():
+    audit = _weibo_audit_posts()
+    if audit is None:
         return set()
-    audit = json.loads(path.read_text("utf-8"))["posts"]
     caps = {k: grams(v["capture"]) for k, v in audit.items() if v.get("capture")}
     out = set()
     for it in items:
@@ -624,10 +653,9 @@ def fabrication_paired(items: list[dict[str, Any]], answers: list[dict[str, Any]
 def weibo_audit(items: list[dict[str, Any]], done: dict[str, dict[str, Any]], seeds: dict[str, dict[str, Any]],
                 imputed: list[dict[str, Any]]) -> dict[str, Any] | None:
     """Supplementary Weibo view: served if the title fingerprint OR the audited reference capture is found."""
-    path = RESULTS / "trackA_weibo_audit.json"
-    if not path.exists():
+    audit = _weibo_audit_posts()
+    if audit is None:
         return None
-    audit = json.loads(path.read_text("utf-8"))["posts"]
     caps = {k: grams(v["capture"]) for k, v in audit.items() if v.get("capture")}
     out: dict[str, Any] = {"posts_live": sum(1 for v in audit.values() if v.get("status") == "live"),
                            "posts_deleted": sum(1 for v in audit.values() if v.get("status") == "deleted"),
@@ -1062,7 +1090,7 @@ def run(write: bool = True, backbone: str | None = None) -> dict[str, Any]:
     false_serves = [{"key": it["key"], "coverage": it["coverage"],
                      "class": ("post_in_other_words" if (it["coverage"] >= NO_TRACE or it["key"] in cap_keys_all)
                                else "wall_served_as_content"),
-                     "text_head": ((done.get(it["key"]) or {}).get("text") or "")[:80]}
+                     "text_sha256": (done.get(it["key"]) or {}).get("text_sha256")}
                     for it in items
                     if it["system"].startswith("readproof") and it["harness_served"] and it["served"] is False]
     reads_actual = Counter((r["platform"], r["system"]) for r in done.values() if r.get("kind") == "read")
@@ -1102,6 +1130,9 @@ def run(write: bool = True, backbone: str | None = None) -> dict[str, Any]:
     if write:
         RESULTS.mkdir(parents=True, exist_ok=True)
         (RESULTS / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, default=str), "utf-8")
+        pub = public_weibo_audit()
+        if pub is not None:
+            WEIBO_AUDIT_PUBLIC.write_text(json.dumps(pub, ensure_ascii=False, indent=1), "utf-8")
         write_public_reads(done, items)
         TABLES.mkdir(parents=True, exist_ok=True)
         meta = {"origin": origin, "date": ", ".join(dates), "n_posts": len({it["post_key"] for it in items})}

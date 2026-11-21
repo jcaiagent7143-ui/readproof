@@ -11,7 +11,7 @@ abstract: >-
   generation, robots.txt and Content-Signal evaluated on every request. It returns typed walls instead of page
   text, channel-located evidence (speech, on-screen text, captions, comments) and quotes verified in code.
   ReadProof-Bench v1 has Track A (145 posts, 522 link forms) and Track K (planted canaries).
-version: "0.1.1"
+version: "0.1.2"
 doi: "10.5281/zenodo.24420305"
 identifiers:
   - type: doi
