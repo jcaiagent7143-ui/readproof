@@ -1,5 +1,7 @@
 # ReadProof
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24420305.svg)](https://doi.org/10.5281/zenodo.24420305)
+
 **Did the agent read it?** ReadProof is an open harness and a benchmark for agentic search over social media. It measures
 whether an AI system actually obtains the post a user pastes — on Douyin, Xiaohongshu/RedNote, Bilibili, YouTube, TikTok,
 Weibo, Toutiao, X and WeChat — under access rules that are enforced in code, and whether it answers from a page that is not the post.
@@ -70,6 +72,8 @@ Third-party posts are referenced by URL, platform identifier and short title onl
 
 *Did the Agent Read It? ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes for Agentic Search over
 Social Media* — PDF in `paper/main.pdf`; citation in `CITATION.cff`.
+Archived on Zenodo: [doi:10.5281/zenodo.24420305](https://doi.org/10.5281/zenodo.24420305) (all versions; v0.1.1 is
+10.5281/zenodo.24420306).
 
 ## Disclosure
 

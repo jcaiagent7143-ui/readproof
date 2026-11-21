@@ -12,6 +12,14 @@ abstract: >-
   text, channel-located evidence (speech, on-screen text, captions, comments) and quotes verified in code.
   ReadProof-Bench v1 has Track A (145 posts, 522 link forms) and Track K (planted canaries).
 version: "0.1.1"
+doi: "10.5281/zenodo.24420305"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24420305"
+    description: "Zenodo concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.24420306"
+    description: "Zenodo DOI of v0.1.1"
 date-released: "2026-11-21"
 authors:
   - family-names: Chew
