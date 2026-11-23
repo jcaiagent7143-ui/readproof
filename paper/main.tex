@@ -54,7 +54,7 @@
 \newcommand{\rpfigure}[1]{\IfFileExists{figures/#1.tex}{\includestandalone{figures/#1}}%
   {\fbox{\parbox{0.8\textwidth}{\centering\ttfamily figures/\detokenize{#1}.tex is missing}}}}
 \newcommand{\RepoURL}{\url{https://github.com/jcaiagent7143-ui/readproof}}
-\newcommand{\PaperDate}{Preprint, November 2026.}
+\newcommand{\PaperDate}{Preprint v2, November 2026.}
 
 \title{\textbf{Did the Agent Read It?}\\[4pt]
   \large ReadProof: Access-Aware Reading, Channel-Located Evidence and Verified Quotes\\
@@ -165,9 +165,8 @@ paper contributes:
   (Section~\ref{sec:harness}).
 \item \textbf{ReadProof-Bench.} Track~A scores access per link form on nine platforms. Track~K is a planted-canary
   panel: the author's own posts, each carrying a random code in exactly one channel, so that a correct code proves a
-  read and a different code proves a fabrication. Tracks~B (channel-located questions) and~C (counting) are specified
-  and their tooling is released, with results in a later version (Section~\ref{sec:bench}).
-\item \textbf{Read--verify--count, a training-free method} that abstains with a typed cause, retrieves
+  read and a different code proves a fabrication (Section~\ref{sec:bench}).
+\item \textbf{Read--verify, a training-free method} that abstains with a typed cause, retrieves
   channel-located records and accepts an answer only with a quote verified in code, after at most one re-ask
   (Section~\ref{sec:method}).
 \item \textbf{Measurements} of coverage against three common reading pipelines; of the \emph{honesty penalty}, the
@@ -490,7 +489,7 @@ JSONL with one line per gate decision, request, wall verdict, extraction, verifi
 change; it is append-only, synchronized to disk on close, and replayable. The compliance checks of
 Appendix~\ref{app:compliance} are computed from it alone. Agents call the harness through the Model Context
 Protocol \citep{mcp2026spec} with four tools, \texttt{read}, \texttt{search\_records}, \texttt{verify} and
-\texttt{budget}; the counting tools arrive with Track~C. A wall comes back as a typed object, never as text,
+\texttt{budget}. A wall comes back as a typed object, never as text,
 so any agent, whether a ReAct loop, a deep-research framework or a commercial model with tool use, gets the
 same reading, logging and cost accounting.
 
@@ -500,19 +499,16 @@ same reading, logging and cost accounting.
 \begin{figure}[t]
 \centering
 \rpfigure{fig_bench}
-\caption{How ReadProof-Bench is built, as specified for all four tracks. This version runs two paths: Track~A,
-with seeds from web search, link forms from the generator and the search-result title as the reference
-fingerprint in place of human capture, and Track~K, whose gold is exact by construction and whose codes cannot be
-guessed, so it skips the filters that third-party items need. Human capture in the official app, the dual
-extractors, both filters and the hidden test answers serve Tracks~B and~C in the next version. No path needs
-automated crawling of pages that robots.txt disallows.}
+\caption{How ReadProof-Bench is built. Track~A takes its seeds from web search, its link forms from the generator
+and the search-result title as the reference fingerprint. Track~K's gold is exact by construction and its codes
+cannot be guessed. No step needs automated crawling of pages that robots.txt disallows.}
 \label{fig:bench}
 \end{figure}
 
 \input{sections/bench_v1}
 
 % =====================================================================================
-\section{Read--verify--count}\label{sec:method}
+\section{Read--verify}\label{sec:method}
 
 \begin{figure}[t]
 \centering
@@ -542,7 +538,7 @@ We answer the questions of \citet{gebru2021datasheets} in brief; \texttt{bench/D
 \item[Composition.] Track~A: 145 public posts on nine platforms found with web search on 21 November 2026, with up
   to four link forms each (522 items); each seed keeps its URL as found, its platform identifier, topic, language
   and the search-result title used as the reference fingerprint. Track~K: seven posts by the author with one
-  planted code per channel and an answer key committed by hash before any run. Tracks~B and~C are specified only.
+  planted code per channel and an answer key committed by hash before any run.
 \item[Collection.] Seeds came from a web search engine; no platform was crawled to build the list. Systems read
   each link form once from one residential connection, paced and capped as in Section~\ref{sec:setup}.
 \item[Preprocessing.] De-duplication by URL; no personal information is collected; third-party page text is kept
@@ -551,8 +547,7 @@ We answer the questions of \citet{gebru2021datasheets} in brief; \texttt{bench/D
   profiling individuals, bulk collection, or developing ways around platform defences.
 \item[Distribution.] Code under Apache-2.0; seeds, annotations and results under CC~BY~4.0; Track~K media and
   answer key under CC~BY~4.0 by the author, both after the evaluation rounds.
-\item[Maintenance.] Issues go to the repository; removal requests are honoured in the next release; later versions
-  add dated re-probes of the same links.
+\item[Maintenance.] Issues go to the repository; removal requests are honoured in the next release.
 \end{description}
 
 \section{Compliance statement per platform}\label{app:compliance}

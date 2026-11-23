@@ -1,25 +1,22 @@
-ReadProof-Bench is specified with four tracks (Figure~\ref{fig:bench}, Table~\ref{tab:tracks}). This version
-evaluates the two that measure acquisition and channel coverage directly, Track~A and Track~K; Tracks~B and~C are
-specified, and their tooling is released, with results in a later version. Every item records its collection
+ReadProof-Bench has two tracks (Figure~\ref{fig:bench}, Table~\ref{tab:tracks}), which measure acquisition and
+channel coverage directly: Track~A scores access across the link forms people paste, and Track~K scores which
+channels a system actually read, with codes planted in the author's own posts. Every item records its collection
 date and every result records the profile, the declared user agent and the network origin, because posts
 disappear quickly and selectively \citep{pew2024disappears,zhu2013velocity} and re-collected social-media data
 drift \citep{elmas2023persistence}.
 
 \begin{table}[t]
 \centering\small
-\caption{The four tracks of ReadProof-Bench and what this version evaluates.}
+\caption{The two tracks of ReadProof-Bench.}
 \label{tab:tracks}
 \begin{tabular}{@{}l p{2.7cm} p{4.0cm} p{3.0cm} p{1.9cm}@{}}
 \toprule
-Track & Unit & Gold & Headline metrics & This version \\
+Track & Unit & Gold & Headline metrics & Size \\
 \midrule
 A access & a link form of a public post & a reference fingerprint of the post (its search-result title) & coverage per
   form, answer-from-wall, honesty penalty & 145 posts, 522 forms \\
 K canaries & one channel of one of the author's posts & the planted code, exact by construction & correct codes
   per channel, fabrication & 7 posts, 28 items \\
-B evidence & a question about one post & answer, channel, locator, verbatim quote & accuracy per channel, quote
-  validity & specified \\
-C counting & a set of posts on one topic & per-post labels & count error, interval coverage & specified \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -57,16 +54,8 @@ can be released in full, because the author holds the rights. It extends the pla
 study of AI assistants \citep{lopezfonseca2026robots} to third-party platforms that cannot be instrumented from
 outside.
 
-\paragraph{Tracks B and C (specified).}
-Track~B asks questions answerable from exactly one channel of one third-party post, with gold from the agreement
-of two independent extractors, a closed-book filter and an answerability filter \citep{lee2026vragbench,
-wei2025browsecomp}. Track~C asks ``of these $M$ posts, how many say $A$?'' over sets of posts on one topic,
-with per-post labels and one verified quote per counted post, as QQSUM derives prevalence from matches on
-individual comments \citep{tang2025qqsum}. Both are specified in the released design document and are left to
-the next version.
-
 \paragraph{Release.}
 Third-party content is released only as post identifiers, URLs, titles and hashes; no page text and no media.
-Track~K media and the answer key are released in full once the evaluation rounds end. The systems in this version read the links they are
+Track~K media and the answer key are released in full once the evaluation rounds end. The systems read the links they are
 given and use no web search, so the answer key cannot leak to them through search. Code is released under
 Apache-2.0 and data under CC~BY~4.0; Appendix~\ref{app:datasheet} is the datasheet \citep{gebru2021datasheets}.

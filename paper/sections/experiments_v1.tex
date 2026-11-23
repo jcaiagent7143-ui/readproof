@@ -18,7 +18,7 @@ All systems that answer use the same backbone and see at most 20{,}000 character
 \item \textbf{Reader service}: the Jina Reader (\texttt{r.jina.ai}), which fetches the page with its own identity
   and returns markdown.
 \item \textbf{ReadProof P1 and P0}: the harness (Section~\ref{sec:harness}) under the user-initiated and the
-  strict profile, answering with read--verify--count (Section~\ref{sec:method}).
+  strict profile, answering with read--verify (Section~\ref{sec:method}).
 \item \textbf{Ablations} of P1: without walls (the text of a wall page is passed to the model as a plain fetch
   would), without verification, and without the speech or the on-screen channel.
 \item \textbf{Commercial assistants} (Track~K only): ChatGPT, Gemini, Perplexity, Tencent Yuanbao and Qwen, asked in
@@ -173,11 +173,19 @@ its counts are small and its differences are not significant on their own. Track
 the post's language. It misses pages that hold the post in translation, which we recover with a rule that relies on
 the backbone's description of the page, and it undercounts platforms whose indexed titles are summaries (Weibo), which
 an audited capture corrects but which only the author audited. The backbone is one free preview model, which neither
-answered from walls nor needed the wall rule to abstain; other backbones may behave differently, and the open-weight
-run is left to the next version. The loss of the Chinese spoken codes is not yet diagnosed. Tracks~B and~C, priced
-extraction routing and counting in code are specified but not evaluated here. Our reading of robots.txt follows
+answered from walls nor needed the wall rule to abstain; other backbones, including open-weight
+ones, may behave differently. The loss of the Chinese spoken codes is not yet diagnosed. Our reading of robots.txt follows
 RFC~9309 for a declared agent that the files do not name; other readings are possible, and nothing here is legal
 advice.
+
+\paragraph{Future work.}
+Two further tracks fit the same harness. One would ask questions answerable from exactly one channel of one
+third-party post, with gold from the agreement of two independent extractors, a closed-book filter and an
+answerability filter \citep{lee2026vragbench,wei2025browsecomp}; the other would ask ``of these $M$ posts, how many
+say $A$?'' over sets of posts on one topic, with per-post labels and one verified quote per counted post
+\citep{tang2025qqsum}. Two extensions of the method would pair with them: extraction routed by a priced budget that
+orders channels by expected value per unit of cost \citep{liu2025bats,xie2026slimsearcher}, and counting in code with
+an adjusted classify-and-count estimate \citep{forman2008quantifying,kim2025scaling,bertsch2025oolong}.
 
 \paragraph{Ethics.}
 The harness never uses cookies, logged-in sessions or proxies, never answers a captcha, never computes a platform

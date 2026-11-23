@@ -1,5 +1,5 @@
-Read--verify--count is the method the orchestrator runs (Figure~\ref{fig:dataflow}). It needs no training. This
-version implements and evaluates its first three parts; the last two are specified for the next version.
+Read--verify is the method the orchestrator runs (Figure~\ref{fig:dataflow}). It needs no training and has three
+parts.
 
 \paragraph{M1: typed abstention.}
 When no reader serves a link, the method abstains with the wall type as its cause, and the model never sees the
@@ -20,11 +20,5 @@ verifies, the model is asked once more and told why; if none verifies again, the
 with cause \texttt{unsupported}. The rule is enforced in code rather than in the prompt: a prompt can ask for exact
 quotes, but only code can refuse an inexact one.
 
-\paragraph{Specified for the next version.}
-Two further parts are specified in the design document. Extraction routed by a priced budget orders channels by
-expected value per unit of cost, in dollars and seconds rather than calls \citep{liu2025bats,xie2026slimsearcher};
-in this version every channel allowed by the profile is extracted. Counting in code labels each post separately
-with a verified quote and counts the labels in code, with an adjusted classify-and-count estimate
-\citep{forman2008quantifying}, following the centrally coordinated pattern that contains error amplification
-\citep{kim2025scaling} and the finding that aggregation, not classification, is the bottleneck in long contexts
-\citep{bertsch2025oolong}. They will be evaluated with Track~C.
+Every channel that the access profile allows is extracted for every served post; the method spends no model call
+on choosing what to extract.
